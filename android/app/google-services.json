@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "300061634717",
+    "project_id": "my-tiffin-app-8266e",
+    "storage_bucket": "my-tiffin-app-8266e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300061634717:android:5349b057d948841095e474",
+        "android_client_info": {
+          "package_name": "com.samyok.tiffin_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300061634717-ildkc5kckkovgngmmhn5fe2e0bl1v9mo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaIgbJxH89Jzc3ogcFB958UU8WNNRv7A4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300061634717-ildkc5kckkovgngmmhn5fe2e0bl1v9mo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -64,6 +64,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
           }
         );
     }
+    else
+    {
+      if(passwordcontroller.text==confirmpassordcontroller.text)
+        {
+          if(confirmpassordcontroller.text.isNotEmpty && namecontroller.text.isNotEmpty && emailcontroller.text.isNotEmpty && phonecontroller.text.isNotEmpty && locationcontroller.text.isNotEmpty  ){
+            // start uploading data at first image
+
+          }else{
+            showDialog(
+                context: context,
+                builder: (c) {
+                  return const ErrorDialog(
+                    message: 'All fields must be filled',
+                  );
+                }
+            );
+          }
+
+
+        }
+      else
+        {
+          showDialog(
+              context: context,
+              builder: (c) {
+                return const ErrorDialog(
+                  message: 'Please Enter same password',
+                );
+              }
+          );
+      }
+    }
   }
 
 

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:my_tiffin/widgets/dialog_loading.dart';
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart' as fStorage;
 
 import '../widgets/error_dialog.dart';
 class RegisterScreen extends StatefulWidget {
@@ -25,6 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   XFile? imageXFile;
 
   Position? position;
+  String userImageUrl='';
   LocationPermission? permission;
   List<Placemark>? placeMarks;
 
@@ -70,7 +73,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
         {
           if(confirmpassordcontroller.text.isNotEmpty && namecontroller.text.isNotEmpty && emailcontroller.text.isNotEmpty && phonecontroller.text.isNotEmpty && locationcontroller.text.isNotEmpty  ){
             // start uploading data at first image
-
+            showDialog(
+                context: context,
+                builder: (c){
+                  return const DialogLoading(
+                    message: 'Signing Up',
+                  );
+                }
+            );
+            String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+            fStorage.Reference reference= fStorage.FirebaseStorage.instance.ref().child('users').child('fileName');
+            fStorage.UploadTask uploadTask = reference.putFile(File(imageXFile!.path));
+            fStorage.TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => {});// It provides information and status updates about the ongoing task.
+            await taskSnapshot.ref.getDownloadURL().then((url){
+            userImageUrl = url;
+            });
           }else{
             showDialog(
                 context: context,

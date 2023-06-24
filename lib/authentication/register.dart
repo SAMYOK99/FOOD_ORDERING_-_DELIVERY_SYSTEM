@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/homeScreens/home_screen.dart';
 import 'package:my_tiffin/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -150,7 +151,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
   void authenticateAndSignUp() async{
     User?  currentUser;
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     await firebaseAuth.createUserWithEmailAndPassword(
     email: emailcontroller.text.trim(),
     password: passwordcontroller.text.trim(),
@@ -193,10 +193,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     // to save data locally so that accessing data should be fast easy and reliable
-  SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
-  await sharedPreferences.setString('uid', currentUser.uid);// key value pair
-  await sharedPreferences.setString('name', namecontroller.text.trim());
-  await sharedPreferences.setString('photoUrl',staffImageUrl );
+    sharedPreferences= await SharedPreferences.getInstance();
+  await sharedPreferences!.setString('uid', currentUser.uid);// key value pair
+  await sharedPreferences!.setString('name', namecontroller.text.trim());
+  await sharedPreferences!.setString('photoUrl',staffImageUrl );
 
 }
 

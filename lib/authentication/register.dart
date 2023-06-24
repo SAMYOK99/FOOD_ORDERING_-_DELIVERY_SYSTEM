@@ -1,4 +1,8 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:my_tiffin/homeScreens/home_screen.dart';
 import 'package:my_tiffin/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -7,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:my_tiffin/widgets/dialog_loading.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as fStorage;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/error_dialog.dart';
 class RegisterScreen extends StatefulWidget {
@@ -27,7 +32,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   XFile? imageXFile;
 
   Position? position;
-  String userImageUrl='';
+  String completeAddress ='';
+  String staffImageUrl ='';
   LocationPermission? permission;
   List<Placemark>? placeMarks;
 
@@ -55,6 +61,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String completeAddress = '${pMark.subThoroughfare},${pMark.thoroughfare}${pMark.subLocality},${pMark.locality},${pMark.subAdministrativeArea},${pMark.administrativeArea},${pMark.postalCode},${pMark.country}';
    locationcontroller.text= completeAddress;
   }
+// for number validation
+  bool isNumeric(String value) {
+
+    final numericRegex = RegExp(r'^-?(([0-9]*)|(([0-9]*)\.([0-9]*)))$');
+
+    return numericRegex.hasMatch(value);
+  }
 
   Future<void> formValidation() async{
     if(imageXFile==null){
@@ -71,34 +84,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
     {
       if(passwordcontroller.text==confirmpassordcontroller.text)
         {
-          if(confirmpassordcontroller.text.isNotEmpty && namecontroller.text.isNotEmpty && emailcontroller.text.isNotEmpty && phonecontroller.text.isNotEmpty && locationcontroller.text.isNotEmpty  ){
-            // start uploading data at first image
-            showDialog(
-                context: context,
-                builder: (c){
-                  return const DialogLoading(
-                    message: 'Signing Up',
-                  );
-                }
-            );
-            String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-            fStorage.Reference reference= fStorage.FirebaseStorage.instance.ref().child('users').child('fileName');
-            fStorage.UploadTask uploadTask = reference.putFile(File(imageXFile!.path));
-            fStorage.TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => {});// It provides information and status updates about the ongoing task.
-            await taskSnapshot.ref.getDownloadURL().then((url){
-            userImageUrl = url;
-            });
-          }else{
-            showDialog(
-                context: context,
-                builder: (c) {
-                  return const ErrorDialog(
-                    message: 'All fields must be filled',
-                  );
-                }
-            );
-          }
+          if(confirmpassordcontroller.text.isNotEmpty && namecontroller.text.isNotEmpty && emailcontroller.text.isNotEmpty && phonecontroller.text.isNotEmpty && locationcontroller.text.isNotEmpty ) {
+            if (isNumeric(phonecontroller.text)) {
+              // start uploading data at first image
+              showDialog(
+                  context: context,
+                  builder: (c) {
+                    return const DialogLoading(
+                      message: 'Signing Up',
+                    );
+                  }
+              );
+              String fileName = DateTime
+                  .now()
+                  .millisecondsSinceEpoch
+                  .toString();
+              fStorage.Reference reference = fStorage.FirebaseStorage.instance
+                  .ref().child('staffs').child('fileName');
+              fStorage.UploadTask uploadTask = reference.putFile(
+                  File(imageXFile!.path));
+              fStorage.TaskSnapshot taskSnapshot = await uploadTask
+                  .whenComplete(() =>
+              {
+              }); // It provides information and status updates about the ongoing task.
+              await taskSnapshot.ref.getDownloadURL().then((url) {
+                staffImageUrl = url;
 
+                //to save info to firestore
+                authenticateAndSignUp();
+              });
+            } else {
+              showDialog(
+                  context: context,
+                  builder: (c) {
+                    return const ErrorDialog(
+                      message: 'Please enter valid phone number',
+                    );
+                  }
+              );
+            }
+          } else {
+              showDialog(
+                  context: context,
+                  builder: (c) {
+                    return const ErrorDialog(
+                      message: 'All fields must be filled',
+                    );
+                  }
+              );
+            }
 
         }
       else
@@ -114,6 +148,57 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     }
   }
+  void authenticateAndSignUp() async{
+    User?  currentUser;
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    await firebaseAuth.createUserWithEmailAndPassword(
+    email: emailcontroller.text.trim(),
+    password: passwordcontroller.text.trim(),
+    ).then((auth){
+      currentUser = auth.user;
+    }).catchError((error){
+      Navigator.pop(context);
+      showDialog(
+          context: context,
+          builder:(c)
+      {
+        return ErrorDialog(
+          message:error.message.toString(),
+        );
+      });
+    });
+    if(currentUser!=null)
+      {
+        saveDataToFirestore(currentUser!).then((value){
+          Navigator.pop(context);
+          // sending user to home page
+          Route newRoute = MaterialPageRoute(builder: (c)=>const  HomeScreen());
+          Navigator.pushReplacement(context, newRoute);
+      });
+      }
+  }
+  //To store data in firestore
+  Future saveDataToFirestore (User currentUser) async{
+    FirebaseFirestore.instance.collection('users').doc(currentUser.uid).set({
+      'userId':currentUser.uid,
+      'userEmail':currentUser.email,
+      'userName':namecontroller.text.trim(),
+      'userPhone':phonecontroller.text.trim(),
+      'userAvatarUrl':staffImageUrl,
+      'userAdress':completeAddress,
+      'status': "approved",
+      'earnings':0.0,
+      'lat':position?.latitude,
+      'lng':position?.longitude,
+    });
+
+    // to save data locally so that accessing data should be fast easy and reliable
+  SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
+  await sharedPreferences.setString('uid', currentUser.uid);// key value pair
+  await sharedPreferences.setString('name', namecontroller.text.trim());
+  await sharedPreferences.setString('photoUrl',staffImageUrl );
+
+}
 
 
   @override

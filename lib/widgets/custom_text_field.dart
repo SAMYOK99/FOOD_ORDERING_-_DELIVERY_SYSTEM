@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final IconData? data;
   final String? hintText;// for hint text
@@ -14,6 +14,11 @@ required this.isObsecre,
 this.enabled,
 });
 
+  @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,23 +37,48 @@ this.enabled,
       height: 60 ,
       padding: const EdgeInsets.all(5.0),
       child: TextFormField(
-        enabled: enabled,
-        controller: controller,
-        obscureText: isObsecre,
+        enabled: widget.enabled,
+        controller: widget.controller,
+        obscureText: widget.isObsecre,
         cursorColor: Theme.of(context).primaryColor,
-        decoration: InputDecoration(
+        decoration: widget.hintText=='Password'|| widget.hintText=='Confirm password'? InputDecoration(
          border: InputBorder.none,
          prefixIcon: Icon(
-           data,
-           color: Color(0xff5ac18e),
+           widget.data,
+             color: const Color(0xff5ac18e),
          ),
             focusColor: Theme.of(context).primaryColor,
-           hintText: hintText,
-          hintStyle: TextStyle(
+           suffixIcon: IconButton(
+          padding: EdgeInsetsDirectional.only(end: 12.0),
+             icon: widget.isObsecre==true? const Icon(Icons.visibility): const Icon(Icons.visibility_off),
+            onPressed: (){
+               setState((){
+                 widget.isObsecre = !widget.isObsecre;
+               });
+            },
+           ),
+           hintText: widget.hintText,
+          hintStyle: const TextStyle(
             color: Colors.black38,
           ),
-        ),
+
+
+        ): InputDecoration(
+          border: InputBorder.none,
+          prefixIcon: Icon(
+            widget.data,
+            color: const Color(0xff5ac18e),
+          ),
+          focusColor: Theme.of(context).primaryColor,
+          hintText: widget.hintText,
+          hintStyle: const TextStyle(
+            color: Colors.black38,
+          ),
+
+
+        )
       ),
     );
   }
 }
+

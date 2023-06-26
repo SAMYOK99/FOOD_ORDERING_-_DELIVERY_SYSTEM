@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/homeScreens/home_screen.dart';
+import 'package:my_tiffin/widgets/dialog_loading.dart';
+import 'package:my_tiffin/widgets/error_dialog.dart';
 
+import '../globalVariables/globleVariable.dart';
 import '../widgets/custom_text_field.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -70,11 +75,76 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formkey=  GlobalKey<FormState>();
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
+
+  formValidation() {
+    if (emailcontroller.text.isNotEmpty && passwordcontroller.text.isNotEmpty) {
+      //Login
+  loginNow();
+    }
+    else {
+      showDialog(
+          context: context,
+          builder: (c) {
+            return const ErrorDialog(
+              message: 'Please enter you Email/Password',
+            );
+          }
+      );
+    }
+  }
+  loginNow() async {
+    showDialog(
+        context: context,
+        builder: (c) {
+          return const DialogLoading(
+            message: 'Authenticating...',
+          );
+        }
+    );
+
+    User? currentUser;
+    await firebaseAuth.signInWithEmailAndPassword(
+      email: emailcontroller.text.trim(),
+      password: passwordcontroller.text.trim(),
+    ).then((auth) {
+      currentUser = auth.user!;
+    }).catchError((error) {
+      Navigator.pop(context);
+      showDialog(
+          context: context,
+          builder: (c) {
+            return ErrorDialog(
+              message: error.message.toString(),
+            );
+          }
+      );
+    });
+    if(currentUser!=null)// if every thing goes fine
+      {
+      readDataAndSetDataLocally(currentUser!).then((value) {
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (c)=> const HomeScreen()));
+      });
+      }
+  }
+  // to store data locally
+  Future readDataAndSetDataLocally( User currentUser) async {
+    await FirebaseFirestore.instance.collection('staffs')
+        .doc(currentUser.uid)
+        .get().then((snapshot) async{
+          await sharedPreferences!.setString('uid', currentUser.uid);
+          await sharedPreferences!.setString('email', snapshot.data()!['staffEmail']);
+          await sharedPreferences!.setString('name', snapshot.data()!['staffName']);// used to access single users
+          await sharedPreferences!.setString('photoUrl',snapshot.data()!['staffAvatarUrl']);
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(
-        vertical: 120 ,
+        vertical: 120,
       ),
       child: Column(
         children: [
@@ -82,11 +152,11 @@ class _LoginScreenState extends State<LoginScreen> {
             key: _formkey,
             child: Column(
               children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                  child:Column(
+                Container(
+                  margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children:[
+                    children: [
                       const Text('Email',
                         style: TextStyle(
                             color: Colors.white,
@@ -117,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         isObsecre: true,
                       ),
 
-                      ],
+                    ],
                   ),),
 
               ],
@@ -132,11 +202,12 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
             width: double.infinity,
-            child:  ElevatedButton(
+            child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 elevation: 5,
-                backgroundColor:Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
+                backgroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)
                 ),
@@ -150,12 +221,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 ),
               ),
-              onPressed: ()=>print('button clicked'),
+              onPressed: () {
+                formValidation();
+              },
             ),
-          ),
+          )
         ],
       ),
 
     );
   }
 }
+
+

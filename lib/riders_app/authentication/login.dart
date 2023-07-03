@@ -2,12 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/homeScreens/home_screen.dart';
-import 'package:my_tiffin/riders_app/authentication/auth_screen.dart';
-import 'package:my_tiffin/widgets/dialog_loading.dart';
-import 'package:my_tiffin/widgets/error_dialog.dart';
-
-import '../globalVariables/globleVariable.dart';
-import '../widgets/custom_text_field.dart';
+import 'package:my_tiffin/riders_app/widgets/dialog_loading.dart';
+import 'package:my_tiffin/riders_app/widgets/error_dialog.dart';
+import 'package:my_tiffin/globalVariables/globleVariable.dart';
+import 'package:my_tiffin/riders_app/widgets/custom_text_field.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   @override
@@ -32,31 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         child: const Text(
           'Forgot Password?',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-
-          ),
-        ),
-      ),
-    );
-  }
-  Widget riderBtn(){
-    return Container(
-      margin: const EdgeInsets.all(10.0),
-      alignment: Alignment.center,
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (c)=> const AuthScreen()));
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          padding: const EdgeInsets.only(right:0),
-        ),
-        child: const Text(
-          'Are you a Rider?',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -155,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   // to store data locally
   Future readDataAndSetDataLocally( User currentUser) async {
-    await FirebaseFirestore.instance.collection('staffs')
+    await FirebaseFirestore.instance.collection('riders')
         .doc(currentUser.uid)
         .get().then((snapshot) async{
           await sharedPreferences!.setString('uid', currentUser.uid);
@@ -225,7 +198,6 @@ class _LoginScreenState extends State<LoginScreen> {
           forgotPassBtn(),
           rememberMe(),
 
-
           Container(
             margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
             width: double.infinity,
@@ -252,8 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 formValidation();
               },
             ),
-          ),
-          riderBtn(),
+          )
         ],
       ),
 

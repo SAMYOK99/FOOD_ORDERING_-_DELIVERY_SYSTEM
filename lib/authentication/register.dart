@@ -190,6 +190,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       'earnings':0.0,
       'lat':position?.latitude,
       'lng':position?.longitude,
+      'role':'user',
     });
 
     // to save data locally so that accessing data should be fast easy and reliable
@@ -197,6 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   await sharedPreferences!.setString('uid', currentUser.uid);// key value pair
   await sharedPreferences!.setString('name', namecontroller.text.trim());
   await sharedPreferences!.setString('photoUrl',staffImageUrl );
+  await sharedPreferences!.setString('role','user' );
 
 }
 

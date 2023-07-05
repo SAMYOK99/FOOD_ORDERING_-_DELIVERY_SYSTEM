@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_tiffin/homeScreens/home_screen.dart';
+import 'package:my_tiffin/riders_app/homeScreens/home_screen.dart';
 import 'package:my_tiffin/riders_app/widgets/dialog_loading.dart';
 import 'package:my_tiffin/riders_app/widgets/error_dialog.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
@@ -101,12 +101,12 @@ class _LoginScreenState extends State<LoginScreen> {
         }
     );
 
-    User? currentUser;
+    User? currentRider;
     await firebaseAuth.signInWithEmailAndPassword(
       email: emailcontroller.text.trim(),
       password: passwordcontroller.text.trim(),
     ).then((auth) {
-      currentUser = auth.user!;
+      currentRider = auth.user!;
     }).catchError((error) {
       Navigator.pop(context);
       showDialog(
@@ -118,23 +118,24 @@ class _LoginScreenState extends State<LoginScreen> {
           }
       );
     });
-    if(currentUser!=null)// if every thing goes fine
+    if(currentRider!=null)// if every thing goes fine
       {
-      readDataAndSetDataLocally(currentUser!).then((value) {
+      readDataAndSetDataLocally(currentRider!).then((value) {
         Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (c)=> const HomeScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (c)=> const RiderHomeScreen()));
       });
       }
   }
   // to store data locally
-  Future readDataAndSetDataLocally( User currentUser) async {
+  Future readDataAndSetDataLocally( User currentRider) async {
     await FirebaseFirestore.instance.collection('riders')
-        .doc(currentUser.uid)
+        .doc(currentRider.uid)
         .get().then((snapshot) async{
-          await sharedPreferences!.setString('uid', currentUser.uid);
-          await sharedPreferences!.setString('email', snapshot.data()!['staffEmail']);
-          await sharedPreferences!.setString('name', snapshot.data()!['staffName']);// used to access single users
-          await sharedPreferences!.setString('photoUrl',snapshot.data()!['staffAvatarUrl']);
+          await sharedPreferences!.setString('uid', currentRider.uid);
+          await sharedPreferences!.setString('email', snapshot.data()!['riderEmail']);
+          await sharedPreferences!.setString('name', snapshot.data()!['riderName']);// used to access single users
+          await sharedPreferences!.setString('photoUrl',snapshot.data()!['riderAvatarUrl']);
+          await sharedPreferences!.setString('role','rider' );
     });
   }
 

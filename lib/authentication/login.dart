@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/homeScreens/home_screen.dart';
+import 'package:my_tiffin/homeScreens/staffHomeScreen.dart';
 import 'package:my_tiffin/riders_app/authentication/auth_screen.dart';
 import 'package:my_tiffin/widgets/dialog_loading.dart';
 import 'package:my_tiffin/widgets/error_dialog.dart';
@@ -147,10 +149,22 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     if(currentUser!=null)// if every thing goes fine
       {
-      readDataAndSetDataLocally(currentUser!).then((value) {
-        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (c)=> const HomeScreen()));
-      });
+        final uid=currentUser?.uid;
+        await FirebaseFirestore.instance.collection('staffs')
+            .doc(currentUser?.uid)
+            .get().then((snapshot) async{
+              if(snapshot.data()!['role']=='user'){
+                readDataAndSetDataLocally(currentUser!).then((value) {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (c)=> const HomeScreen()));
+                });
+              } else if(snapshot.data()!['role']=='staff'){
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (c)=> const StaffHomeScreen()));
+
+              }
+        });
+
       }
   }
   // to store data locally
@@ -162,6 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
           await sharedPreferences!.setString('email', snapshot.data()!['staffEmail']);
           await sharedPreferences!.setString('name', snapshot.data()!['staffName']);// used to access single users
           await sharedPreferences!.setString('photoUrl',snapshot.data()!['staffAvatarUrl']);
+          await sharedPreferences!.setString('role', snapshot.data()!['role']);
     });
   }
 

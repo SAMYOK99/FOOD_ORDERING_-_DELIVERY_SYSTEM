@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
-import 'package:my_tiffin/homeScreens/home_screen.dart';
+import 'package:my_tiffin/riders_app/homeScreens/home_screen.dart';
 import 'package:my_tiffin/riders_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -13,9 +13,9 @@ import 'package:my_tiffin/riders_app/widgets/dialog_loading.dart';
 import 'package:my_tiffin/riders_app/widgets/error_dialog.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as fStorage;
+import 'package:my_tiffin/splashScreen/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../widgets/error_dialog.dart';
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Position? position;
   String completeAddress ='';
-  String staffImageUrl ='';
+  String riderImageUrl ='';
   LocationPermission? permission;
   List<Placemark>? placeMarks;
 
@@ -110,7 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               {
               }); // It provides information and status updates about the ongoing task.
               await taskSnapshot.ref.getDownloadURL().then((url) {
-                staffImageUrl = url;
+                riderImageUrl = url;
 
                 //to save info to firestore
                 authenticateAndSignUp();
@@ -151,12 +151,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
   void authenticateAndSignUp() async{
-    User?  currentUser;
+    User?  currentRider;
     await firebaseAuth.createUserWithEmailAndPassword(
     email: emailcontroller.text.trim(),
     password: passwordcontroller.text.trim(),
     ).then((auth){
-      currentUser = auth.user;
+      currentRider = auth.user;
     }).catchError((error){
       Navigator.pop(context);
       showDialog(
@@ -168,36 +168,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
         );
       });
     });
-    if(currentUser!=null)
+    if(currentRider!=null)
       {
-        saveDataToFirestore(currentUser!).then((value){
+        saveDataToFirestore(currentRider!).then((value){
           Navigator.pop(context);
           // sending user to home page
-          Route newRoute = MaterialPageRoute(builder: (c)=>const  HomeScreen());
+          Route newRoute = MaterialPageRoute(builder: (c)=>const  RiderHomeScreen());
           Navigator.pushReplacement(context, newRoute);
       });
       }
   }
   //To store data in firestore
-  Future saveDataToFirestore (User currentUser) async{
-    FirebaseFirestore.instance.collection('riders').doc(currentUser.uid).set({
-      'staffId':currentUser.uid,
-      'staffEmail':currentUser.email,
-      'staffName':namecontroller.text.trim(),
-      'staffPhone':phonecontroller.text.trim(),
-      'staffAvatarUrl':staffImageUrl,
-      'staffAdress':completeAddress,
+  Future saveDataToFirestore (User currentRider) async{
+    FirebaseFirestore.instance.collection('riders').doc(currentRider.uid).set({
+      'riderId':currentRider.uid,
+      'riderEmail':currentRider.email,
+      'riderName':namecontroller.text.trim(),
+      'riderPhone':phonecontroller.text.trim(),
+      'riderAvatarUrl':riderImageUrl,
+      'riderAdress':completeAddress,
       'status': "approved",
       'earnings':0.0,
       'lat':position?.latitude,
       'lng':position?.longitude,
+      'role':'rider',
     });
 
     // to save data locally so that accessing data should be fast easy and reliable
     sharedPreferences= await SharedPreferences.getInstance();
-  await sharedPreferences!.setString('uid', currentUser.uid);// key value pair
+  await sharedPreferences!.setString('uid', currentRider.uid);// key value pair
   await sharedPreferences!.setString('name', namecontroller.text.trim());
-  await sharedPreferences!.setString('photoUrl',staffImageUrl );
+  await sharedPreferences!.setString('photoUrl',riderImageUrl );
+    await sharedPreferences!.setString('role','rider' );
 
 }
 

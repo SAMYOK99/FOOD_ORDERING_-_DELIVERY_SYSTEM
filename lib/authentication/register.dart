@@ -179,11 +179,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
   //To store data in firestore
   Future saveDataToFirestore (User currentUser) async{
-    FirebaseFirestore.instance.collection('staffs').doc(currentUser.uid).set({
+    FirebaseFirestore.instance.collection('users').doc(currentUser.uid).set({
       'staffId':currentUser.uid,
       'staffEmail':currentUser.email,
       'staffName':namecontroller.text.trim(),
-      'staffPhone':phonecontroller.text.trim(),
+      'staffPhone':phonecontroller.text.trim(), 
       'staffAvatarUrl':staffImageUrl,
       'staffAdress':completeAddress,
       'status': "approved",

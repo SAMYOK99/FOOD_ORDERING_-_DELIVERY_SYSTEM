@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/riders_app/authentication/auth_screen.dart';
 import 'package:my_tiffin/riders_app/homeScreens/home_screen.dart';
 import 'package:my_tiffin/riders_app/widgets/dialog_loading.dart';
 import 'package:my_tiffin/riders_app/widgets/error_dialog.dart';
@@ -120,10 +121,8 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     if(currentRider!=null)// if every thing goes fine
       {
-      readDataAndSetDataLocally(currentRider!).then((value) {
-        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (c)=> const RiderHomeScreen()));
-      });
+      readDataAndSetDataLocally(currentRider! );
+
       }
   }
   // to store data locally
@@ -131,11 +130,30 @@ class _LoginScreenState extends State<LoginScreen> {
     await FirebaseFirestore.instance.collection('riders')
         .doc(currentRider.uid)
         .get().then((snapshot) async{
-          await sharedPreferences!.setString('uid', currentRider.uid);
-          await sharedPreferences!.setString('email', snapshot.data()!['riderEmail']);
-          await sharedPreferences!.setString('name', snapshot.data()!['riderName']);// used to access single users
-          await sharedPreferences!.setString('photoUrl',snapshot.data()!['riderAvatarUrl']);
-          await sharedPreferences!.setString('role','rider' );
+          if(snapshot.exists){
+            await sharedPreferences!.setString('uid', currentRider.uid);
+            await sharedPreferences!.setString('email', snapshot.data()!['riderEmail']);
+            await sharedPreferences!.setString('name', snapshot.data()!['riderName']);// used to access single users
+            await sharedPreferences!.setString('photoUrl',snapshot.data()!['riderAvatarUrl']);
+            await sharedPreferences!.setString('role','rider' );
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (c)=> const RiderHomeScreen()));
+
+          } else{
+            firebaseAuth.signOut();
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (c)=> const RiderAuthScreen()));
+            Navigator.pop(context);
+            showDialog(
+                context: context,
+                builder: (c) {
+                  return ErrorDialog(
+                    message: 'Record doesnot exist. Please sign up first',
+                  );
+                }
+            );
+          }
+
     });
   }
 

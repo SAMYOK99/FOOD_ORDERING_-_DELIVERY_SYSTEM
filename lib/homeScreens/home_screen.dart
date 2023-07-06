@@ -1,6 +1,7 @@
  import 'package:flutter/material.dart';
 import 'package:my_tiffin/authentication/auth_screen.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
+import 'package:my_tiffin/widgets/user_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -28,22 +29,11 @@ class HomeScreen extends StatelessWidget {
           sharedPreferences!.getString('name')!,
           ),
         centerTitle: true,
-        automaticallyImplyLeading: false,
+
       ),
+          drawer: UserDrawer(),
 
           body: Center(
-            child: ElevatedButton(
-              child: const Text('Logout'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-              ),
-              onPressed: (){
-               firebaseAuth.signOut().then((value) {
-                 Navigator.push(context, MaterialPageRoute(builder: (c)=>const AuthScreen()));
-               });
-
-              },
-            ),
           ),
     ),);
 

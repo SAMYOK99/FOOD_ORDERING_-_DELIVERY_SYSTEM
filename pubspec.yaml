@@ -81,3 +81,6 @@ flutter:
     - family: VarelaRound
       fonts:
         - asset: assets/fonts/VarelaRound-Regular.ttf
+    - family: Train
+      fonts:
+        - asset: assets/fonts/TrainOne-Regular.ttf

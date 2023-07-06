@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/authentication/auth_screen.dart';
 import 'package:my_tiffin/homeScreens/home_screen.dart';
 import 'package:my_tiffin/homeScreens/staffHomeScreen.dart';
 import 'package:my_tiffin/riders_app/authentication/auth_screen.dart';
@@ -50,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: ElevatedButton(
         onPressed: () {
           Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (c)=> const AuthScreen()));
+          Navigator.push(context, MaterialPageRoute(builder: (c)=> const RiderAuthScreen()));
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
@@ -149,34 +150,45 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     if(currentUser!=null)// if every thing goes fine
       {
-        final uid=currentUser?.uid;
-        await FirebaseFirestore.instance.collection('staffs')
-            .doc(currentUser?.uid)
-            .get().then((snapshot) async{
+      readDataAndSetDataLocally(currentUser! );
+      }
+  }
+  // to store data locally
+  Future readDataAndSetDataLocally( User currentUser) async {
+    await FirebaseFirestore.instance.collection('users')
+        .doc(currentUser.uid)
+        .get().then((snapshot) async{
+          if(snapshot.exists){
+            await sharedPreferences!.setString('uid', currentUser.uid);
+            await sharedPreferences!.setString('email', snapshot.data()!['staffEmail']);
+            await sharedPreferences!.setString('name', snapshot.data()!['staffName']);// used to access single users
+            await sharedPreferences!.setString('photoUrl',snapshot.data()!['staffAvatarUrl']);
+            await sharedPreferences!.setString('role', snapshot.data()!['role']);
+
               if(snapshot.data()!['role']=='user'){
-                readDataAndSetDataLocally(currentUser!).then((value) {
                   Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(builder: (c)=> const HomeScreen()));
-                });
+
               } else if(snapshot.data()!['role']=='staff'){
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (c)=> const StaffHomeScreen()));
 
               }
-        });
-
-      }
   }
-  // to store data locally
-  Future readDataAndSetDataLocally( User currentUser) async {
-    await FirebaseFirestore.instance.collection('staffs')
-        .doc(currentUser.uid)
-        .get().then((snapshot) async{
-          await sharedPreferences!.setString('uid', currentUser.uid);
-          await sharedPreferences!.setString('email', snapshot.data()!['staffEmail']);
-          await sharedPreferences!.setString('name', snapshot.data()!['staffName']);// used to access single users
-          await sharedPreferences!.setString('photoUrl',snapshot.data()!['staffAvatarUrl']);
-          await sharedPreferences!.setString('role', snapshot.data()!['role']);
+         else{
+            firebaseAuth.signOut();
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (c)=> const AuthScreen()));
+            Navigator.pop(context);
+            showDialog(
+                context: context,
+                builder: (c) {
+                  return ErrorDialog(
+                    message: 'Record doesnot exist. Please sign up first',
+                  );
+                }
+            );
+          }
     });
   }
 

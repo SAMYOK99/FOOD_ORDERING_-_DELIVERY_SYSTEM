@@ -2,14 +2,14 @@ import 'package:my_tiffin/riders_app/authentication/login.dart';
 import 'package:my_tiffin/riders_app/authentication/register.dart';
 
 import 'package:flutter/material.dart';
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+class RiderAuthScreen extends StatefulWidget {
+  const RiderAuthScreen({super.key});
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  State<RiderAuthScreen> createState() => _RiderAuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _RiderAuthScreenState extends State<RiderAuthScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

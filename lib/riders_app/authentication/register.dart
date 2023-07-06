@@ -199,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   await sharedPreferences!.setString('uid', currentRider.uid);// key value pair
   await sharedPreferences!.setString('name', namecontroller.text.trim());
   await sharedPreferences!.setString('photoUrl',riderImageUrl );
-    await sharedPreferences!.setString('role','rider' );
+    await sharedPreferences!.setString('role','rider');
 
 }
 

@@ -22,18 +22,32 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
           BoxShadow(
-          color: Colors.black26,
-          blurRadius: 4 ,
-          offset: Offset(0,2)
-        )
-        ]
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 10,
+            offset: const Offset(0,3),
 
+          )
+        ],
       ),
+      // decoration: BoxDecoration(
+      //   color: Colors.white,
+      //   borderRadius: BorderRadius.circular(10.0),
+      //   boxShadow: const [
+      //     BoxShadow(
+      //     color: Colors.black26,
+      //     blurRadius: 4 ,
+      //     offset: Offset(0,2)
+      //   )
+      //   ]
+      //
+      // ),
       height: 60 ,
       padding: const EdgeInsets.all(5.0),
       child: TextFormField(
@@ -45,7 +59,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
          border: InputBorder.none,
          prefixIcon: Icon(
            widget.data,
-             color: const Color(0xff5ac18e),
+             color: Colors.green,
          ),
             focusColor: Theme.of(context).primaryColor,
            suffixIcon: IconButton(
@@ -67,12 +81,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
           border: InputBorder.none,
           prefixIcon: Icon(
             widget.data,
-            color: const Color(0xff5ac18e),
+            color: Colors.green,
           ),
           focusColor: Theme.of(context).primaryColor,
           hintText: widget.hintText,
           hintStyle: const TextStyle(
-            color: Colors.black38,
+            color: Colors.black54,
           ),
 
 

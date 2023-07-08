@@ -210,24 +210,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
         mainAxisSize: MainAxisSize.max,
         children:  [
           const SizedBox(height:10,),
-          InkWell(
-            onTap: (){
-              _getImage();
-            },
-            child: CircleAvatar(
-              radius: MediaQuery.of(context).size.width * 0.20,
-              backgroundColor: Colors.white,
-              backgroundImage: imageXFile==null?null: FileImage(File(imageXFile!.path)) ,
-              child: imageXFile==null
-                ?
-                Icon(
-                  Icons.add_photo_alternate,
-                  size: MediaQuery.of(context).size.width * 0.20,
-                  color: Colors.grey,
-                ):null,
+          Container(
 
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(80),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 10,
+                    offset: const Offset(0,3),
+
+                  )
+                ],
+              ),
+            child: InkWell(
+              onTap: (){
+                _getImage();
+              },
+              child: CircleAvatar(
+                radius: MediaQuery.of(context).size.width * 0.20,
+                backgroundColor: Colors.white,
+                backgroundImage: imageXFile==null?null: FileImage(File(imageXFile!.path)) ,
+                child: imageXFile==null
+                  ?
+                  Icon(
+                    Icons.add_photo_alternate,
+                    size: MediaQuery.of(context).size.width * 0.20,
+                    color: Colors.grey,
+                  ):null,
+
+              ),
             ),
           ),
+          SizedBox(height: 5,),
           Form(
               key: _formkey,
               child: Column(
@@ -313,6 +330,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child:  ElevatedButton(
               style: ElevatedButton.styleFrom(
                 elevation: 5,
+
                 backgroundColor:Colors.white,
                 padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
                 shape: RoundedRectangleBorder(
@@ -322,7 +340,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: const Text(
                 'SIGN UP',
                 style: TextStyle(
-                  color: Color(0xff5ac18e),
+                  color: Colors.green,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
 

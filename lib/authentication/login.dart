@@ -258,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
             width: double.infinity,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                elevation: 5,
+                elevation: 10,
                 backgroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(
                     horizontal: 50, vertical: 15),
@@ -269,7 +269,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: const Text(
                 'LOGIN',
                 style: TextStyle(
-                  color: Color(0xff5ac18e),
+                  color: Colors.green,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
 

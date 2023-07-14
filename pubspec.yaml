@@ -45,6 +45,7 @@ dependencies:
   firebase_storage: ^11.2.3
   shared_preferences: ^2.1.2
   flutter_rating_bar: ^4.0.1
+  clippy_flutter: ^2.0.0-nullsafety.1
 
 dev_dependencies:
   flutter_test:

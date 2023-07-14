@@ -1,5 +1,6 @@
  import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/homeScreens/cart_page.dart';
 import 'package:my_tiffin/widgets/appbar_widget.dart';
 import 'package:my_tiffin/widgets/categories_widget.dart';
 import 'package:my_tiffin/widgets/newest_item_widget.dart';
@@ -128,6 +129,7 @@ class HomeScreen extends StatelessWidget {
         ),
         child: FloatingActionButton(
           onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (c)=>const CartPage()));
 
           },
           backgroundColor: Colors.white,

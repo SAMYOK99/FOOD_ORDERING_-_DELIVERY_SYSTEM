@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/authentication/auth_screen.dart';
 import 'package:my_tiffin/homeScreens/home_screen.dart';
-import 'package:my_tiffin/homeScreens/staffHomeScreen.dart';
+import 'package:my_tiffin/homeScreens/staff_main_screens/staff_home_screen.dart';
 import 'package:my_tiffin/riders_app/authentication/auth_screen.dart';
 import 'package:my_tiffin/widgets/dialog_loading.dart';
 import 'package:my_tiffin/widgets/error_dialog.dart';

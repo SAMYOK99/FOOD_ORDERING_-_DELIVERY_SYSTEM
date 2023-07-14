@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:my_tiffin/homeScreens/item_page.dart';
 
 class NewestItemWidget extends StatelessWidget {
   const NewestItemWidget({super.key});
@@ -33,7 +34,9 @@ child: Padding(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10 
        child: Row(
          children: [
            InkWell(
-             onTap: (){},
+             onTap: (){
+               Navigator.push(context, MaterialPageRoute(builder: (c)=>const ItemPage()));Navigator.push(context, MaterialPageRoute(builder: (c)=>const ItemPage()));
+             },
              child: Container(
                alignment: Alignment.bottomCenter,
                child: Image.asset(
@@ -119,7 +122,9 @@ child: Padding(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10 
          child: Row(
            children: [
              InkWell(
-               onTap: (){},
+               onTap: (){
+                 Navigator.push(context, MaterialPageRoute(builder: (c)=>const ItemPage()));Navigator.push(context, MaterialPageRoute(builder: (c)=>const ItemPage()));
+               },
                child: Container(
                  alignment: Alignment.bottomCenter,
                  child: Image.asset(
@@ -205,7 +210,9 @@ child: Padding(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10 
          child: Row(
            children: [
              InkWell(
-               onTap: (){},
+               onTap: (){
+                 Navigator.push(context, MaterialPageRoute(builder: (c)=>const ItemPage()));Navigator.push(context, MaterialPageRoute(builder: (c)=>const ItemPage()));
+               },
                child: Container(
                  alignment: Alignment.bottomCenter,
                  child: Image.asset(
@@ -291,7 +298,9 @@ child: Padding(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10 
          child: Row(
            children: [
              InkWell(
-               onTap: (){},
+               onTap: (){
+                 Navigator.push(context, MaterialPageRoute(builder: (c)=>const ItemPage()));Navigator.push(context, MaterialPageRoute(builder: (c)=>const ItemPage()));
+               },
                child: Container(
                  alignment: Alignment.bottomCenter,
                  child: Image.asset(
@@ -377,7 +386,9 @@ child: Padding(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10 
          child: Row(
            children: [
              InkWell(
-               onTap: (){},
+               onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (c)=>const ItemPage()));
+                 },
                child: Container(
                  alignment: Alignment.bottomCenter,
                  child: Image.asset(

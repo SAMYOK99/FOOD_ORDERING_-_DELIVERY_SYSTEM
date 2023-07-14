@@ -3,7 +3,7 @@ import 'package:my_tiffin/authentication/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/homeScreens/home_screen.dart';
-import 'package:my_tiffin/homeScreens/staffHomeScreen.dart';
+import 'package:my_tiffin/homeScreens/staff_main_screens/staff_home_screen.dart';
 import 'package:my_tiffin/riders_app/homeScreens/home_screen.dart';
 
 class MySplashScreen extends StatefulWidget {

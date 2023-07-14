@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/homeScreens/item_page.dart';
 
 class PopularItems extends StatelessWidget {
   const PopularItems({super.key});
@@ -35,9 +36,14 @@ class PopularItems extends StatelessWidget {
              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                children: [
-                 Container(
-                   alignment: Alignment.center,
-                   child: Image.asset("images/burger.png"),
+                 InkWell(
+                   onTap: (){
+                     Navigator.push(context, MaterialPageRoute(builder: (c)=> const ItemPage()));
+                   },
+                   child: Container(
+                     alignment: Alignment.center,
+                     child: Image.asset("images/burger.png"),
+                   ),
                  ),
                  const Text('Hot Burger',
                    style: TextStyle(

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/homeScreens/cart_page.dart';
+import 'package:my_tiffin/uploadScreen/menu_upload_screen.dart';
 import 'package:my_tiffin/widgets/appbar_widget.dart';
 import 'package:my_tiffin/widgets/staff_widget/staff_category_widget.dart';
 import 'package:my_tiffin/widgets/staff_widget/staff_drawer.dart';
@@ -49,7 +50,7 @@ class StaffHomeScreen extends StatelessWidget {
                     ),
                     Container(
                       height: 50,
-                      width: 300,
+                      width: 290,
                       child: Padding(padding: const EdgeInsets.symmetric(
                         horizontal: 15,
                       ),
@@ -74,7 +75,7 @@ class StaffHomeScreen extends StatelessWidget {
               "Category",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: 22,
               ),
             ),
           ),
@@ -100,7 +101,7 @@ class StaffHomeScreen extends StatelessWidget {
         ),
         child: FloatingActionButton(
           onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (c)=>const CartPage()));
+            // Navigator.push(context, MaterialPageRoute(builder: (c)=>const MenuUploadScreen()));
 
           },
           backgroundColor: Colors.white,

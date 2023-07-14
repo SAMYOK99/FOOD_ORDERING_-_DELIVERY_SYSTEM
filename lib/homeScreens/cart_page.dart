@@ -61,7 +61,7 @@ class CartPage extends StatelessWidget {
                           ),
                         ),
                         Container(
-                         width: 190,
+                         width: 180,
                          child: const Column(
                            crossAxisAlignment: CrossAxisAlignment.start,
                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,7 +71,7 @@ class CartPage extends StatelessWidget {
                                  fontSize: 20,
                                  fontWeight: FontWeight.bold,
                                ),),
-                              Text('Taste Our Hot Burger',
+                              Text('Taste Our Hotjdafahdflkajdhflajkfhl Burger',
                                style: TextStyle(
                                  fontSize: 14,
                                  fontWeight: FontWeight.bold,
@@ -149,7 +149,7 @@ class CartPage extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 190,
+                            width: 180,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -159,7 +159,7 @@ class CartPage extends StatelessWidget {
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),),
-                                Text('Taste Our Hot Burger',
+                                Text('Taste Our Hotjdafahdflkajdhflajkfhl Burger',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -237,7 +237,7 @@ class CartPage extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 190,
+                            width: 180,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -247,7 +247,7 @@ class CartPage extends StatelessWidget {
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),),
-                                Text('Taste Our Hot Burger',
+                                Text('Taste Our Hotjdafahdflkajdhflajkfhl Burger',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -298,6 +298,7 @@ class CartPage extends StatelessWidget {
                       ),
                     ),
                   ),
+
                   Padding(padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 30),
                   child: Container(
                     padding: const EdgeInsets.all(20),

@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/homeScreens/item_page.dart';
+import 'package:my_tiffin/uploadScreen/menu_upload_screen.dart';
 import 'package:my_tiffin/widgets/newest_item_widget.dart';
 import 'package:my_tiffin/widgets/staff_widget/item_of_category.dart';
 
@@ -23,25 +25,28 @@ class _StaffCategoryItemState extends State<StaffCategoryItem> with TickerProvid
         backgroundColor: Colors.white,
           elevation: 0,
           title: TabBar(
+
             labelStyle: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 20,
             ),
-            indicatorColor: Colors.green,
+            indicatorColor: Colors.transparent,
             isScrollable: true,
             controller: _tabController,
-            labelColor: Colors.black,
+            labelColor: Colors.green,
             unselectedLabelColor: Colors.grey,
-            labelPadding: const EdgeInsets.fromLTRB(5,2,5,2),
+            labelPadding: const EdgeInsets.fromLTRB(5,2,25,2),
 
-            tabs: const [
-              Tab(text: "lolasdfadfadf",),
+
+            tabs:  [
+              Tab(text: "Burger",),
               Tab(text: "loladfadfad",),
               Tab(text: "lodfdfadfadl",),
               Tab(text: "lodfadfadfadfal",),
               Tab(text: "lol",),
               Tab(text: "lol",),
-              Tab(text: "lol",),
+              Tab(icon: Icon(Icons.add, size: 40,),),
+
 
             ],
           ),
@@ -51,237 +56,16 @@ class _StaffCategoryItemState extends State<StaffCategoryItem> with TickerProvid
           child: TabBarView(
             controller: _tabController,
             children: [
-              ListView(
-                children: [
-                  const CategoryItemWidget(),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(15, 10, 15, 20),
-                    width: double.infinity,
-                    child:  ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 5,
-
-                          backgroundColor:Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                        ),
-                        child: const Text(
-                          'DELETE',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-
-                          ),
-                        ),
-                        onPressed: ()=>{
-                        }
-                    ),
-                  ),
+              const CategoryItemWidget(),
+              const CategoryItemWidget(),
+              const CategoryItemWidget(),
+              const CategoryItemWidget(),
+              const CategoryItemWidget(),
+              const CategoryItemWidget(),
+              const MenuUploadScreen(),
 
 
-                ],
-              ),
-              ListView(
-                children: [
-                  const NewestItemWidget(),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(8, 0, 8, 20),
-                    width: double.infinity,
-                    child:  ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 7,
 
-                          backgroundColor:Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                        ),
-                        child: const Text(
-                          'DELETE',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-
-                          ),
-                        ),
-                        onPressed: ()=>{
-                        }
-                    ),
-                  ),
-
-
-                ],
-              ),
-              ListView(
-                children: [
-                  const NewestItemWidget(),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-                    width: double.infinity,
-                    child:  ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 5,
-
-                          backgroundColor:Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                        ),
-                        child: const Text(
-                          'DELETE',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-
-                          ),
-                        ),
-                        onPressed: ()=>{
-                        }
-                    ),
-                  ),
-
-
-                ],
-              ),
-              ListView(
-                children: [
-                  const NewestItemWidget(),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-                    width: double.infinity,
-                    child:  ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 5,
-
-                          backgroundColor:Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                        ),
-                        child: const Text(
-                          'DELETE',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-
-                          ),
-                        ),
-                        onPressed: ()=>{
-                        }
-                    ),
-                  ),
-
-
-                ],
-              ),
-              ListView(
-                children: [
-                  const NewestItemWidget(),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-                    width: double.infinity,
-                    child:  ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 5,
-
-                          backgroundColor:Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                        ),
-                        child: const Text(
-                          'DELETE',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-
-                          ),
-                        ),
-                        onPressed: ()=>{
-                        }
-                    ),
-                  ),
-
-
-                ],
-              ),
-              ListView(
-                children: [
-                  const NewestItemWidget(),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-                    width: double.infinity,
-                    child:  ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 5,
-
-                          backgroundColor:Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                        ),
-                        child: const Text(
-                          'DELETE',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-
-                          ),
-                        ),
-                        onPressed: ()=>{
-                        }
-                    ),
-                  ),
-
-
-                ],
-              ),
-              ListView(
-                children: [
-                  const NewestItemWidget(),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-                    width: double.infinity,
-                    child:  ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 5,
-
-                          backgroundColor:Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                        ),
-                        child: const Text(
-                          'DELETE',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-
-                          ),
-                        ),
-                        onPressed: ()=>{
-                        }
-                    ),
-                  ),
-
-
-                ],
-              ),
 
 
             ],

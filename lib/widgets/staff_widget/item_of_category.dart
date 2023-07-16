@@ -480,7 +480,7 @@ class CategoryItemWidget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(15, 10, 15, 80),
+              margin: const EdgeInsets.fromLTRB(15, 10, 15, 20),
               width: double.infinity,
               child:  ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -505,6 +505,7 @@ class CategoryItemWidget extends StatelessWidget {
                   }
               ),
             ),
+            const SizedBox(height: 50,),
           ],
         ),
 

@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/widgets/progress_bar.dart';
 
 import '../../uploadScreen/menu_upload_screen.dart';
 import 'item_of_category.dart';
@@ -15,24 +17,32 @@ class _StaffCategoryItemState extends State<StaffCategoryItem>
   late TabController _tabController;
   late IconData icon;
   int lastSelectedTab = 0;
-  @override
-  void dispose() {
-    _tabController.removeListener(_handleTabChange);
-    super.dispose();
-  }
+  List<Tab> _tabs = [];
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _tabController.addListener(_handleTabChange);
-  }
+
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 7, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabChange);
+    _fetchTabsFromFirebase();
+
   }
+  void _fetchTabsFromFirebase() async {
+    // Fetch data from Firebase
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('menus').get();
+
+    // Populate TabBar with data from Firebase
+    setState(() {
+      _tabs = snapshot.docs.map((doc) => Tab(text: doc['menuTitle'])).toList();
+      _tabs.add( Tab(
+        icon: Icon(Icons.add, size: 40),
+      ),); // Add the external permanent tab
+      _tabController = TabController(length: _tabs.length, vsync: this);
+    });
+  }
+
   void handleButtonClicked(bool isClicked) {
     if (isClicked) {
       // Button inside MenuUploadScreen is clicked
@@ -93,7 +103,8 @@ class _StaffCategoryItemState extends State<StaffCategoryItem>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return _tabs.isEmpty ? linearProgress() :
+      Container(
       width: MediaQuery.of(context).size.width * 0.1,
       height: MediaQuery.of(context).size.height * 0.8,
       child: Scaffold(
@@ -112,19 +123,7 @@ class _StaffCategoryItemState extends State<StaffCategoryItem>
             labelColor: Colors.green,
             unselectedLabelColor: Colors.grey,
             labelPadding: const EdgeInsets.fromLTRB(5, 2, 25, 2),
-            tabs: [
-              Tab(text: "Burger"),
-              Tab(text: "loladfadfad"),
-              Tab(text: "lodfdfadfadl"),
-              Tab(text: "lodfadfadfadfal"),
-              Tab(text: "lol"),
-              Tab(
-                text: "lol",
-              ),
-              Tab(
-                icon: Icon(Icons.add, size: 40),
-              ),
-            ],
+            tabs: _tabs,
           ),
         ),
         body: Padding(
@@ -132,7 +131,6 @@ class _StaffCategoryItemState extends State<StaffCategoryItem>
           child: TabBarView(
             controller: _tabController,
             children: [
-              CategoryItemWidget(),
               CategoryItemWidget(),
               CategoryItemWidget(),
               CategoryItemWidget(),
@@ -146,7 +144,3 @@ class _StaffCategoryItemState extends State<StaffCategoryItem>
     );
   }
 }
-
-
-
-

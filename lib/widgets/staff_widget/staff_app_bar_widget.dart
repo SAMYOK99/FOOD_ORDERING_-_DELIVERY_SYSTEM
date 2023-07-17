@@ -37,6 +37,7 @@ class StaffAppBarWidget extends StatelessWidget {
               ),
               child: Icon(
                 CupertinoIcons.bars,
+                color: Colors.green,
               ),
             ),
           ),

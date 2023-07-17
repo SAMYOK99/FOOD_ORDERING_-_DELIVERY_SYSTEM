@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_tiffin/homeScreens/cart_page.dart';
-import 'package:my_tiffin/uploadScreen/menu_upload_screen.dart';
 import 'package:my_tiffin/widgets/appbar_widget.dart';
 import 'package:my_tiffin/widgets/staff_widget/staff_category_widget.dart';
 import 'package:my_tiffin/widgets/staff_widget/staff_drawer.dart';

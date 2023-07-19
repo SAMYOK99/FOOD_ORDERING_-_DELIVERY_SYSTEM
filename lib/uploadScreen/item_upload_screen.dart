@@ -25,6 +25,8 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
   final ImagePicker _picker = ImagePicker();
   TextEditingController shortInfoController = TextEditingController();
   TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
   bool uploading = false;
   String uniqueIdName = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -35,43 +37,53 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
         iconTheme: const IconThemeData(
             color: Colors.green
         ),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.green,),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (c)=> const StaffHomeScreen()));
+        },
+
+        ),
+
         centerTitle: true,
         title: const Text("Add New Menu"),
         titleTextStyle: const TextStyle(
           color: Colors.black,
-          fontSize: 20,
+          fontSize: 22,
           fontWeight: FontWeight.bold,
 
         ),
         backgroundColor: Colors.white,
         elevation: 0.0,
       ),
-      body: Container(
-        margin: const EdgeInsets.fromLTRB(90, 20, 15, 0),
-        width: MediaQuery.of(context).size.width * 0.5,
-        child:  ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              elevation: 5,
-              backgroundColor:Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)
+      body: Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child:  ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 5,
+                backgroundColor:Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)
+                ),
               ),
-            ),
-            child: const Text(
-              'Add Menu',
-              style: TextStyle(
-                color: Colors.green,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
 
+              child: const Text(
+                'Add New Item',
+                style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+
+                ),
               ),
-            ),
-            onPressed: (){
-               takeImage(context);
-              widget.onButtonClicked(true);
-            }
+              onPressed: (){
+                 takeImage(context);
+                widget.onButtonClicked(true);
+              }
+          ),
         ),
       ),
         
@@ -85,7 +97,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
       builder: (context)
       {
         return SimpleDialog(
-          title: const Text("Menu Image", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+          title: const Text("Item Image", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -158,15 +170,23 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
     });
   }
 
-  menuFormScreen(){
+  itemFormScreen(){
   return Scaffold(
     appBar: AppBar(
       iconTheme: const IconThemeData(
           color: Colors.green
       ),
-      automaticallyImplyLeading: false,
+      automaticallyImplyLeading: true,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back, color: Colors.green,),
+        onPressed: () {
+          clearMenuUploadForm();
+        },
+
+      ),
+
       centerTitle: true,
-      title: const Text("Adding New Menu"),
+      title: const Text("Adding New Item"),
       titleTextStyle: const TextStyle(
         color: Colors.black,
         fontSize: 20,
@@ -175,7 +195,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
       actions: [
         IconButton(onPressed: uploading ? null : ()=> validateUploadForm(),
             icon: const Icon(CupertinoIcons.check_mark,
-              size: 35.0,
+               size: 35.0,
               color: Colors.green,
             ),
 
@@ -187,7 +207,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
     ),
     body: ListView(
       children: [
-        uploading == true ? linearProgress() : const Text("data"),
+        uploading == true ? linearProgress() : const Text(""),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Container(
@@ -218,7 +238,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
               ),
               controller: shortInfoController,
               decoration: const InputDecoration(
-                hintText: "Menu Info",
+                hintText: "Item Info",
                 hintStyle: TextStyle(color: Colors.grey,),
                 border: InputBorder.none
               ),
@@ -229,7 +249,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
           color: Colors.black,
         ),
         ListTile(
-          leading: const Icon(Icons.perm_device_information, color: Colors.green,),
+          leading: const Icon(Icons.title, color: Colors.green,),
           title: Container(
             width: 300,
             child: TextField(
@@ -238,7 +258,47 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
               ),
               controller: titleController,
               decoration: const InputDecoration(
-                  hintText: "Menu Title",
+                  hintText: "Item Title",
+                  hintStyle: TextStyle(color: Colors.grey,),
+                  border: InputBorder.none
+              ),
+            ),
+          ),
+        ),
+        const Divider(
+          color: Colors.black,
+        ),
+        ListTile(
+          leading: const Icon(Icons.description, color: Colors.green,),
+          title: Container(
+            width: 300,
+            child: TextField(
+              style: const TextStyle(
+                color: Colors.black,
+              ),
+              controller: descriptionController,
+              decoration: const InputDecoration(
+                  hintText: "Description",
+                  hintStyle: TextStyle(color: Colors.grey,),
+                  border: InputBorder.none
+              ),
+            ),
+          ),
+        ),
+        const Divider(
+          color: Colors.black,
+        ),
+        ListTile(
+          leading: const Icon(Icons.monetization_on, color: Colors.green,),
+          title: Container(
+            width: 300,
+            child: TextField(
+              style: const TextStyle(
+                color: Colors.black,
+              ),
+              controller: priceController,
+              decoration: const InputDecoration(
+                  hintText: "Item Price",
                   hintStyle: TextStyle(color: Colors.grey,),
                   border: InputBorder.none
               ),
@@ -338,6 +398,6 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return imageXFile == null? defaultScreen(): menuFormScreen();
+    return imageXFile == null? defaultScreen(): itemFormScreen();
   }
 }

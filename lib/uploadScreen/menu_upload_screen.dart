@@ -21,6 +21,10 @@ class _MenuUploadScreenState extends State<MenuUploadScreen> {
 
 
 // these are called methods if they are outside the class they are called functions
+
+  void _handleTextFieldTap() {
+    widget.onButtonClicked(true);
+  }
   menuFormScreen(){
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +56,7 @@ class _MenuUploadScreenState extends State<MenuUploadScreen> {
         padding: const EdgeInsets.symmetric(vertical: 30.0),
         child: ListView(
           children: [ListTile(
-          leading: const Icon(Icons.perm_device_information, color: Colors.green,),
+          leading: const Icon(Icons.title, color: Colors.green,),
           title: Container(
             width: 300,
             child: TextField(
@@ -65,9 +69,7 @@ class _MenuUploadScreenState extends State<MenuUploadScreen> {
                   hintStyle: TextStyle(color: Colors.grey,),
                   border: InputBorder.none
               ),
-              onChanged: (text){
-                widget.onButtonClicked(true);
-              },
+              onTap: _handleTextFieldTap,
             ),
           ),
             ),

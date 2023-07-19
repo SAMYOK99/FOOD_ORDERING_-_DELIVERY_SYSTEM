@@ -31,16 +31,20 @@ class _StaffCategoryItemState extends State<StaffCategoryItem>
   }
   void _fetchTabsFromFirebase() async {
     // Fetch data from Firebase
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('menus').get();
+    Stream<QuerySnapshot> stream = FirebaseFirestore.instance.collection('menus').snapshots();
 
     // Populate TabBar with data from Firebase
-    setState(() {
-      _tabs = snapshot.docs.map((doc) => Tab(text: doc['menuTitle'])).toList();
-      _tabs.add( Tab(
-        icon: Icon(Icons.add, size: 40),
-      ),); // Add the external permanent tab
-      _tabController = TabController(length: _tabs.length, vsync: this);
+    stream.listen((QuerySnapshot snapshot) {
+      setState(() {
+        _tabs = snapshot.docs.map((doc) => Tab(text: doc['menuTitle'])).toList();
+        _tabs.add( Tab(
+          icon: Icon(Icons.add, size: 40),
+        ),); // Add the external permanent tab
+        _tabController = TabController(length: _tabs.length, vsync: this);
+      });
     });
+
+
   }
 
   void handleButtonClicked(bool isClicked) {
@@ -131,11 +135,12 @@ class _StaffCategoryItemState extends State<StaffCategoryItem>
           child: TabBarView(
             controller: _tabController,
             children: [
-              CategoryItemWidget(),
-              CategoryItemWidget(),
-              CategoryItemWidget(),
-              CategoryItemWidget(),
-              CategoryItemWidget(),
+              CategoryItemWidget(onButtonClicked:  handleButtonClicked,),
+              CategoryItemWidget(onButtonClicked:  handleButtonClicked,),
+              CategoryItemWidget(onButtonClicked:  handleButtonClicked,),
+              CategoryItemWidget(onButtonClicked:  handleButtonClicked,),
+              CategoryItemWidget(onButtonClicked:  handleButtonClicked,),
+              CategoryItemWidget(onButtonClicked:  handleButtonClicked,),
               MenuUploadScreen( onButtonClicked:  handleButtonClicked,),
             ],
           ),

@@ -48,7 +48,7 @@ class StaffHomeScreen extends StatelessWidget {
                     ),
                     Container(
                       height: 50,
-                      width: 290,
+                      width: 280,
                       child: Padding(padding: const EdgeInsets.symmetric(
                         horizontal: 15,
                       ),

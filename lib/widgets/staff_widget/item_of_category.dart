@@ -1,12 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:my_tiffin/homeScreens/item_page.dart';
 import 'package:my_tiffin/homeScreens/staff_main_screens/staff_item_page.dart';
 
-class CategoryItemWidget extends StatelessWidget {
-  const CategoryItemWidget({super.key});
+import '../../uploadScreen/item_upload_screen.dart';
+
+class CategoryItemWidget extends StatefulWidget {
+  final ValueChanged<bool> onButtonClicked;
+  CategoryItemWidget({required this.onButtonClicked});
+
   @override
+  State<CategoryItemWidget> createState() => _CategoryItemWidgetState();
+}
+
+class _CategoryItemWidgetState extends State<CategoryItemWidget> {
+  bool isButtonClicked= false;
+  @override
+  void handleButtonClicked(bool isClicked) {
+    if (isClicked) {
+      // Button inside MenuUploadScreen is clicked
+      setState(() {
+        isButtonClicked = isClicked;
+      });
+    }
+  }
+
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10 ),
@@ -480,29 +498,58 @@ class CategoryItemWidget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(15, 10, 15, 20),
+              margin: const EdgeInsets.fromLTRB(10, 10, 15, 40),
               width: double.infinity,
-              child:  ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 5,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 5,
+                        backgroundColor:Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 15),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                      ),
+                      child: const Text(
+                        'Add Item',
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
 
-                    backgroundColor:Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                  ),
-                  child: const Text(
-                    'DELETE',
-                    style: TextStyle(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                        ),
+                      ),
+                      onPressed: ()=>{
+                      Navigator.push(context, MaterialPageRoute(builder: (c)=> ItemUploadScreen(onButtonClicked:  handleButtonClicked,))),
+                      widget.onButtonClicked(true),
 
-                    ),
-                  ),
-                  onPressed: ()=>{
                   }
+                  ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 5,
+                        backgroundColor:Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal:40,vertical: 15),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                      ),
+                      child: const Text(
+                        'Delete',
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+
+                        ),
+                      ),
+                      onPressed: ()=>{
+
+                      }
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 50,),

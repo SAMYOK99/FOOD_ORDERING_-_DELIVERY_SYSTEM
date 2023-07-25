@@ -92,7 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   context: context,
                   builder: (c) {
                     return const DialogLoading(
-                      message: 'Signing Up',
+                      message: 'Signing Up,Please wait...',
                     );
                   }
               );

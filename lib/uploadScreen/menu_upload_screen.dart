@@ -2,13 +2,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/models/menu.dart';
 import '../riders_app/widgets/error_dialog.dart';
 
 
 class MenuUploadScreen extends StatefulWidget {
 
-  final ValueChanged<bool> onButtonClicked;
-  const MenuUploadScreen({Key? key, required this.onButtonClicked});
+  // final ValueChanged<bool> onButtonClicked;
+  const MenuUploadScreen({Key? key,
+    // required this.onButtonClicked,
+    Menu? model,});
 
   @override
   _MenuUploadScreenState createState() => _MenuUploadScreenState();
@@ -18,12 +21,14 @@ class _MenuUploadScreenState extends State<MenuUploadScreen> {
   TextEditingController titleController = TextEditingController();
   bool uploading = false;
   late TabController _tabController;
+  String uniqueIdName = DateTime.now().millisecondsSinceEpoch.toString();
+
 
 
 // these are called methods if they are outside the class they are called functions
 
   void _handleTextFieldTap() {
-    widget.onButtonClicked(true);
+    // widget.onButtonClicked(true);
   }
   menuFormScreen(){
     return Scaffold(
@@ -112,7 +117,8 @@ class _MenuUploadScreenState extends State<MenuUploadScreen> {
   }
   saveInfo(String titleMenu){
     FirebaseFirestore.instance
-        .collection("menus").add({
+        .collection("menus").doc(uniqueIdName).set({
+      "menuId":uniqueIdName,
       "menuTitle": titleController.text.toString(),
     });
     showDialog(
@@ -133,6 +139,7 @@ class _MenuUploadScreenState extends State<MenuUploadScreen> {
 
     clearMenuUploadForm();
     setState(() {
+      uniqueIdName= DateTime.now().millisecondsSinceEpoch.toString();
       uploading= false;
     });
   }

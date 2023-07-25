@@ -8,19 +8,23 @@ import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/homeScreens/staff_main_screens/staff_home_screen.dart';
 import 'package:my_tiffin/widgets/progress_bar.dart';
 import 'package:firebase_storage/firebase_storage.dart' as  storageRef;
+import 'package:my_tiffin/widgets/staff_widget/staff_category_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/items.dart';
+import '../models/menu.dart';
 import '../riders_app/widgets/error_dialog.dart';
+import '../widgets/dialog_loading.dart';
 
 class ItemUploadScreen extends StatefulWidget {
-
-  final ValueChanged<bool> onButtonClicked;
-   ItemUploadScreen({required this.onButtonClicked});
+  const ItemUploadScreen({super.key});
 
   @override
   _ItemUploadScreenState createState() => _ItemUploadScreenState();
 }
 
 class _ItemUploadScreenState extends State<ItemUploadScreen> {
+
   XFile? imageXFile;
   final ImagePicker _picker = ImagePicker();
   TextEditingController shortInfoController = TextEditingController();
@@ -31,6 +35,13 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
   String uniqueIdName = DateTime.now().millisecondsSinceEpoch.toString();
 
 // these are called methods if they are outside the class they are called functions
+  void initState() {
+    super.initState();
+    // Access the selectedTab in initState using the Consumer widget
+    Menu selectedMenu = Provider.of<Menu>(context, listen: false);
+    String? selectedTab = selectedMenu.selectedTab;
+    print('Selected Tab in initState: $selectedTab');
+  }
   defaultScreen(){
     return Scaffold(
       appBar: AppBar(
@@ -41,10 +52,12 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.green,),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (c)=> const StaffHomeScreen()));
-        },
+            Navigator.push(context, MaterialPageRoute(builder: (c)=> StaffHomeScreen()));
+
+          },
 
         ),
+
 
         centerTitle: true,
         title: const Text("Add New Menu"),
@@ -81,12 +94,12 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
               ),
               onPressed: (){
                  takeImage(context);
-                widget.onButtonClicked(true);
+                // widget.onButtonClicked(true);
               }
           ),
         ),
       ),
-        
+
     );
   }
 
@@ -319,6 +332,8 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
   setState(() {
     shortInfoController.clear();
     titleController.clear();
+    priceController.clear();
+    descriptionController.clear();
     imageXFile=null;
   });
   }
@@ -326,15 +341,38 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
   validateUploadForm() async {
 
   if(imageXFile!=null){
-    if( shortInfoController.text.isNotEmpty && titleController.text.isNotEmpty){
-      setState(() {
-        uploading = true;
-      });
-      // uploading image
-      String downloadUrl = await uploadImage(File(imageXFile!.path));
-      // save info to firestore
-      saveInfo(downloadUrl,shortInfoController.text,titleController.text);// parameters are going to stored in firestore
-    }
+    if( shortInfoController.text.isNotEmpty && titleController.text.isNotEmpty && descriptionController.text.isNotEmpty && priceController.text.isNotEmpty){
+      if(isNumeric(priceController.text)){
+        showDialog(
+            context: context,
+            builder: (c) {
+              return const DialogLoading(
+                message: 'Adding New Item',
+              );
+            }
+        );
+        setState(() {
+          uploading = true;
+        });
+        // uploading image
+        String downloadUrl = await uploadImage(File(imageXFile!.path));
+        // save info to firestore
+        saveInfo(downloadUrl);// parameters are going to stored in firestore
+      }
+
+      else{
+        showDialog(
+            context: context,
+            builder: (c) {
+              return const ErrorDialog(
+                message: 'Price must be numeric value',
+              );
+            }
+        );
+      }
+
+      }
+
     else{
       showDialog(
           context: context,
@@ -358,33 +396,82 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
     );
   }
   }
-  saveInfo(String downloadUrl, String shortInfo, String titleMenu){
+
+//for number validation
+  bool isNumeric(String value) {
+
+    final numericRegex = RegExp(r'^-?(([0-9]*)|(([0-9]*)\.([0-9]*)))$');
+    return numericRegex.hasMatch(value);
+  }
+  saveInfo(String downloadUrl){
+    Menu selectedMenu = Provider.of<Menu>(context, listen: false);
+    String? selectedTab = selectedMenu.selectedTab;
     final ref = FirebaseFirestore.instance
-        .collection("staffs")
-        .doc(sharedPreferences!.getString("uid"))
-        .collection("menus");
+        .collection("menus")
+        .doc(selectedTab)
+        .collection("items");
 
     ref.doc(uniqueIdName).set({
-      "menuID" : uniqueIdName,
+      "itemID" : uniqueIdName,
+      "menuId": selectedTab,
       "staffUID": sharedPreferences!.getString("uid"),
-      "menuInfo": shortInfoController.text.toString(),
-      "menuTitle": titleController.text.toString(),
+      "staffName":sharedPreferences!.getString("name"),
+      "shortInfo": shortInfoController.text.toString(),
+      "itemTitle": titleController.text.toString(),
+      "description":descriptionController.text.toString(),
+      "itemPrice":priceController.text.toString(),
       "publishedDate": DateTime.now(),
       "status": "available",
       "thumbnailUrl": downloadUrl,
 
+    }).then((value) {
+      final itemRef = FirebaseFirestore.instance
+          .collection("items");
+      itemRef.doc(uniqueIdName).set({
+        "itemID" : uniqueIdName,
+        "menuId": selectedTab,
+        "staffUID": sharedPreferences!.getString("uid"),
+        "staffName":sharedPreferences!.getString("name"),
+        "shortInfo": shortInfoController.text.toString(),
+        "itemTitle": titleController.text.toString(),
+        "description":descriptionController.text.toString(),
+        "itemPrice":priceController.text.toString(),
+        "publishedDate": DateTime.now(),
+        "status": "available",
+        "thumbnailUrl": downloadUrl,
+
+      });
+
+    }).then((value) {
+      Navigator.pop(context);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Success'),
+            content: const Text('Item added successfully.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+
+      clearMenuUploadForm();
+      setState(() {
+        uniqueIdName= DateTime.now().millisecondsSinceEpoch.toString();
+        uploading= false;
+      });
     });
-    clearMenuUploadForm();
-    setState(() {
-      uniqueIdName= DateTime.now().millisecondsSinceEpoch.toString();
-      uploading= false;
-    });
+
   }
   uploadImage(mImageFile) async {
     storageRef.Reference reference = storageRef.FirebaseStorage.instance
         .ref()
-        .child("menus");
-    
+        .child("items");
     storageRef.UploadTask uploadTask = reference.child(uniqueIdName+ ".jpg").putFile(mImageFile);
     storageRef.TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() =>
     {
@@ -399,5 +486,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
   @override
   Widget build(BuildContext context) {
     return imageXFile == null? defaultScreen(): itemFormScreen();
+
+
   }
 }

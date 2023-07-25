@@ -80,7 +80,7 @@ class StaffHomeScreen extends StatelessWidget {
           //popular items widget
           SizedBox(height: 7,),
 
-           const StaffCategoryItem(),
+          StaffCategoryItem(),
         ],
       ),
       floatingActionButton: Container(

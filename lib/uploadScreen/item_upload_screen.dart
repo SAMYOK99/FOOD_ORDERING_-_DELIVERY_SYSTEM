@@ -17,7 +17,10 @@ import '../riders_app/widgets/error_dialog.dart';
 import '../widgets/dialog_loading.dart';
 
 class ItemUploadScreen extends StatefulWidget {
-  const ItemUploadScreen({super.key});
+  final Items? model;
+  // final ValueChanged<bool> onButtonClicked;
+
+  ItemUploadScreen({this.model});
 
   @override
   _ItemUploadScreenState createState() => _ItemUploadScreenState();

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/models/items.dart';
 import 'package:my_tiffin/uploadScreen/item_upload_screen.dart';
 import 'package:my_tiffin/uploadScreen/menu_upload_screen.dart';
 import 'package:my_tiffin/widgets/progress_bar.dart';
@@ -10,7 +11,9 @@ import 'package:provider/provider.dart';
 import '../../models/menu.dart';
 
 class StaffCategoryItem extends StatefulWidget {
-  const StaffCategoryItem({super.key});
+  Items? model;
+  StaffCategoryItem({this.model});
+
 
   @override
   State<StaffCategoryItem> createState() => _StaffCategoryItemState();
@@ -109,7 +112,7 @@ class _StaffCategoryItemState extends State<StaffCategoryItem> with TickerProvid
         physics: const NeverScrollableScrollPhysics(),
         children: [
         // ItemUploadScreen(),
-        ItemUploadScreen(),
+          CategoryItemWidget(model: widget.model,),
           MenuUploadScreen(
             // onButtonClicked: handleButtonClicked,
           ),

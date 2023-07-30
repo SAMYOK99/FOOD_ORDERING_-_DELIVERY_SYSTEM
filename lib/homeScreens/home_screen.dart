@@ -95,7 +95,7 @@ class HomeScreen extends StatelessWidget {
           ),
           ),
           //popular items widget
-          const PopularItems(),
+           PopularItems(),
           //Newest items
           const Padding(
             padding: EdgeInsets.only(top: 20,left: 10),

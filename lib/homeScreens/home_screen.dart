@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                    ),
                    Container(
                      height: 50,
-                       width: 300,
+                       width: 280,
                      child: Padding(padding: const EdgeInsets.symmetric(
                        horizontal: 15,
                      ),
@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
              child: Text(
                'Category',
                style: TextStyle(
-                 fontSize: 20,
+                 fontSize: 22,
                  fontWeight: FontWeight.bold,
 
                ),
@@ -90,7 +90,7 @@ class HomeScreen extends StatelessWidget {
             "Popular",
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 20,
+              fontSize: 22,
             ),
           ),
           ),

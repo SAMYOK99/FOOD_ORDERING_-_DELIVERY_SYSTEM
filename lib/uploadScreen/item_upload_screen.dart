@@ -35,17 +35,14 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   bool uploading = false;
-  String uniqueIdName = DateTime.now().millisecondsSinceEpoch.toString();
+  String uniqueIdName = DateTime
+      .now()
+      .millisecondsSinceEpoch
+      .toString();
 
 // these are called methods if they are outside the class they are called functions
-  void initState() {
-    super.initState();
-    // Access the selectedTab in initState using the Consumer widget
-    Menu selectedMenu = Provider.of<Menu>(context, listen: false);
-    String? selectedTab = selectedMenu.selectedTab;
-    print('Selected Tab in initState: $selectedTab');
-  }
-  defaultScreen(){
+
+  defaultScreen() {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
@@ -55,8 +52,8 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.green,),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (c)=> StaffHomeScreen()));
-
+            Navigator.push(context,
+                MaterialPageRoute(builder: (c) => StaffHomeScreen()));
           },
 
         ),
@@ -75,12 +72,16 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
       ),
       body: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.8,
-          child:  ElevatedButton(
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.8,
+          child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 elevation: 5,
-                backgroundColor:Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
+                backgroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)
                 ),
@@ -95,8 +96,8 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
 
                 ),
               ),
-              onPressed: (){
-                 takeImage(context);
+              onPressed: () {
+                takeImage(context);
                 // widget.onButtonClicked(true);
               }
           ),
@@ -106,14 +107,13 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
     );
   }
 
-  takeImage(mContext)
-  {
+  takeImage(mContext) {
     return showDialog(
       context: mContext,
-      builder: (context)
-      {
+      builder: (context) {
         return SimpleDialog(
-          title: const Text("Item Image", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+          title: const Text("Item Image", style: TextStyle(
+              color: Colors.black, fontWeight: FontWeight.bold),),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -137,7 +137,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
                 "Cancel",
                 style: TextStyle(color: Colors.red),
               ),
-              onPressed: ()=> Navigator.pop(context),
+              onPressed: () => Navigator.pop(context),
             ),
           ],
         );
@@ -151,7 +151,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
 
     imageXFile = await _picker.pickImage(
       source: ImageSource.camera,
-      maxHeight: 720 ,
+      maxHeight: 720,
       maxWidth: 1280,
     );
 
@@ -166,7 +166,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
 
     imageXFile = await _picker.pickImage(
       source: ImageSource.gallery,
-      maxHeight: 720 ,
+      maxHeight: 720,
       maxWidth: 1280,
     );
 
@@ -174,7 +174,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
       imageXFile;
     });
   }
-  pickFromGallery() async{
+  pickFromGallery() async {
     Navigator.pop(context);
     imageXFile = await _picker.pickImage(
       source: ImageSource.gallery,
@@ -186,48 +186,48 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
     });
   }
 
-  itemFormScreen(){
-  return Scaffold(
-    appBar: AppBar(
-      iconTheme: const IconThemeData(
-          color: Colors.green
-      ),
-      automaticallyImplyLeading: true,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back, color: Colors.green,),
-        onPressed: () {
-          clearMenuUploadForm();
-        },
+  itemFormScreen() {
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(
+            color: Colors.green
+        ),
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.green,),
+          onPressed: () {
+            clearMenuUploadForm();
+          },
 
-      ),
+        ),
 
-      centerTitle: true,
-      title: const Text("Adding New Item"),
-      titleTextStyle: const TextStyle(
-        color: Colors.black,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-      actions: [
-        IconButton(onPressed: uploading ? null : ()=> validateUploadForm(),
+        centerTitle: true,
+        title: const Text("Adding New Item"),
+        titleTextStyle: const TextStyle(
+          color: Colors.black,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+        actions: [
+          IconButton(onPressed: uploading ? null : () => validateUploadForm(),
             icon: const Icon(CupertinoIcons.check_mark,
-               size: 35.0,
+              size: 35.0,
               color: Colors.green,
             ),
 
 
-        )
-      ],
-      backgroundColor: Colors.white,
-      elevation: 0.0,
-    ),
-    body: ListView(
-      children: [
-        uploading == true ? linearProgress() : const Text(""),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-            height: 250,
+          )
+        ],
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+      ),
+      body: ListView(
+        children: [
+          uploading == true ? linearProgress() :
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              height: 250,
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
@@ -243,170 +243,170 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
                 ),
               ),
             ),
-        ),
-        ListTile(
-          leading: const Icon(Icons.perm_device_information, color: Colors.green,),
-          title: Container(
-            width: 300,
-            child: TextField(
-              style: const TextStyle(
-                color: Colors.black,
-              ),
-              controller: shortInfoController,
-              decoration: const InputDecoration(
-                hintText: "Item Info",
-                hintStyle: TextStyle(color: Colors.grey,),
-                border: InputBorder.none
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.perm_device_information, color: Colors.green,),
+            title: Container(
+              width: 300,
+              child: TextField(
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+                controller: shortInfoController,
+                decoration: const InputDecoration(
+                    hintText: "Item Info",
+                    hintStyle: TextStyle(color: Colors.grey,),
+                    border: InputBorder.none
+                ),
               ),
             ),
           ),
-        ),
-        const Divider(
-          color: Colors.black,
-        ),
-        ListTile(
-          leading: const Icon(Icons.title, color: Colors.green,),
-          title: Container(
-            width: 300,
-            child: TextField(
-              style: const TextStyle(
-                color: Colors.black,
-              ),
-              controller: titleController,
-              decoration: const InputDecoration(
-                  hintText: "Item Title",
-                  hintStyle: TextStyle(color: Colors.grey,),
-                  border: InputBorder.none
+          const Divider(
+            color: Colors.black,
+          ),
+          ListTile(
+            leading: const Icon(Icons.title, color: Colors.green,),
+            title: Container(
+              width: 300,
+              child: TextField(
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+                controller: titleController,
+                decoration: const InputDecoration(
+                    hintText: "Item Title",
+                    hintStyle: TextStyle(color: Colors.grey,),
+                    border: InputBorder.none
+                ),
               ),
             ),
           ),
-        ),
-        const Divider(
-          color: Colors.black,
-        ),
-        ListTile(
-          leading: const Icon(Icons.description, color: Colors.green,),
-          title: Container(
-            width: 300,
-            child: TextField(
-              style: const TextStyle(
-                color: Colors.black,
-              ),
-              controller: descriptionController,
-              decoration: const InputDecoration(
-                  hintText: "Description",
-                  hintStyle: TextStyle(color: Colors.grey,),
-                  border: InputBorder.none
+          const Divider(
+            color: Colors.black,
+          ),
+          ListTile(
+            leading: const Icon(Icons.description, color: Colors.green,),
+            title: Container(
+              width: 300,
+              child: TextField(
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+                controller: descriptionController,
+                decoration: const InputDecoration(
+                    hintText: "Description",
+                    hintStyle: TextStyle(color: Colors.grey,),
+                    border: InputBorder.none
+                ),
               ),
             ),
           ),
-        ),
-        const Divider(
-          color: Colors.black,
-        ),
-        ListTile(
-          leading: const Icon(Icons.monetization_on, color: Colors.green,),
-          title: Container(
-            width: 300,
-            child: TextField(
-              style: const TextStyle(
-                color: Colors.black,
-              ),
-              controller: priceController,
-              decoration: const InputDecoration(
-                  hintText: "Item Price",
-                  hintStyle: TextStyle(color: Colors.grey,),
-                  border: InputBorder.none
+          const Divider(
+            color: Colors.black,
+          ),
+          ListTile(
+            leading: const Icon(Icons.monetization_on, color: Colors.green,),
+            title: Container(
+              width: 300,
+              child: TextField(
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+                controller: priceController,
+                decoration: const InputDecoration(
+                    hintText: "Item Price",
+                    hintStyle: TextStyle(color: Colors.grey,),
+                    border: InputBorder.none
+                ),
               ),
             ),
           ),
-        ),
-        const Divider(
-          color: Colors.black,
-        ),
+          const Divider(
+            color: Colors.black,
+          ),
 
 
-
-      ],
-    ),
-  );
+        ],
+      ),
+    );
   }
-  clearMenuUploadForm(){
-  setState(() {
-    shortInfoController.clear();
-    titleController.clear();
-    priceController.clear();
-    descriptionController.clear();
-    imageXFile=null;
-  });
+  clearMenuUploadForm() {
+    setState(() {
+      shortInfoController.clear();
+      titleController.clear();
+      priceController.clear();
+      descriptionController.clear();
+      imageXFile = null;
+    });
   }
 
   validateUploadForm() async {
+    if (imageXFile != null) {
+      if (shortInfoController.text.isNotEmpty &&
+          titleController.text.isNotEmpty &&
+          descriptionController.text.isNotEmpty &&
+          priceController.text.isNotEmpty) {
+        if (isNumeric(priceController.text)) {
+          showDialog(
+              context: context,
+              builder: (c) {
+                return const DialogLoading(
+                  message: 'Adding New Item',
+                );
+              }
+          );
+          setState(() {
+            uploading = true;
+          });
+          // uploading image
+          String downloadUrl = await uploadImage(File(imageXFile!.path));
+          // save info to firestore
+          saveInfo(
+              downloadUrl); // parameters are going to stored in firestore
+        }
 
-  if(imageXFile!=null){
-    if( shortInfoController.text.isNotEmpty && titleController.text.isNotEmpty && descriptionController.text.isNotEmpty && priceController.text.isNotEmpty){
-      if(isNumeric(priceController.text)){
-        showDialog(
-            context: context,
-            builder: (c) {
-              return const DialogLoading(
-                message: 'Adding New Item',
-              );
-            }
-        );
-        setState(() {
-          uploading = true;
-        });
-        // uploading image
-        String downloadUrl = await uploadImage(File(imageXFile!.path));
-        // save info to firestore
-        saveInfo(downloadUrl);// parameters are going to stored in firestore
+        else {
+          showDialog(
+              context: context,
+              builder: (c) {
+                return const ErrorDialog(
+                  message: 'Price must be numeric value',
+                );
+              }
+          );
+        }
       }
 
-      else{
+      else {
         showDialog(
             context: context,
             builder: (c) {
               return const ErrorDialog(
-                message: 'Price must be numeric value',
+                message: 'All fields must be filled',
               );
             }
         );
       }
-
-      }
-
-    else{
+    }
+    else {
       showDialog(
           context: context,
           builder: (c) {
             return const ErrorDialog(
-              message: 'All fields must be filled',
+              message: 'Please pick an menu image',
             );
           }
       );
     }
-
-  }
-  else{
-    showDialog(
-        context: context,
-        builder: (c) {
-          return const ErrorDialog(
-            message: 'Please pick an menu image',
-          );
-        }
-    );
-  }
   }
 
 //for number validation
   bool isNumeric(String value) {
-
     final numericRegex = RegExp(r'^-?(([0-9]*)|(([0-9]*)\.([0-9]*)))$');
     return numericRegex.hasMatch(value);
   }
-  saveInfo(String downloadUrl){
+  saveInfo(String downloadUrl) {
     Menu selectedMenu = Provider.of<Menu>(context, listen: false);
     String? selectedTab = selectedMenu.selectedTab;
     final ref = FirebaseFirestore.instance
@@ -415,14 +415,14 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
         .collection("items");
 
     ref.doc(uniqueIdName).set({
-      "itemID" : uniqueIdName,
+      "itemID": uniqueIdName,
       "menuId": selectedTab,
       "staffUID": sharedPreferences!.getString("uid"),
-      "staffName":sharedPreferences!.getString("name"),
+      "staffName": sharedPreferences!.getString("name"),
       "shortInfo": shortInfoController.text.toString(),
       "itemTitle": titleController.text.toString(),
-      "description":descriptionController.text.toString(),
-      "itemPrice":priceController.text.toString(),
+      "description": descriptionController.text.toString(),
+      "itemPrice": priceController.text.toString(),
       "publishedDate": DateTime.now(),
       "status": "available",
       "thumbnailUrl": downloadUrl,
@@ -431,20 +431,19 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
       final itemRef = FirebaseFirestore.instance
           .collection("items");
       itemRef.doc(uniqueIdName).set({
-        "itemID" : uniqueIdName,
+        "itemID": uniqueIdName,
         "menuId": selectedTab,
         "staffUID": sharedPreferences!.getString("uid"),
-        "staffName":sharedPreferences!.getString("name"),
+        "staffName": sharedPreferences!.getString("name"),
         "shortInfo": shortInfoController.text.toString(),
         "itemTitle": titleController.text.toString(),
-        "description":descriptionController.text.toString(),
-        "itemPrice":priceController.text.toString(),
+        "description": descriptionController.text.toString(),
+        "itemPrice": priceController.text.toString(),
         "publishedDate": DateTime.now(),
         "status": "available",
         "thumbnailUrl": downloadUrl,
 
       });
-
     }).then((value) {
       Navigator.pop(context);
       showDialog(
@@ -465,17 +464,20 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
 
       clearMenuUploadForm();
       setState(() {
-        uniqueIdName= DateTime.now().millisecondsSinceEpoch.toString();
-        uploading= false;
+        uniqueIdName = DateTime
+            .now()
+            .millisecondsSinceEpoch
+            .toString();
+        uploading = false;
       });
     });
-
   }
   uploadImage(mImageFile) async {
     storageRef.Reference reference = storageRef.FirebaseStorage.instance
         .ref()
         .child("items");
-    storageRef.UploadTask uploadTask = reference.child(uniqueIdName+ ".jpg").putFile(mImageFile);
+    storageRef.UploadTask uploadTask = reference.child(uniqueIdName + ".jpg")
+        .putFile(mImageFile);
     storageRef.TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() =>
     {
     });
@@ -485,11 +487,14 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
   }
 
 
+    @override
+    Widget build(BuildContext context) {
+      return Consumer<Menu>(
+        builder: (context, selectedMenu, child) {
+          String? selectedTab = selectedMenu.selectedTab;
+          return imageXFile == null ? defaultScreen() : itemFormScreen();
+        },
+      );
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    return imageXFile == null? defaultScreen(): itemFormScreen();
-
-
-  }
 }

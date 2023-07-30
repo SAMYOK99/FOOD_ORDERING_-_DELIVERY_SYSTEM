@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_tiffin/homeScreens/staff_main_screens/staff_item_page.dart';
@@ -9,17 +9,17 @@ import 'package:my_tiffin/models/items.dart';
 import 'package:my_tiffin/models/menu.dart';
 import 'package:provider/provider.dart';
 
-class ItemsDesign extends StatefulWidget {
+class ClicksMenu extends StatefulWidget {
   Items? model;
   BuildContext? context;
 
-  ItemsDesign({this.model, this.context});
+  ClicksMenu({this.model, this.context});
 
   @override
-  State<ItemsDesign> createState() => _ItemsDesignState();
+  State<ClicksMenu> createState() => _ClicksMenuState();
 }
 
-class _ItemsDesignState extends State<ItemsDesign> {
+class _ClicksMenuState extends State<ClicksMenu> {
 
   // deleteMenu(String itemUID){
   //   Menu selectedMenu = Provider.of<Menu>(context, listen: false);
@@ -41,7 +41,7 @@ class _ItemsDesignState extends State<ItemsDesign> {
             .of(context)
             .size
             .width * 0.9,
-        height: MediaQuery.of(context).size.height*0.18,
+        height: MediaQuery.of(context).size.height*0.22,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -92,7 +92,7 @@ class _ItemsDesignState extends State<ItemsDesign> {
                             fontWeight: FontWeight.bold,
                           ),),
                         Text(
-                         widget.model!.shortInfo!,
+                          widget.model!.shortInfo!,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -119,28 +119,28 @@ class _ItemsDesignState extends State<ItemsDesign> {
                             color: Colors.green,
                             fontWeight: FontWeight.bold,
                           ),),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Icon(Icons.favorite_border,
-                                color: Colors.green,
-                                size: 26,
-                              ),
-                              Icon(
-                                CupertinoIcons.cart,
-                                color: Colors.green,
-                                size: 26,
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
 
                 ],
+              ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(Icons.favorite_border,
+                      color: Colors.green,
+                      size: 26,
+                    ),
+                    Icon(
+                      CupertinoIcons.cart,
+                      color: Colors.green,
+                      size: 26,
+                    ),
+                  ],
+                ),
               ),
 
             ]

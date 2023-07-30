@@ -9,6 +9,7 @@ class Items {
   Timestamp? publishedDate;
   String? thumbnailUrl;
   String? status;
+  String? menuId;
 
   Items({
     this.itemUID,
@@ -19,6 +20,7 @@ class Items {
     this.publishedDate,
     this.thumbnailUrl,
     this.status,
+    this.menuId,
 
   });
 
@@ -32,6 +34,7 @@ class Items {
     publishedDate=json["publishedDate"];
     thumbnailUrl=json["thumbnailUrl"];
     status = json['status'];
+    menuId = json['menuId'];
 
   }
 
@@ -45,6 +48,7 @@ class Items {
     data["publishedDate"] = publishedDate;
     data["thumbnailUrl"] = thumbnailUrl;
     data["status"]= status;
+    data["menuId"]= menuId;
 
     return data;
   }

@@ -82,7 +82,7 @@ class HomeScreen extends StatelessWidget {
              ),
           ),
           // categories widget
-          const CategoriesWidget(),
+           CategoriesWidget(),
           // popular Items
           const Padding(
               padding: EdgeInsets.only(top: 20,left: 10),

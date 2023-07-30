@@ -1,68 +1,52 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/models/items.dart';
+import 'package:my_tiffin/models/menu.dart';
+import 'package:my_tiffin/widgets/category_item_design.dart';
+import 'package:my_tiffin/widgets/progress_bar.dart';
 
-class CategoriesWidget extends StatelessWidget {
-  const CategoriesWidget({super.key});
+class CategoriesWidget extends StatefulWidget {
+  final Menu? model;
+  final Items? item;
+
+CategoriesWidget({this.model,this.item});
+  @override
+  State<CategoriesWidget> createState() => _CategoriesWidgetState();
+}
+
+class _CategoriesWidgetState extends State<CategoriesWidget> {
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5,),
-      child: Row(
-        children: [
-         // for(int i=0; i<10; i++)
-          //single Item
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-                color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 10,
-                  offset: const Offset(0,3),
-                )
-              ]
-            ),
-            child: Column(
-              children: [
-                const Text('Drinks',style: TextStyle(fontSize: 20,),)
-              ],
-            ),
-
-          ),
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-                color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 10,
-                  offset: const Offset(0,3),
-                )
-              ]
-            ),
-            child: Column(
-              children: [
-                const Text('Drinks',style: TextStyle(fontSize: 20,),)
-              ],
-            ),
-
-          ),
-        ),
-
-      ],),
+      child: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('menus')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: circularProgress());
+          } else {
+            return  Container(
+              width: 350,
+              height: MediaQuery.of(context).size.height * 0.09, // Adjust the height as needed
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                children: List.generate(snapshot.data!.docs.length, (index) {
+                  Menu model = Menu.fromJson(
+                    snapshot.data!.docs[index].data()! as Map<String, dynamic>,
+                  );
+                  return CategoryItem(
+                    model: model,
+                    context: context,
+                  );
+                }),
+              ),
+            );
+          }
+        },
       ),
     );
   }

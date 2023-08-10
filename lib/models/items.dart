@@ -4,7 +4,7 @@ class Items {
   String? itemUID;
   String? shortInfo;
   String? itemTitle;
-  String? itemDescription;
+  String? description;
   String? itemPrice;
   Timestamp? publishedDate;
   String? thumbnailUrl;
@@ -15,7 +15,7 @@ class Items {
     this.itemUID,
     this.shortInfo,
     this.itemTitle,
-    this.itemDescription,
+    this.description,
     this.itemPrice,
     this.publishedDate,
     this.thumbnailUrl,
@@ -29,7 +29,7 @@ class Items {
     itemUID=json["itemUID"];
     shortInfo=json["shortInfo"];
     itemTitle=json["itemTitle"];
-    itemDescription =json["itemDescription"];
+    description =json["description"];
     itemPrice=json["itemPrice"];
     publishedDate=json["publishedDate"];
     thumbnailUrl=json["thumbnailUrl"];
@@ -43,7 +43,7 @@ class Items {
     data["itemUID"] = itemUID;
     data["shortInfo"] = shortInfo;
     data["itemTitle"] = itemTitle;
-    data["itemDescription"] = itemDescription;
+    data["description"] = description;
     data["itemPrice"] = itemPrice;
     data["publishedDate"] = publishedDate;
     data["thumbnailUrl"] = thumbnailUrl;

@@ -146,7 +146,7 @@ class StaffItemPage extends StatelessWidget {
         ],
       ),
       ),
-      bottomNavigationBar: const ItemBottomNavBar(),
+      bottomNavigationBar: ItemBottomNavBar(),
     );
   }
 }

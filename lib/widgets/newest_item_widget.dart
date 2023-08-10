@@ -23,7 +23,7 @@ class NewestItemWidget extends StatelessWidget {
                       width: double.infinity,
                       child: SingleChildScrollView(
                         child: StreamBuilder<QuerySnapshot>(
-                          stream: getTodayItems().snapshots(),
+                          stream: getItemsFromYesterdayToTomorrow().snapshots(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
                               return Center(child: circularProgress());
@@ -60,18 +60,18 @@ class NewestItemWidget extends StatelessWidget {
 ),
     );
   }
-  Query getTodayItems() {
+  Query getItemsFromYesterdayToTomorrow() {
     DateTime now = DateTime.now();
-    DateTime startOfToday = DateTime(now.year, now.month, now.day);
-    DateTime endOfToday = DateTime(now.year, now.month, now.day, 46, 59, 59, 999);
+    DateTime startOfYesterday = DateTime(now.year, now.month, now.day - 1);
+    DateTime endOfTomorrow = DateTime(now.year, now.month, now.day + 2, 0, 0, 0, 0);
 
-    Timestamp startTimestamp = Timestamp.fromDate(startOfToday);
-    Timestamp endTimestamp = Timestamp.fromDate(endOfToday);
+    Timestamp startTimestamp = Timestamp.fromDate(startOfYesterday);
+    Timestamp endTimestamp = Timestamp.fromDate(endOfTomorrow);
 
     return FirebaseFirestore.instance
         .collection('items')
         .where("publishedDate", isGreaterThanOrEqualTo: startTimestamp)
-        .where("publishedDate", isLessThanOrEqualTo: endTimestamp)
+        .where("publishedDate", isLessThan: endTimestamp)
         .orderBy("publishedDate", descending: true);
   }
 

@@ -2,17 +2,77 @@ import 'package:clippy_flutter/arc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:my_tiffin/widgets/appbar_widget.dart';
-import 'package:my_tiffin/widgets/item_bottom_navbar.dart';
-import 'package:my_tiffin/widgets/user_drawer.dart';
-class ItemPage extends StatelessWidget {
-  const ItemPage({super.key});
+import 'package:my_tiffin/models/items.dart';
+class ItemPage extends StatefulWidget {
+   Items? model;
+ItemPage({super.key, this.model});
 
+  @override
+  State<ItemPage> createState() => _ItemPageState();
+}
+
+class _ItemPageState extends State<ItemPage> {
+  int number = 1;
+  _increment(){
+    setState(() {
+      number++;
+    });
+
+  }
+  _decrement(){
+    if(number>1){
+      setState(() {
+        number--;
+      });
+    }
+  }
+  ItemBottomNavBar() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      height: 70,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children:[
+              Text("Total: ",style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
+              ),),
+              SizedBox(
+                width: 15,
+              ),
+              Text("\$10",style: TextStyle(
+                fontSize: 19,
+                color: Colors.green,
+                fontWeight: FontWeight.bold,
+              ),),
+            ],
+          ),
+          ElevatedButton.icon(
+            onPressed: (){
+              // if already exist
+              // add to cart
+              // addItemToCart();
+
+            },
+            style: ButtonStyle(
+              backgroundColor: const MaterialStatePropertyAll(Colors.green),
+              padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 13,horizontal: 15,),),
+              shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20))),
+            ),
+            icon: Icon(CupertinoIcons.cart),
+            label: Text('Add to Cart', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
+          )],
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.green
         ),
         backgroundColor: Colors.white,
@@ -22,11 +82,14 @@ class ItemPage extends StatelessWidget {
       child: ListView(
         children:  [
           Padding(padding: const EdgeInsets.all(16),
-          child: Image.asset("images/burger.png",
-          height: 300,
+          child:  Image.network(
+            widget.model!.thumbnailUrl!,
+            height: 300,
+          ),
+          // Image.asset("images/burger.png",
+          // height: 300,
             // width: double.infinity,
             // width: 100,
-          ),
           ),
           Arc(
             edge: Edge.TOP,
@@ -56,7 +119,7 @@ class ItemPage extends StatelessWidget {
 
                             ),
                             onRatingUpdate: (index){},),
-                          const Text("\$10",style: TextStyle(
+                           Text("\$${widget.model!.itemPrice!}",style: const TextStyle(
                             fontSize: 20,
                             color: Colors.green,
                             fontWeight: FontWeight.bold,
@@ -68,42 +131,50 @@ class ItemPage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween ,
                         children: [
-                          const Text("Hot Pizza",
-                            style: TextStyle(
+                           Text(widget.model!.itemTitle!,
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 28,
                             ),
                           ),
                           Container(
-                            width: 90,
+                            width: 120,
+                            height: 50,
+                            margin: EdgeInsets.fromLTRB(0,0,10,0),
                             padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               color: Colors.green,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Row(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(CupertinoIcons.minus, color: Colors.white,
-                                size: 20,
-                                ), 
-                                Text("1",
+                                IconButton(onPressed: _decrement,
+                                    icon: Icon(CupertinoIcons.minus, color: Colors.white,
+                                      size: 20,
+                                    ),
+                                ),
+                                Text("$number",
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 18,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),),
-                                Icon(CupertinoIcons.plus, color: Colors.white,
-                                size: 20,
+                                IconButton(onPressed: _increment,
+                                  icon: Icon(CupertinoIcons.plus, color: Colors.white,
+                                  size: 20,
                                 ),
+                                )
                               ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 10,),child: Text('jljfajfdaoidjfaidfjaoidfjadfaidf',style: TextStyle(
-                      fontSize: 16,
+                     Padding(padding: const EdgeInsets.symmetric(vertical: 10,),
+                       child: Text(widget.model!.description!,
+                         style: const TextStyle(
+                           fontSize: 16,
                     ),
                     textAlign: TextAlign.justify,
                     ),
@@ -146,7 +217,9 @@ class ItemPage extends StatelessWidget {
         ],
       ),
       ),
-      bottomNavigationBar: const ItemBottomNavBar(),
+      bottomNavigationBar: ItemBottomNavBar(),
     );
   }
+
+
 }

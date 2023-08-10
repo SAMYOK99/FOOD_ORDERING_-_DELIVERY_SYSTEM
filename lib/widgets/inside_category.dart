@@ -18,6 +18,13 @@ class _InsideCategoryState extends State<InsideCategory> {
   Widget build(BuildContext context) {
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
+          title: Text("Items of"+" "+widget.model!.menuTitle!),
+          titleTextStyle: const TextStyle(
+            color: Colors.black,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
           iconTheme: IconThemeData(
               color: Colors.green
           ),

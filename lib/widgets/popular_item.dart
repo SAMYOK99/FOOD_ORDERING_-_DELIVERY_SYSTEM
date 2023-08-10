@@ -44,7 +44,7 @@ class _PopularShownItemsState extends State<PopularShownItems> {
                     children: [
                       InkWell(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (c)=> const ItemPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (c)=>  ItemPage(model: widget.model,)));
                         },
                         child: Container(
                           alignment: Alignment.center,

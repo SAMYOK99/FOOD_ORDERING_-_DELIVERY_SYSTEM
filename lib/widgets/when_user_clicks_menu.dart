@@ -3,11 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:my_tiffin/homeScreens/staff_main_screens/staff_item_page.dart';
+import 'package:my_tiffin/homeScreens/item_page.dart';
 import 'package:my_tiffin/models/items.dart';
 import 'package:my_tiffin/models/menu.dart';
-import 'package:provider/provider.dart';
 
 class ClicksMenu extends StatefulWidget {
   Items? model;
@@ -62,7 +60,7 @@ class _ClicksMenuState extends State<ClicksMenu> {
                   InkWell(
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (c) => const StaffItemPage()));
+                          builder: (c) => ItemPage(model: widget.model,)));
                     },
                     child: Container(
                       margin: EdgeInsets.fromLTRB(0, 8, 0, 0),

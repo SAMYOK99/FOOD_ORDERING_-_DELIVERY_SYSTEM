@@ -190,6 +190,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       'earnings':0.0,
       'lat':position?.latitude,
       'lng':position?.longitude,
+      'userCart':['garbageValue'],
       'role':'user',
     });
 
@@ -199,6 +200,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   await sharedPreferences!.setString('name', namecontroller.text.trim());
   await sharedPreferences!.setString('photoUrl',staffImageUrl );
   await sharedPreferences!.setString('role','user' );
+  await sharedPreferences!.setStringList('userCart',["garbageValue"] );
 
 }
 

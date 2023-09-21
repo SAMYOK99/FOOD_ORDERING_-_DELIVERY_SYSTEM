@@ -4,6 +4,7 @@ import 'package:my_tiffin/widgets/appbar_widget.dart';
 import 'package:my_tiffin/widgets/cart_bottom_navbar.dart';
 import 'package:my_tiffin/widgets/user_drawer.dart';
 
+
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
@@ -416,4 +417,6 @@ class CartPage extends StatelessWidget {
       bottomNavigationBar: const CartBottomNavBar(),
     );
   }
+
 }
+

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Items {
-  String? itemUID;
+  late String itemID;
   String? shortInfo;
   String? itemTitle;
   String? description;
@@ -12,7 +12,7 @@ class Items {
   String? menuId;
 
   Items({
-    this.itemUID,
+    required this.itemID,
     this.shortInfo,
     this.itemTitle,
     this.description,
@@ -24,23 +24,22 @@ class Items {
 
   });
 
-  Items.fromJson(Map<String, dynamic> json){
-
-    itemUID=json["itemUID"];
-    shortInfo=json["shortInfo"];
-    itemTitle=json["itemTitle"];
-    description =json["description"];
-    itemPrice=json["itemPrice"];
-    publishedDate=json["publishedDate"];
-    thumbnailUrl=json["thumbnailUrl"];
+  Items.fromJson(Map<String, dynamic> json) {
+    itemID = json["itemID"] ?? ""; // Use empty string as a default value if itemID is missing or null
+    shortInfo = json["shortInfo"];
+    itemTitle = json["itemTitle"];
+    description = json["description"];
+    itemPrice = json["itemPrice"];
+    publishedDate = json["publishedDate"];
+    thumbnailUrl = json["thumbnailUrl"];
     status = json['status'];
     menuId = json['menuId'];
-
   }
+
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data["itemUID"] = itemUID;
+    data["itemId"] = itemID;
     data["shortInfo"] = shortInfo;
     data["itemTitle"] = itemTitle;
     data["description"] = description;

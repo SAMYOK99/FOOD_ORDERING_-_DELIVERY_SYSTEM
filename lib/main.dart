@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/splashScreen/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<Menu>(create: (_) => Menu()),
+        ChangeNotifierProvider(create: (c)=> CartItemCounter())
+
       ],
       child: MaterialApp(
         title: 'Staff App',

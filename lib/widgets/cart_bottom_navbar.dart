@@ -28,7 +28,10 @@ class CartBottomNavBar extends StatelessWidget {
           ],
         ),
      ElevatedButton(
-        onPressed: (){},
+        onPressed: (){
+         // 1. Check the item is already in cart or not
+          // 2. Add to cart
+        },
      style: ButtonStyle(
      backgroundColor: const MaterialStatePropertyAll(Colors.green),
        padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 15,horizontal: 20,),),

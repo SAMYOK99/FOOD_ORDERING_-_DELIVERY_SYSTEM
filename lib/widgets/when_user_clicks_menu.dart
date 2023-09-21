@@ -68,7 +68,7 @@ class _ClicksMenuState extends State<ClicksMenu> {
                       child: Image.network(
                         widget.model!.thumbnailUrl!,
                         height: 120,
-                        width: 150,
+                        width: 145,
                       ),
                       // Image.asset(
                       //   "images/burger.png",

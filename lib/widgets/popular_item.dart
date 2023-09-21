@@ -66,7 +66,7 @@ class _PopularShownItemsState extends State<PopularShownItems> {
                           fontSize: 16,
                           // fontWeight: FontWeight.bold,
                         ),),
-                      const SizedBox(height: 12,),
+                      const SizedBox(height: 5,),
                        Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

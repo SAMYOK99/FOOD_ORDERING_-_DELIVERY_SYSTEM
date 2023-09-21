@@ -1,8 +1,14 @@
 import 'package:clippy_flutter/arc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
 import 'package:my_tiffin/models/items.dart';
+import 'package:provider/provider.dart';
+
+import '../globalVariables/globleVariable.dart';
 class ItemPage extends StatefulWidget {
    Items? model;
 ItemPage({super.key, this.model});
@@ -25,6 +31,43 @@ class _ItemPageState extends State<ItemPage> {
         number--;
       });
     }
+  }
+  itemIfAlreadyExist(){
+    List<String> separateItemList=[], defaultItemList= [];
+    defaultItemList = sharedPreferences!.getStringList("userCart")!;
+    for(int i = 0; i<defaultItemList.length; i ++)
+    {
+      String item = defaultItemList[i].toString(); // it is in the form of 12341 : 1
+      var pos = item.lastIndexOf(":");
+      String getItemId = (pos != -1)? item.substring(0, pos): item;// now only 12341 which is the id of items
+      print(" this is Itemid now = "+ getItemId);
+      separateItemList.add(getItemId);// actual ids of item
+
+    }
+    print("item list now");
+    print(separateItemList);
+
+    return separateItemList;
+
+  }
+  addItemToCart(String? foodId, BuildContext context, int intCounter){
+
+    List<String>? tempList = sharedPreferences!.getStringList("userCart");
+    tempList!.add("${foodId!}:$number");
+
+    FirebaseFirestore.instance.collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+    .update({
+      "userCart": tempList,
+
+    }).then((value){
+      Fluttertoast.showToast(msg: "Item Added to Cart");
+      sharedPreferences!.setStringList("userCart", tempList);
+    });
+    //update the badge
+    Provider.of<CartItemCounter>(context,listen:false ).displayCartListItemNumber();
+
+
   }
   ItemBottomNavBar() {
     return Container(
@@ -52,8 +95,14 @@ class _ItemPageState extends State<ItemPage> {
           ElevatedButton.icon(
             onPressed: (){
               // if already exist
+              List<String> itemIdList =  itemIfAlreadyExist();
+              itemIdList.contains(widget.model!.itemID!)?
+              Fluttertoast.showToast(msg: "Item Already In Cart"):
               // add to cart
-              // addItemToCart();
+              addItemToCart(widget.model!.itemID,context,number);
+
+
+
 
             },
             style: ButtonStyle(

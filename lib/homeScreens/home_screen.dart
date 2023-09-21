@@ -1,11 +1,13 @@
  import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
 import 'package:my_tiffin/homeScreens/cart_page.dart';
 import 'package:my_tiffin/widgets/appbar_widget.dart';
 import 'package:my_tiffin/widgets/categories_widget.dart';
 import 'package:my_tiffin/widgets/newest_item_widget.dart';
 import 'package:my_tiffin/widgets/popular_item_widget.dart';
 import 'package:my_tiffin/widgets/user_drawer.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -127,17 +129,42 @@ class HomeScreen extends StatelessWidget {
             )
           ],
         ),
-        child: FloatingActionButton(
-          onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (c)=>const CartPage()));
+        child: Stack(
+          children: [
+            FloatingActionButton(
+              onPressed: () {
+                // Push the CartPage onto the navigation stack.
+                Navigator.push(context, MaterialPageRoute(builder: (c) => const CartPage()));
+              },
+              backgroundColor: Colors.white,
+              child: const Icon(
+                CupertinoIcons.cart,
+                color: Colors.green,
+                size: 30,
+              ),
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Center(
+                // Center the text inside the badge.
+                child: CircleAvatar(
+                  radius: 10,
+                  backgroundColor: Colors.green,
+                  child: Consumer<CartItemCounter>(
+    builder: (context, counter, e){
+      return  Text(counter.count.toString(), style: TextStyle(
+          color: Colors.white
+      ),);
+    }
 
-          },
-          backgroundColor: Colors.white,
-          child: const Icon( CupertinoIcons.cart,
-            color: Colors.green,
-            size: 30,
-          ),
-        ),
+
+    )
+
+                ),              ),
+             ),
+          ],
+        )
 
       ),
     ) ;

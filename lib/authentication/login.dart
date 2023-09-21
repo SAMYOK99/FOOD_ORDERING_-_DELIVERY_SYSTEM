@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: const Text(
           'Forgot Password?',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.green,
             fontWeight: FontWeight.bold,
 
           ),
@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: const Text(
           'Are you a Rider?',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.green,
             fontWeight: FontWeight.bold,
 
           ),
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const Text('Remember me',
             style: TextStyle(
-               color: Colors.white,
+               color: Colors.green,
               fontWeight: FontWeight.bold,
             ),
           )
@@ -164,8 +164,11 @@ class _LoginScreenState extends State<LoginScreen> {
             await sharedPreferences!.setString('name', snapshot.data()!['staffName']);// used to access single users
             await sharedPreferences!.setString('photoUrl',snapshot.data()!['staffAvatarUrl']);
             await sharedPreferences!.setString('role', snapshot.data()!['role']);
+            List<String> userCartList = snapshot.data()!['userCart'].cast<String>();
+            await sharedPreferences!.setStringList('userCart',userCartList);
 
-              if(snapshot.data()!['role']=='user'){
+
+            if(snapshot.data()!['role']=='user'){
                   Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(builder: (c)=> const HomeScreen()));
 
@@ -212,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       const Text('Email',
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.green,
                             fontSize: 16,
                             fontWeight: FontWeight.bold
                         ),),
@@ -228,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       const Text('Password',
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.green,
                             fontSize: 16,
                             fontWeight: FontWeight.bold
                         ),),

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
+import 'package:my_tiffin/asistantMethods/totalAmount.dart';
 import 'package:my_tiffin/models/items.dart';
 import 'package:my_tiffin/widgets/appbar_widget.dart';
 import 'package:my_tiffin/widgets/cartPageWidget.dart';
 import 'package:my_tiffin/widgets/cart_bottom_navbar.dart';
 import 'package:my_tiffin/widgets/user_drawer.dart';
+import 'package:provider/provider.dart';
 
 import '../asistantMethods/cartItemMethods.dart';
 import '../riders_app/widgets/progress_bar.dart';
@@ -23,10 +24,15 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   List<int>? itemCountList;
+  num totalAmount = 0;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    totalAmount = 0;
+    Provider.of<TotalAmount>(context, listen: false).displayTotalAmount(0);
+
     itemCountList= separateItemQuantiteis();
   }
 
@@ -59,7 +65,7 @@ class _CartPageState extends State<CartPage> {
                   ),
                   //Item
                   itemCountList!.isEmpty?
-                 Center(
+                 const Center(
                 child: Text("No items found.First Add Items to Cart.",style: TextStyle(
                   color: Colors.red,
                   fontSize: 18,
@@ -75,7 +81,7 @@ class _CartPageState extends State<CartPage> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: circularProgress());
                       } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                        return Center(
+                        return const Center(
                           child: Text("No items found."),
                         );
                       } else {
@@ -89,11 +95,26 @@ class _CartPageState extends State<CartPage> {
                               Items model = Items.fromJson(
                                 snapshot.data!.docs[index].data()! as Map<String, dynamic>,
                               );
-                              print(itemCountList?[index]);
-                              return CartPageWidget(
+                              if(index == 0)
+                                {
+                                  totalAmount = 0;
+                                  totalAmount = totalAmount + (double.parse(model.itemPrice!) * itemCountList![index]);
+                                }
+                              else{
+                                totalAmount = totalAmount + (double.parse(model.itemPrice!) * itemCountList![index]);
+
+                              }
+                              if(snapshot.data!.docs.length-1== index)
+                              {
+                                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                                  Provider.of<TotalAmount>(context,listen: false).displayTotalAmount(totalAmount.toDouble());
+                                });
+
+                              }
+                                return CartPageWidget(
                                 model: model,
                                 context: context,
-                                quantityNumber: itemCountList?[index],
+                                quantityNumber: itemCountList![index],
                               );
                             }),
                           ),
@@ -114,31 +135,34 @@ class _CartPageState extends State<CartPage> {
                             offset: const Offset(0,3),
                           ),
                           ]),
-                      child: const Column(
+                      child:  Column(
                         children: [
-                          Padding(padding: EdgeInsets.symmetric(vertical: 10),
+                          Padding(padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Items:",
+                                const Text("Items:",
                                   style: TextStyle(
                                     fontSize: 20,
                                   ),
                                 ),
-                                Text("10",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
+                                Consumer<CartItemCounter>(builder: (context,countProvider,c){
+                                  return Text(countProvider.count.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.green,
 
-                                  ),
-                                ),
+                                    ),
+                                  );
+
+                                }),
                               ],
                             ),
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.black,
                           ),
-                          Padding(padding: EdgeInsets.symmetric(vertical: 10),
+                          const Padding(padding: EdgeInsets.symmetric(vertical: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -157,10 +181,10 @@ class _CartPageState extends State<CartPage> {
                               ],
                             ),
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.black,
                           ),
-                          Padding(padding: EdgeInsets.symmetric(vertical: 10),
+                          const Padding(padding: EdgeInsets.symmetric(vertical: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -179,27 +203,30 @@ class _CartPageState extends State<CartPage> {
                               ],
                             ),
                           ),
-                          Divider(
+                          const Divider(
                             color: Colors.black,
                           ),
 
-                          Padding(padding: EdgeInsets.symmetric(vertical: 10),
+                           Padding(padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Total:",
+                                const Text("Total:",
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Text("10",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                  ),
-                                ),
+                                Consumer<TotalAmount>(builder: (context,amountProvider,c){
+                                  return Text(amountProvider.totalamt.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.green,
+
+                                    ),
+                                  );
+
+                                }),
                               ],
                             ),
                           ),

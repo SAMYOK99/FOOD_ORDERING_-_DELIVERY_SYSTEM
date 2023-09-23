@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../asistantMethods/totalAmount.dart';
 class CartBottomNavBar extends StatelessWidget {
   const CartBottomNavBar({super.key});
 
@@ -11,20 +14,25 @@ class CartBottomNavBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Row(
+             Row(
           children:[
-            Text("Total: ",style: TextStyle(
+            const Text("Total: ",style: TextStyle(
               fontSize: 19,
               fontWeight: FontWeight.bold,
             ),),
-             SizedBox(
+             const SizedBox(
                width: 15,
              ),
-            Text("\$10",style: TextStyle(
-              fontSize: 19,
-              color: Colors.green,
-              fontWeight: FontWeight.bold,
-            ),),
+            Consumer<TotalAmount>(builder: (context,amountProvider,c){
+              return Text("\$ ${amountProvider.totalamt}",
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.green,
+
+                ),
+              );
+
+            }),
           ],
         ),
      ElevatedButton(

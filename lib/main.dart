@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<Menu>(create: (_) => Menu()),
         ChangeNotifierProvider(create: (c)=> CartItemCounter())
-
       ],
       child: MaterialApp(
         title: 'Staff App',

@@ -60,11 +60,14 @@ class _InsideCategoryState extends State<InsideCategory> {
                             context: context,
                           );
                         }),
+
                       ),
+
                     );
                   }
                 },
               ),
+
             ),
           ),
         ),

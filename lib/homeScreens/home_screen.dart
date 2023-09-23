@@ -152,14 +152,16 @@ class HomeScreen extends StatelessWidget {
                   radius: 10,
                   backgroundColor: Colors.green,
                   child: Consumer<CartItemCounter>(
-    builder: (context, counter, e){
-      return  Text(counter.count.toString(), style: TextStyle(
-          color: Colors.white
-      ),);
-    }
+                    builder: (context, counter, c) {
+                      return Text(
+                        counter.count.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      );
+                    },
+                  )
 
-
-    )
 
                 ),              ),
              ),

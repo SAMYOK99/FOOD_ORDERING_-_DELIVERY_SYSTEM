@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/asistantMethods/cartItemMethods.dart';
 import 'package:my_tiffin/widgets/user_drawer.dart';
 
 
@@ -42,8 +43,39 @@ class AppBarWidget extends StatelessWidget {
            ),
            InkWell(
              onTap: (){
+               clearCart(context);// Close the dialog
 
+               // showDialog(
+               //     context: context,
+               //     builder: (BuildContext context) {
+               //       return AlertDialog(
+               //         title: Text("Confirm Delete"),
+               //         content: Text("Are you sure you want to Clear the Cart?"),
+               //         actions: [
+               //           TextButton(
+               //             child: Text("Cancel",
+               //                 style: TextStyle(
+               //                   color: Colors.green,
+               //                 )),
+               //             onPressed: () {
+               //               Navigator.pop(context); // Close the dialog
+               //             },
+               //           ),
+               //           TextButton(
+               //             child: Text("Delete",
+               //               style: TextStyle(
+               //                 color: Colors.red,
+               //               ),),
+               //             onPressed: () {
+               //               Navigator.pop(context);
+               //             },
+               //           ),
+               //         ],
+               //       );
+               //     },
+               //   );
              },
+
              child: Container(
                padding: EdgeInsets.all(8),
                decoration: BoxDecoration(
@@ -60,7 +92,7 @@ class AppBarWidget extends StatelessWidget {
                  ],
                ),
                child: Icon(
-                 Icons.notifications,
+                 Icons.cleaning_services,
                ),
              ),
            ),

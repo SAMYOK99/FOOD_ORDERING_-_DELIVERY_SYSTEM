@@ -69,8 +69,6 @@ class _ItemPageState extends State<ItemPage> {
               addItemToCart(widget.model!.itemID,context,number);
 
 
-
-
             },
             style: ButtonStyle(
               backgroundColor: const MaterialStatePropertyAll(Colors.green),
@@ -89,7 +87,9 @@ class _ItemPageState extends State<ItemPage> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
-          color: Colors.green
+          color: Colors.green,
+          size: 33,
+
         ),
         backgroundColor: Colors.white,
         elevation: 0.0,

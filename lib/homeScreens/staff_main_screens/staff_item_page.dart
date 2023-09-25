@@ -2,11 +2,6 @@ import 'package:clippy_flutter/arc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:my_tiffin/widgets/appbar_widget.dart';
-// import 'package:my_tiffin/widgets/item_bottom_navbar.dart';
-import 'package:my_tiffin/widgets/user_drawer.dart';
-
-import '../../widgets/cart_bottom_navbar.dart';
 class StaffItemPage extends StatelessWidget {
   const StaffItemPage({super.key});
 
@@ -14,7 +9,7 @@ class StaffItemPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.green
         ),
         backgroundColor: Colors.white,
@@ -148,7 +143,7 @@ class StaffItemPage extends StatelessWidget {
         ],
       ),
       ),
-      bottomNavigationBar: CartBottomNavBar(),
+      // bottomNavigationBar: CartBottomNavBar(),
     );
   }
 }

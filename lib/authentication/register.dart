@@ -59,7 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
     Placemark pMark = placeMarks![0];// return from 0 th index
 
-    String completeAddress = '${pMark.subThoroughfare},${pMark.thoroughfare}${pMark.subLocality},${pMark.locality},${pMark.subAdministrativeArea},${pMark.administrativeArea},${pMark.postalCode},${pMark.country}';
+    String completeAddress = '${pMark.subThoroughfare}, ${pMark.thoroughfare}, ${pMark.subLocality}, ${pMark.locality}, ${pMark.subAdministrativeArea}, ${pMark.administrativeArea}, ${pMark.postalCode}, ${pMark.country}';
    locationcontroller.text= completeAddress;
   }
 // for number validation

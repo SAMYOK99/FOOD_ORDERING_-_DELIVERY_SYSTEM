@@ -3,14 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
 import 'package:my_tiffin/asistantMethods/totalAmount.dart';
 import 'package:my_tiffin/models/items.dart';
-import 'package:my_tiffin/widgets/appbar_widget.dart';
 import 'package:my_tiffin/widgets/cartPageWidget.dart';
-import 'package:my_tiffin/widgets/cart_bottom_navbar.dart';
+import 'package:my_tiffin/widgets/simple_appbar.dart';
 import 'package:my_tiffin/widgets/user_drawer.dart';
 import 'package:provider/provider.dart';
 
 import '../asistantMethods/cartItemMethods.dart';
 import '../riders_app/widgets/progress_bar.dart';
+import 'address_screen.dart';
 
 
 class CartPage extends StatefulWidget {
@@ -35,10 +35,65 @@ class _CartPageState extends State<CartPage> {
 
     itemCountList= separateItemQuantiteis();
   }
+  cartBottomNavBar(){
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        height: 70,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children:[
+                const Text("Total: ",style: TextStyle(
+                  fontSize: 19,
+                  fontWeight: FontWeight.bold,
+                ),),
+                const SizedBox(
+                  width: 15,
+                ),
+                Consumer<TotalAmount>(builder: (context,amountProvider,c){
+                  return Text("\$ ${amountProvider.totalamt}",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.green,
+
+                    ),
+                  );
+
+                }),
+              ],
+            ),
+            ElevatedButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (c)=>AddressScreen(
+                        totalAmount : totalAmount.toDouble(),
+                    )));
+              },
+              style: ButtonStyle(
+                backgroundColor: const MaterialStatePropertyAll(Colors.green),
+                padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 15,horizontal: 20,),),
+                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),)),
+              ),
+              child: const Text('Order Now', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
+            )],
+        ),
+      );
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(
+            size: 33,
+            color: Colors.green
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+      ),
       body: ListView(
         children: [
           SingleChildScrollView(
@@ -48,7 +103,6 @@ class _CartPageState extends State<CartPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const AppBarWidget(),
                   const Padding(
                       padding: EdgeInsets.only(
                         top: 20,
@@ -242,9 +296,9 @@ class _CartPageState extends State<CartPage> {
           )
         ],
       ),
-      drawer: const UserDrawer(),
-      bottomNavigationBar: const CartBottomNavBar(),
+      bottomNavigationBar: cartBottomNavBar(),
     );
   }
+
 }
 

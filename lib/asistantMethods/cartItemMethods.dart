@@ -28,7 +28,7 @@ addItemToCart(String? foodId, BuildContext context, int intCounter){
   tempList!.add("${foodId!}: $intCounter");
 
   FirebaseFirestore.instance.collection("users")
-      .doc(firebaseAuth.currentUser!.uid)
+      .doc(firebaseAuth.currentUser?.uid)
       .update({
     "userCart": tempList,
 

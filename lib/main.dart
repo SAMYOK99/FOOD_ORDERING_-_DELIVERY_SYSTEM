@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/asistantMethods/address_changer.dart';
 import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
 import 'package:my_tiffin/asistantMethods/totalAmount.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<Menu>(create: (_) => Menu()),
         ChangeNotifierProvider(create: (c)=> CartItemCounter()),
         ChangeNotifierProvider(create: (c)=> TotalAmount()),
+        ChangeNotifierProvider(create: (c)=> AddressChanger()),
       ],
       child: MaterialApp(
         title: 'Staff App',

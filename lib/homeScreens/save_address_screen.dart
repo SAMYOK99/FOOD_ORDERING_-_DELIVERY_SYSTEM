@@ -14,6 +14,7 @@ class SavedAddressScreen extends StatelessWidget {
   final _chowk = TextEditingController();
   final _city = TextEditingController();
   final _state = TextEditingController();
+  final _country = TextEditingController();
   final _locationController = TextEditingController();
   final _completeAddress= TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -35,8 +36,9 @@ class SavedAddressScreen extends StatelessWidget {
     String fullAdress = "${pMark.subThoroughfare}, ${pMark.thoroughfare}, ${pMark.subLocality}, ${pMark.locality}, ${pMark.subAdministrativeArea}, ${pMark.administrativeArea}, ${pMark.postalCode}, ${pMark.country}";
     _locationController.text = fullAdress;
     _chowk.text = "${pMark.subThoroughfare}, ${pMark.thoroughfare}, ${pMark.subLocality}, ${pMark.locality}";
-    _city.text= ",${pMark.subAdministrativeArea}, ${pMark.administrativeArea}";
-    _state.text = "${pMark.country}";
+    _city.text= "${pMark.subAdministrativeArea}";
+    _state.text = " ${pMark.administrativeArea}";
+    _country.text = "${pMark.country}";
     _completeAddress.text = fullAdress;
 
 
@@ -59,7 +61,7 @@ class SavedAddressScreen extends StatelessWidget {
                     phoneNumber: _phoneNumber.text.trim(),
                     chowk: _chowk.text.trim(),
                     city: _city.text.trim(),
-                    state: _state.text.trim(),
+                    country: _country.text.trim(),
                     fullAddress: _completeAddress.text.trim(),
                     lat: position!.latitude,
                     lng: position!.longitude,
@@ -193,11 +195,15 @@ class SavedAddressScreen extends StatelessWidget {
                         hint: "City",
                         controller: _city,
                       ),
+                        const SizedBox(height: 5,),   TextFieldWidget(
+                        hint: "Province",
+                        controller: _state,
+                      ),
                         const SizedBox(height: 5,),
 
                         TextFieldWidget(
-                        hint: "State",
-                        controller: _state,
+                          hint: "Country",
+                        controller: _country,
                       ),
                         const SizedBox(height: 5,),
 

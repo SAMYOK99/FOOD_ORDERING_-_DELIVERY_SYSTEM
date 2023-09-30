@@ -26,7 +26,8 @@ class _InsideCategoryState extends State<InsideCategory> {
             fontWeight: FontWeight.bold,
           ),
           iconTheme: IconThemeData(
-              color: Colors.green
+              color: Colors.green,
+                  size: 33,
           ),
           backgroundColor: Colors.white,
           elevation: 0.0,

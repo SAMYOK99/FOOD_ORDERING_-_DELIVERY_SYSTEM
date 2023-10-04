@@ -1,7 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/riders_app/homeScreens/home_screen.dart';
 import 'package:my_tiffin/riders_app/widgets/custom_text_field.dart';
@@ -12,8 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:my_tiffin/riders_app/widgets/dialog_loading.dart';
 import 'package:my_tiffin/riders_app/widgets/error_dialog.dart';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart' as fStorage;
-import 'package:my_tiffin/splashScreen/splash_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart' as f_storage;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -101,11 +99,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   .now()
                   .millisecondsSinceEpoch
                   .toString();
-              fStorage.Reference reference = fStorage.FirebaseStorage.instance
+              f_storage.Reference reference = f_storage.FirebaseStorage.instance
                   .ref().child('riders').child('fileName');
-              fStorage.UploadTask uploadTask = reference.putFile(
+              f_storage.UploadTask uploadTask = reference.putFile(
                   File(imageXFile!.path));
-              fStorage.TaskSnapshot taskSnapshot = await uploadTask
+              f_storage.TaskSnapshot taskSnapshot = await uploadTask
                   .whenComplete(() =>
               {
               }); // It provides information and status updates about the ongoing task.

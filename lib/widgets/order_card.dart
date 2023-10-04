@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/homeScreens/order_details_screen.dart';
 import 'package:my_tiffin/models/items.dart';
-import 'package:my_tiffin/widgets/progress_bar.dart';
-
 class OrderCard extends StatelessWidget {
   final int? itemCount;
   final List<DocumentSnapshot>? data;
   final String? orderID;
   final List<String>? separateQuantitiesList;
-   OrderCard({
+   const OrderCard({
      super.key,
      required this.itemCount,
      required this.data,
@@ -22,18 +21,20 @@ class OrderCard extends StatelessWidget {
     return InkWell(
       onTap: ()
       {
+        Navigator.push(context, MaterialPageRoute(builder: (c)=>OrderDetailsScreen(orderID: orderID)));
 
       },
       child: Container(
+        margin: const EdgeInsets.fromLTRB(0,0,0,20),
       width: 380,
         height: itemCount! * 125,
         child: ListView.builder(
         itemCount: itemCount,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index)
         {
         Items model = Items.fromJson(data![index].data()! as Map<String, dynamic>);
-        return PlaceOrderDesignWidget(model, context, separateQuantitiesList![index]);
+        return placeOrderDesignWidget(model, context, separateQuantitiesList![index]);
         },
       ),
       ),
@@ -41,7 +42,7 @@ class OrderCard extends StatelessWidget {
   }
 }
 
-Widget PlaceOrderDesignWidget(Items model, BuildContext context, separateQuantitiesList)
+Widget placeOrderDesignWidget(Items model, BuildContext context, separateQuantitiesList)
 {
   return Column(
     children: [

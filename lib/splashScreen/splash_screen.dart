@@ -34,8 +34,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
         }
       }
         else { // if staff is not logged in yet
-        Navigator.push(
-            context, MaterialPageRoute(builder: (c) => const AuthScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (c) => const AuthScreen()));
       }
     });
   }

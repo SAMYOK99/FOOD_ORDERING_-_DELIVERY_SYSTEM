@@ -6,7 +6,7 @@ import 'package:my_tiffin/widgets/order_card.dart';
 import '/widgets/progress_bar.dart';
 
 class UserOrdersScreen extends StatefulWidget {
-  const UserOrdersScreen({Key? key});
+  const UserOrdersScreen({super.key});
 
   @override
   State<UserOrdersScreen> createState() => _UserOrdersScreenState();
@@ -44,12 +44,8 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
         builder: (c, snapshot) {
           return snapshot.hasData
               ? ListView.builder(
-            itemCount: snapshot.data!.docs.length + 1, // Add one for the gap item
+            itemCount: snapshot.data!.docs.length ,
             itemBuilder: (c, index) {
-              if (index == snapshot.data!.docs.length) {
-                // Display the gap item at the end
-                return SizedBox(height: 20.0);
-              } else {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 9.0),
                   child: FutureBuilder<QuerySnapshot>(
@@ -84,7 +80,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
                     },
                   ),
                 );
-              }
+
             },
           )
               : Center(

@@ -1,7 +1,9 @@
+import 'package:my_tiffin/authentication/auth_screen.dart';
 import 'package:my_tiffin/riders_app/authentication/login.dart';
 import 'package:my_tiffin/riders_app/authentication/register.dart';
 
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/splashScreen/splash_screen.dart';
 class RiderAuthScreen extends StatefulWidget {
   const RiderAuthScreen({super.key});
 
@@ -18,17 +20,25 @@ class _RiderAuthScreenState extends State<RiderAuthScreen> {
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.cyan,
-                  Colors.lightGreen,
-                ],
+              gradient:LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment(0.8,1),
+                  colors: [
+                    Color(0x665ac18e),
+                    Color(0x995ac18e),
+                    Color(0xcc5ac18e),
+                    Color(0xff5ac18e),
+                    // Color.fromRGBO(116, 187, 244, 100),
+                    // Colors.lightGreen,
 
-              )
+
+                  ]
+              ),
             ),
 
           ),
         automaticallyImplyLeading: false,
+
         title: const Padding(
           padding:  EdgeInsets.fromLTRB(0.0, 20.0, 0.0,30.0),
           child:  Text('Rider',

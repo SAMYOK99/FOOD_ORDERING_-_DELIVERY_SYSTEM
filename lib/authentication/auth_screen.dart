@@ -64,6 +64,23 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
       body: Container(
 
+        decoration: const BoxDecoration(
+          gradient:LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0x665ac18e),
+                Color(0x995ac18e),
+                Color(0xcc5ac18e),
+                Color(0xff5ac18e),
+                // Color.fromRGBO(116, 187, 244, 100),
+                // Colors.lightGreen,
+
+
+              ]
+          ),
+        ),
+
         child: const TabBarView(
           children: [
             LoginScreen(),

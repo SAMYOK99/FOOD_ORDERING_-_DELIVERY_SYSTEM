@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/authentication/auth_screen.dart';
 import 'package:my_tiffin/riders_app/authentication/auth_screen.dart';
 import 'package:my_tiffin/riders_app/homeScreens/home_screen.dart';
 import 'package:my_tiffin/riders_app/widgets/dialog_loading.dart';
@@ -71,6 +72,32 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
   }
+  Widget userBtn(){
+    return Container(
+      margin: const EdgeInsets.all(10.0),
+      alignment: Alignment.center,
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (c)=> const AuthScreen()));
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          padding: const EdgeInsets.only(right:0),
+        ),
+        child: const Text(
+          'Are you a User?',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+
+          ),
+        ),
+      ),
+    );
+  }
+
 
   final GlobalKey<FormState> _formkey=  GlobalKey<FormState>();
   TextEditingController emailcontroller = TextEditingController();
@@ -243,7 +270,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 formValidation();
               },
             ),
-          )
+          ),
+          userBtn(),
+
         ],
       ),
 

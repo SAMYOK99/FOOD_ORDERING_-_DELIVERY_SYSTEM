@@ -29,7 +29,7 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
       "productId": sharedPreferences!.getStringList("userCart"),
       "paymentDetails": "Cash on Delivery",
       "orderTime": orderId,
-      "isSuccess": "isSuccess",
+      "isSuccess": true,
       "riderUID": "",
       "status": "normal",
       "orderId": orderId

@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: const Text(
           'Forgot Password?',
           style: TextStyle(
-            color: Colors.green,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
 
           ),
@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: const Text(
           'Are you a Rider?',
           style: TextStyle(
-            color: Colors.green,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
 
           ),
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const Text('Remember me',
             style: TextStyle(
-               color: Colors.green,
+               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           )
@@ -215,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       const Text('Email',
                         style: TextStyle(
-                            color: Colors.green,
+                            color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.bold
                         ),),
@@ -231,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       const Text('Password',
                         style: TextStyle(
-                            color: Colors.green,
+                            color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.bold
                         ),),

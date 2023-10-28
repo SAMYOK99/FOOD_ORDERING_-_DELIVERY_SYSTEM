@@ -1,25 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:my_tiffin/asistantMethods/cartItemMethods.dart';
+import 'package:my_tiffin/riders_app/riderAssistantMethod/cartItemMethods.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
-import 'package:my_tiffin/widgets/order_card.dart';
+import 'package:my_tiffin/riders_app/widgets/order_card.dart';
 import '/widgets/progress_bar.dart';
 
-class UserOrdersScreen extends StatefulWidget {
-  const UserOrdersScreen({super.key});
+class NewOrdersScreen extends StatefulWidget {
+  const NewOrdersScreen({super.key});
 
   @override
-  State<UserOrdersScreen> createState() => _UserOrdersScreenState();
+  State<NewOrdersScreen> createState() => _NewOrdersScreenState();
 }
 
-class _UserOrdersScreenState extends State<UserOrdersScreen> {
+class _NewOrdersScreenState extends State<NewOrdersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "My Orders",
+          "New Orders",
           style: TextStyle(
             color: Colors.black,
             fontSize: 22,
@@ -35,8 +35,6 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(sharedPreferences!.getString("uid"))
             .collection('orders')
             .where("status", isEqualTo: "normal")
             .orderBy("orderTime", descending: true)

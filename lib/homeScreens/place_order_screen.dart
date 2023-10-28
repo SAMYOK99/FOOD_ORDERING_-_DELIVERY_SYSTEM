@@ -21,7 +21,20 @@ class PlaceOrderScreen extends StatefulWidget {
 class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
   String orderId = DateTime.now().microsecondsSinceEpoch.toString();
   saveOrderDetails()
+
   {
+    writeOrderDetailsInOrder({
+      "addressID": widget.addressID,
+      "totalAmount": widget.totalAmount,
+      "orderBy": sharedPreferences!.getString("uid"),
+      "productId": sharedPreferences!.getStringList("userCart"),
+      "paymentDetails": "Cash on Delivery",
+      "orderTime": orderId,
+      "isSuccess": true,
+      "riderUID": "",
+      "status": "normal",
+      "orderId": orderId
+    });
     saveOrderDetailsInFireStore({
       "addressID": widget.addressID,
       "totalAmount": widget.totalAmount,
@@ -51,6 +64,14 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
         .doc(orderId)
         .set(data);
   }
+
+  Future writeOrderDetailsInOrder(Map<String, dynamic> data) async
+  {
+    await FirebaseFirestore.instance
+        .collection("orders")
+        .doc(orderId)
+        .set(data);
+  }
     @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,18 +87,26 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
-            child: ElevatedButton(
-              onPressed: (){
-                saveOrderDetails();
-              },
-              style: ButtonStyle(
-                backgroundColor: const MaterialStatePropertyAll(Colors.green),
-                padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 15,horizontal: 20,),),
-                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),)),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Container(
+                height: 50,
+                width: MediaQuery.of(context).size.width - 40,
+                child: ElevatedButton(
+                  onPressed: (){
+                    saveOrderDetails();
+
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: const MaterialStatePropertyAll(Colors.green),
+                    padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 15,horizontal: 20,),),
+                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),)),
+                  ),
+                  child: const Text('Place Order', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
+                ),
               ),
-              child: const Text("Place Order",style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
             ),
           )
         ],

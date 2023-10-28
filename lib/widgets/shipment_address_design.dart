@@ -53,7 +53,7 @@ class ShipmentAddressDesign extends StatelessWidget {
             child: ElevatedButton(
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (c)=>const MySplashScreen()));
+                    builder: (c)=>const HomeScreen()));
               },
               style: ButtonStyle(
                 backgroundColor: const MaterialStatePropertyAll(Colors.green),

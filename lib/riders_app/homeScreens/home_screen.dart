@@ -4,11 +4,24 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/riders_app/authentication/auth_screen.dart';
+import 'package:my_tiffin/riders_app/homeScreens/new_orders_screen.dart';
+import 'package:my_tiffin/riders_app/riderAssistantMethod/get_current_location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class RiderHomeScreen extends StatelessWidget {
+class RiderHomeScreen extends StatefulWidget {
   const RiderHomeScreen({super.key});
 
+  @override
+  State<RiderHomeScreen> createState() => _RiderHomeScreenState();
+}
+
+class _RiderHomeScreenState extends State<RiderHomeScreen> {
+  @override
+  void initState() {
+    UserLocation uLocation= UserLocation();
+    uLocation!.getCurrentLocation();
+
+  }
   @override
   Widget build(BuildContext context) {
     Card dashboardItem(String title, IconData iconData, int index){
@@ -34,6 +47,8 @@ class RiderHomeScreen extends StatelessWidget {
               if(index == 0)
                 {
                   //new available order
+                  Navigator.push(context, MaterialPageRoute(builder: (c)=> const NewOrdersScreen()));
+
 
 
                 }
@@ -82,7 +97,7 @@ class RiderHomeScreen extends StatelessWidget {
                   child: Icon(
                     iconData,
                     size: 40,
-                    color: Colors.black,
+                    color: Colors.green,
                   ),
                 ),
                 const SizedBox(height: 10.0,),
@@ -91,7 +106,7 @@ class RiderHomeScreen extends StatelessWidget {
                     title,
                     style: const TextStyle(
                       fontSize: 18,
-                      color: Colors.black
+                      color: Colors.black,
                     ),
                   ),
                 )
@@ -104,6 +119,7 @@ class RiderHomeScreen extends StatelessWidget {
       );
 
     };
+
     return Scaffold(
       appBar:AppBar(
     backgroundColor: Colors.white,

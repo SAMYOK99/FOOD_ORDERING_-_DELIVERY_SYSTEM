@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/models/address.dart';
 import 'package:my_tiffin/widgets/progress_bar.dart';
-import 'package:my_tiffin/widgets/shipment_address_design.dart';
-import 'package:my_tiffin/widgets/status_banner.dart';
-
-import '../globalVariables/globleVariable.dart';
+import 'package:my_tiffin/riders_app/widgets/shipment_address_design.dart';
+import 'package:my_tiffin/riders_app/widgets/status_banner.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
   final String? orderID;
@@ -18,6 +17,18 @@ class OrderDetailsScreen extends StatefulWidget {
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   String orderStatus = "";
+  String orderBy = "";
+  getOrderInfo(){
+    FirebaseFirestore.instance.collection("orders").doc(widget.orderID).get().then((DocumentSnapshot){
+      orderStatus = DocumentSnapshot.data()!["status"].toString();
+      orderBy = DocumentSnapshot.data()!["orderBy"].toString();
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    getOrderInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +36,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       body: SingleChildScrollView(
         child: FutureBuilder<DocumentSnapshot>(
           future: FirebaseFirestore.instance
-              .collection('users')
-              .doc(sharedPreferences!.getString("uid"))
               .collection('orders')
               .doc(widget.orderID)
               .get(),
@@ -40,10 +49,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 child: Text('Error: ${snapshot.error}'),
               );
             } else if (!snapshot.hasData || snapshot.data == null) {
-              // Handle the case where data is not available
               return const Center(child: Text('Data not available.'));
             } else {
-              // Data is available, build the UI
               final dataMap = snapshot.data!.data() as Map<String, dynamic>;
               orderStatus = dataMap["status"].toString();
               return Column(
@@ -96,17 +103,21 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     thickness: 4,
                   ),
                   orderStatus == "ended"
-                      ? Image.asset("images/package-delivered.png", width: MediaQuery.of(context).size.width-100,
-                    height: 200,)
-                      : Image.asset("images/state.png",width: MediaQuery.of(context).size.width-20,
+                      ? Image.asset("images/package-delivered.png",
+            width: MediaQuery.of(context).size.width-100,
+            height: 200,)
+                  : Image.asset("images/deliveryinprogress.png",
+                    width: MediaQuery.of(context).size.width-100,
+                    height: 200,
                   ),
+
                   const Divider(
                     thickness: 4,
                   ),
                   FutureBuilder<DocumentSnapshot>(
                     future: FirebaseFirestore.instance
                         .collection("users")
-                        .doc(sharedPreferences!.getString("uid"))
+                        .doc(orderBy)
                         .collection("userAddress")
                         .doc(dataMap["addressID"])
                         .get(),
@@ -122,6 +133,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         return const Center(child: Text('Address data not available.'));
                       } else {
                         return ShipmentAddressDesign(
+                          orderBy: orderBy                                 ,
+                          orderStatus: orderStatus,
+                          orderID: widget.orderID,
                           model: Address.fromJson(
                               snapshot.data!.data() as Map<String, dynamic>),
                         );

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_tiffin/homeScreens/order_details_screen.dart';
+import 'package:my_tiffin/riders_app/homeScreens/order_details_screen.dart';
 import 'package:my_tiffin/models/items.dart';
 class OrderCard extends StatelessWidget {
   final int? itemCount;
@@ -74,6 +74,7 @@ Widget placeOrderDesignWidget(Items model, BuildContext context, separateQuantit
                 ),
               ),
               Container(
+                margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                 width: 180,
                 child:  Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

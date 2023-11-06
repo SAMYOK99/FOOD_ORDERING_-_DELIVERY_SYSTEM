@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/models/address.dart';
-import 'package:my_tiffin/riders_app/homeScreens/shipment_screen.dart';
+import 'package:my_tiffin/riders_app/homeScreens/package_picking_screen.dart';
 import 'package:my_tiffin/riders_app/riderAssistantMethod/get_current_location.dart';
 import 'package:my_tiffin/splashScreen/splash_screen.dart';
 class ShipmentAddressDesign extends StatelessWidget {
@@ -26,7 +26,7 @@ class ShipmentAddressDesign extends StatelessWidget {
     });
     // send rider to shipment address
     Navigator.push(context, MaterialPageRoute(
-        builder: (c)=> ShipmentScreen(
+        builder: (c)=> PackagePickingScreen(
           purchaserId: purchaserId,
           purchaserAddress: model!.fullAddress,
           purchaserLat: model!.lat,
@@ -75,7 +75,7 @@ class ShipmentAddressDesign extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: Text(model!.fullAddress!,textAlign: TextAlign.justify ,),
         ),
-        const SizedBox(height: 40,),
+        const SizedBox(height: 45,),
 orderStatus =="ended"
     ?Container()
     : Padding(
@@ -103,28 +103,28 @@ orderStatus =="ended"
   ),
 ),
     ),
-       Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Container(
-              height: 50,
-              width: MediaQuery.of(context).size.width - 40,
-              child: ElevatedButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (c)=>const MySplashScreen()));
-                },
-                style: ButtonStyle(
-                  backgroundColor: const MaterialStatePropertyAll(Colors.green),
-                  padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 15,horizontal: 20,),),
-                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),)),
-                ),
-                child: const Text('Go Back', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
-              ),
-            ),
-          ),
-        ),
+       // Padding(
+       //    padding: const EdgeInsets.all(8.0),
+       //    child: Center(
+       //      child: Container(
+       //        height: 50,
+       //        width: MediaQuery.of(context).size.width - 40,
+       //        child: ElevatedButton(
+       //          onPressed: (){
+       //            Navigator.push(context, MaterialPageRoute(
+       //                builder: (c)=>const MySplashScreen()));
+       //          },
+       //          style: ButtonStyle(
+       //            backgroundColor: const MaterialStatePropertyAll(Colors.green),
+       //            padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 15,horizontal: 20,),),
+       //            shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+       //              borderRadius: BorderRadius.circular(20),)),
+       //          ),
+       //          child: const Text('Go Back', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
+       //        ),
+       //      ),
+       //    ),
+       //  ),
 
       ],
 

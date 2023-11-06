@@ -4,21 +4,21 @@ import 'package:my_tiffin/riders_app/riderAssistantMethod/cartItemMethods.dart';
 import 'package:my_tiffin/riders_app/widgets/order_card.dart';
 import '/widgets/progress_bar.dart';
 
-class NewOrdersScreen extends StatefulWidget {
-  const NewOrdersScreen({super.key});
+class PackageInProgress extends StatefulWidget {
+  const PackageInProgress({super.key});
 
   @override
-  State<NewOrdersScreen> createState() => _NewOrdersScreenState();
+  State<PackageInProgress> createState() => _PackageInProgressState();
 }
 
-class _NewOrdersScreenState extends State<NewOrdersScreen> {
+class _PackageInProgressState extends State<PackageInProgress> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "New Orders",
+          "Order In Progress",
           style: TextStyle(
             color: Colors.black,
             fontSize: 22,
@@ -35,7 +35,7 @@ class _NewOrdersScreenState extends State<NewOrdersScreen> {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('orders')
-            .where("status", isEqualTo: "normal")
+            .where("status", isEqualTo: "picking")
             .orderBy("orderTime", descending: true)
             .snapshots(),
         builder: (context, snapshot) {

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/riders_app/authentication/auth_screen.dart';
 import 'package:my_tiffin/riders_app/homeScreens/new_orders_screen.dart';
+import 'package:my_tiffin/riders_app/homeScreens/package_in_progress.dart';
 import 'package:my_tiffin/riders_app/riderAssistantMethod/get_current_location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -55,6 +56,8 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
               if(index == 1)
                 {
                   //package in progress
+
+                  Navigator.push(context, MaterialPageRoute(builder: (c)=> const PackageInProgress()));
 
 
                 } if(index == 2)

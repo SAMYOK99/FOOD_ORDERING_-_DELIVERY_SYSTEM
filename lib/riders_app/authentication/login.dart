@@ -8,18 +8,18 @@ import 'package:my_tiffin/riders_app/widgets/dialog_loading.dart';
 import 'package:my_tiffin/riders_app/widgets/error_dialog.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/riders_app/widgets/custom_text_field.dart';
+
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-
-
-
 class _LoginScreenState extends State<LoginScreen> {
-  bool isRememberMe= false;
-  Widget forgotPassBtn(){
+  bool isRememberMe = false;
+
+  Widget forgotPassBtn() {
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       alignment: Alignment.centerRight,
@@ -28,162 +28,184 @@ class _LoginScreenState extends State<LoginScreen> {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          padding: const EdgeInsets.only(right:0),
+          padding: const EdgeInsets.only(right: 0),
         ),
         child: const Text(
           'Forgot Password?',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-
           ),
         ),
       ),
     );
   }
-  Widget rememberMe(){
+
+  Widget rememberMe() {
     return Container(
       height: 20,
       child: Row(
         children: [
           Theme(
-              data: ThemeData(unselectedWidgetColor: Colors.white),
-              child: Checkbox(
-                value: isRememberMe,
-                checkColor: Colors.green,
-                activeColor: Colors.white,
-                onChanged:(value){
-                  setState(() {
-                    isRememberMe = value!;
-
-                  });
-                },
-
-    ),
+            data: ThemeData(unselectedWidgetColor: Colors.white),
+            child: Checkbox(
+              value: isRememberMe,
+              checkColor: Colors.green,
+              activeColor: Colors.white,
+              onChanged: (value) {
+                setState(() {
+                  isRememberMe = value!;
+                });
+              },
+            ),
           ),
-          const Text('Remember me',
+          const Text(
+            'Remember me',
             style: TextStyle(
-               color: Colors.white,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
-          )
+          ),
         ],
       ),
     );
-
   }
-  Widget userBtn(){
+
+  Widget userBtn() {
     return Container(
       margin: const EdgeInsets.all(10.0),
       alignment: Alignment.center,
-      child: ElevatedButton(
-        onPressed: () {
+      child: GestureDetector(
+        onTap: () {
           Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (c)=> const AuthScreen()));
+          Navigator.push(context, MaterialPageRoute(builder: (c) => const AuthScreen()));
         },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          padding: const EdgeInsets.only(right:0),
-        ),
-        child: const Text(
-          'Are you a User?',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: const EdgeInsets.all(16),
+          child: const Text(
+            'Are you a User?',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
     );
   }
 
+  Widget riderBtn() {
+    return Container(
+      margin: const EdgeInsets.all(10.0),
+      alignment: Alignment.center,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (c) => const RiderAuthScreen()));
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: const EdgeInsets.all(16),
+          child: const Text(
+            'Are you a Rider?',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
-  final GlobalKey<FormState> _formkey=  GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
 
   formValidation() {
     if (emailcontroller.text.isNotEmpty && passwordcontroller.text.isNotEmpty) {
-      //Login
-  loginNow();
-    }
-    else {
+      // Login
+      loginNow();
+    } else {
       showDialog(
-          context: context,
-          builder: (c) {
-            return const ErrorDialog(
-              message: 'Please enter you Email/Password',
-            );
-          }
+        context: context,
+        builder: (c) {
+          return const ErrorDialog(
+            message: 'Please enter your Email/Password',
+          );
+        },
       );
     }
   }
+
   loginNow() async {
     showDialog(
-        context: context,
-        builder: (c) {
-          return const DialogLoading(
-            message: 'Authenticating...',
-          );
-        }
+      context: context,
+      builder: (c) {
+        return const DialogLoading(
+          message: 'Authenticating...',
+        );
+      },
     );
 
     User? currentRider;
-    await firebaseAuth.signInWithEmailAndPassword(
+    await firebaseAuth
+        .signInWithEmailAndPassword(
       email: emailcontroller.text.trim(),
       password: passwordcontroller.text.trim(),
-    ).then((auth) {
+    )
+        .then((auth) {
       currentRider = auth.user!;
     }).catchError((error) {
       Navigator.pop(context);
       showDialog(
+        context: context,
+        builder: (c) {
+          return ErrorDialog(
+            message: error.message.toString(),
+          );
+        },
+      );
+    });
+    if (currentRider != null) {
+      readDataAndSetDataLocally(currentRider!);
+    }
+  }
+
+  // to store data locally
+  Future readDataAndSetDataLocally(User currentRider) async {
+    await FirebaseFirestore.instance.collection('riders').doc(currentRider.uid).get().then((snapshot) async {
+      if (snapshot.exists) {
+        await sharedPreferences!.setString('uid', currentRider.uid);
+        await sharedPreferences!.setString('email', snapshot.data()!['riderEmail']);
+        await sharedPreferences!.setString('name', snapshot.data()!['riderName']); // used to access single users
+        await sharedPreferences!.setString('photoUrl', snapshot.data()!['riderAvatarUrl']);
+        await sharedPreferences!.setString('role', 'rider');
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (c) => const RiderHomeScreen()));
+      } else {
+        firebaseAuth.signOut();
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (c) => const RiderAuthScreen()));
+        Navigator.pop(context);
+        showDialog(
           context: context,
           builder: (c) {
             return ErrorDialog(
-              message: error.message.toString(),
+              message: 'Record does not exist. Please sign up first',
             );
-          }
-      );
-    });
-    if(currentRider!=null)// if every thing goes fine
-      {
-      readDataAndSetDataLocally(currentRider! );
-
+          },
+        );
       }
-  }
-  // to store data locally
-  Future readDataAndSetDataLocally( User currentRider) async {
-    await FirebaseFirestore.instance.collection('riders')
-        .doc(currentRider.uid)
-        .get().then((snapshot) async{
-          if(snapshot.exists){
-            await sharedPreferences!.setString('uid', currentRider.uid);
-            await sharedPreferences!.setString('email', snapshot.data()!['riderEmail']);
-            await sharedPreferences!.setString('name', snapshot.data()!['riderName']);// used to access single users
-            await sharedPreferences!.setString('photoUrl',snapshot.data()!['riderAvatarUrl']);
-            await sharedPreferences!.setString('role','rider' );
-            Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (c)=> const RiderHomeScreen()));
-
-          } else{
-            firebaseAuth.signOut();
-            Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (c)=> const RiderAuthScreen()));
-            Navigator.pop(context);
-            showDialog(
-                context: context,
-                builder: (c) {
-                  return ErrorDialog(
-                    message: 'Record doesnot exist. Please sign up first',
-                  );
-                }
-            );
-          }
-
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -202,12 +224,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Email',
+                      const Text(
+                        'Email',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold
-                        ),),
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       const SizedBox(height: 10,),
                       CustomTextField(
                         data: Icons.email,
@@ -215,15 +239,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintText: 'Email',
                         isObsecre: false,
                       ),
-
                       const SizedBox(height: 20,),
-
-                      const Text('Password',
+                      const Text(
+                        'Password',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold
-                        ),),
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       const SizedBox(height: 10,),
                       CustomTextField(
                         data: Icons.lock,
@@ -231,19 +255,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintText: 'Password',
                         isObsecre: true,
                       ),
-
                     ],
-                  ),),
-
+                  ),
+                ),
               ],
-
-
             ),
           ),
-
           forgotPassBtn(),
           rememberMe(),
-
           Container(
             margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
             width: double.infinity,
@@ -251,19 +270,17 @@ class _LoginScreenState extends State<LoginScreen> {
               style: ElevatedButton.styleFrom(
                 elevation: 5,
                 backgroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 50, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
               child: const Text(
                 'LOGIN',
                 style: TextStyle(
-                  color: Color(0xff5ac18e),
+                  color: const Color(0xff5ac18e),
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
-
                 ),
               ),
               onPressed: () {
@@ -272,12 +289,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           userBtn(),
-
         ],
       ),
-
     );
   }
 }
-
-

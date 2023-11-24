@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/authentication/auth_screen.dart';
@@ -11,18 +10,18 @@ import 'package:my_tiffin/widgets/error_dialog.dart';
 
 import '../globalVariables/globleVariable.dart';
 import '../widgets/custom_text_field.dart';
+
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-
-
-
 class _LoginScreenState extends State<LoginScreen> {
-  bool isRememberMe= false;
-  Widget forgotPassBtn(){
+  bool isRememberMe = false;
+
+  Widget forgotPassBtn() {
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       alignment: Alignment.centerRight,
@@ -31,96 +30,95 @@ class _LoginScreenState extends State<LoginScreen> {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          padding: const EdgeInsets.only(right:0),
+          padding: const EdgeInsets.only(right: 0),
         ),
         child: const Text(
           'Forgot Password?',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-
           ),
         ),
       ),
     );
   }
-  Widget riderBtn(){
+
+  Widget riderBtn() {
     return Container(
       margin: const EdgeInsets.all(10.0),
       alignment: Alignment.center,
-      child: ElevatedButton(
-        onPressed: () {
+      child: GestureDetector(
+        onTap: () {
           Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (c)=> const RiderAuthScreen()));
+          Navigator.push(context, MaterialPageRoute(builder: (c) => const RiderAuthScreen()));
         },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          padding: const EdgeInsets.only(right:0),
-        ),
-        child: const Text(
-          'Are you a Rider?',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(8), // You can adjust the border radius as needed
+          ),
+          padding: const EdgeInsets.all(16), // Adjust the padding as needed
+          child: const Text(
+            'Are you a Rider?',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
     );
   }
-  Widget rememberMe(){
+
+  Widget rememberMe() {
     return Container(
       height: 20,
       child: Row(
         children: [
           Theme(
-              data: ThemeData(unselectedWidgetColor: Colors.white),
-              child: Checkbox(
-                value: isRememberMe,
-                checkColor: Colors.green,
-                activeColor: Colors.white,
-                onChanged:(value){
-                  setState(() {
-                    isRememberMe = value!;
-
-                  });
-                },
-
-    ),
+            data: ThemeData(unselectedWidgetColor: Colors.white),
+            child: Checkbox(
+              value: isRememberMe,
+              checkColor: Colors.green,
+              activeColor: Colors.white,
+              onChanged: (value) {
+                setState(() {
+                  isRememberMe = value!;
+                });
+              },
+            ),
           ),
-          const Text('Remember me',
+          const Text(
+            'Remember me',
             style: TextStyle(
-               color: Colors.white,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           )
         ],
       ),
     );
-
   }
 
-  final GlobalKey<FormState> _formkey=  GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
 
   formValidation() {
     if (emailcontroller.text.isNotEmpty && passwordcontroller.text.isNotEmpty) {
-      //Login
-  loginNow();
-    }
-    else {
+      // Login
+      loginNow();
+    } else {
       showDialog(
           context: context,
           builder: (c) {
             return const ErrorDialog(
-              message: 'Please enter you Email/Password',
+              message: 'Please enter your Email/Password',
             );
-          }
-      );
+          });
     }
   }
+
   loginNow() async {
     showDialog(
         context: context,
@@ -128,14 +126,15 @@ class _LoginScreenState extends State<LoginScreen> {
           return const DialogLoading(
             message: 'Authenticating...',
           );
-        }
-    );
+        });
 
     User? currentUser;
-    await firebaseAuth.signInWithEmailAndPassword(
+    await firebaseAuth
+        .signInWithEmailAndPassword(
       email: emailcontroller.text.trim(),
       password: passwordcontroller.text.trim(),
-    ).then((auth) {
+    )
+        .then((auth) {
       currentUser = auth.user!;
     }).catchError((error) {
       Navigator.pop(context);
@@ -145,56 +144,51 @@ class _LoginScreenState extends State<LoginScreen> {
             return ErrorDialog(
               message: error.message.toString(),
             );
-          }
-      );
+          });
     });
-    if(currentUser!=null)// if every thing goes fine
-      {
-      readDataAndSetDataLocally(currentUser! );
-      }
+    if (currentUser != null) {
+      readDataAndSetDataLocally(currentUser!);
+    }
   }
+
   // to store data locally
-  Future readDataAndSetDataLocally( User currentUser) async {
-    await FirebaseFirestore.instance.collection('users')
+  Future readDataAndSetDataLocally(User currentUser) async {
+    await FirebaseFirestore.instance
+        .collection('users')
         .doc(currentUser.uid)
-        .get().then((snapshot) async{
-          if(snapshot.exists){
-            await sharedPreferences!.setString('uid', currentUser.uid);
-            await sharedPreferences!.setString('email', snapshot.data()!['staffEmail']);
-            await sharedPreferences!.setString('name', snapshot.data()!['staffName']);// used to access single users
-            await sharedPreferences!.setString('photoUrl',snapshot.data()!['staffAvatarUrl']);
-            await sharedPreferences!.setString('role', snapshot.data()!['role']);
-            List<String> userCartList = snapshot.data()!['userCart'].cast<String>();
-            await sharedPreferences!.setStringList('userCart',userCartList);
+        .get()
+        .then((snapshot) async {
+      if (snapshot.exists) {
+        await sharedPreferences!.setString('uid', currentUser.uid);
+        await sharedPreferences!.setString('email', snapshot.data()!['staffEmail']);
+        await sharedPreferences!.setString('name', snapshot.data()!['staffName']); // used to access single users
+        await sharedPreferences!.setString('photoUrl', snapshot.data()!['staffAvatarUrl']);
+        await sharedPreferences!.setString('role', snapshot.data()!['role']);
+        List<String> userCartList = snapshot.data()!['userCart'].cast<String>();
+        await sharedPreferences!.setStringList('userCart', userCartList);
 
-
-            if(snapshot.data()!['role']=='user'){
-                  Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (c)=> const HomeScreen()));
-
-              } else if(snapshot.data()!['role']=='staff'){
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (c)=> const StaffHomeScreen()));
-
-              }
-  }
-         else{
-            firebaseAuth.signOut();
-            Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (c)=> const AuthScreen()));
-            Navigator.pop(context);
-            showDialog(
-                context: context,
-                builder: (c) {
-                  return ErrorDialog(
-                    message: 'Record doesnot exist. Please sign up first',
-                  );
-                }
-            );
-          }
+        if (snapshot.data()!['role'] == 'user') {
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (c) => const HomeScreen()));
+        } else if (snapshot.data()!['role'] == 'staff') {
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (c) => const StaffHomeScreen()));
+        }
+      } else {
+        firebaseAuth.signOut();
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (c) => const AuthScreen()));
+        Navigator.pop(context);
+        showDialog(
+            context: context,
+            builder: (c) {
+              return ErrorDialog(
+                message: 'Record does not exist. Please sign up first',
+              );
+            });
+      }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -213,12 +207,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Email',
+                      const Text(
+                        'Email',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
-                            fontWeight: FontWeight.bold
-                        ),),
+                            fontWeight: FontWeight.bold),
+                      ),
                       const SizedBox(height: 10,),
                       CustomTextField(
                         data: Icons.email,
@@ -226,15 +221,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintText: 'Email',
                         isObsecre: false,
                       ),
-
                       const SizedBox(height: 20,),
-
-                      const Text('Password',
+                      const Text(
+                        'Password',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
-                            fontWeight: FontWeight.bold
-                        ),),
+                            fontWeight: FontWeight.bold),
+                      ),
                       const SizedBox(height: 10,),
                       CustomTextField(
                         data: Icons.lock,
@@ -242,20 +236,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintText: 'Password',
                         isObsecre: true,
                       ),
-
                     ],
-                  ),),
-
+                  ),
+                ),
               ],
-
-
             ),
           ),
-
           forgotPassBtn(),
           rememberMe(),
-
-
           Container(
             margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
             width: double.infinity,
@@ -263,10 +251,9 @@ class _LoginScreenState extends State<LoginScreen> {
               style: ElevatedButton.styleFrom(
                 elevation: 10,
                 backgroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 50, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
               child: const Text(
@@ -275,7 +262,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.green,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
-
                 ),
               ),
               onPressed: () {
@@ -286,9 +272,6 @@ class _LoginScreenState extends State<LoginScreen> {
           riderBtn(),
         ],
       ),
-
     );
   }
 }
-
-

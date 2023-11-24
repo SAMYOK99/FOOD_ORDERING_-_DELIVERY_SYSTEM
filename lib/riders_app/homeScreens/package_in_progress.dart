@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/riders_app/riderAssistantMethod/cartItemMethods.dart';
 import 'package:my_tiffin/riders_app/widgets/order_card.dart';
 import '/widgets/progress_bar.dart';
@@ -35,6 +36,7 @@ class _PackageInProgressState extends State<PackageInProgress> {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('orders')
+            .where("riderUID", isEqualTo: sharedPreferences!.getString("uid"))
             .where("status", isEqualTo: "picking")
             .orderBy("orderTime", descending: true)
             .snapshots(),
@@ -68,11 +70,6 @@ class _PackageInProgressState extends State<PackageInProgress> {
                       as Map<String, dynamic>)["productId"],
                     ),
                   )
-                      .where(
-                    "orderBy",
-                    whereIn: (snapshot.data!.docs[index].data()!
-                    as Map<String, dynamic>)["uid"],
-                  )
                       .orderBy("publishedDate", descending: true)
                       .get(),
                   builder: (context, snap) {
@@ -90,6 +87,7 @@ class _PackageInProgressState extends State<PackageInProgress> {
                         (snapshot.data!.docs[index].data()
                         as Map<String, dynamic>)[
                         "productId"],
+
                       ),
                     )
                         : Center(

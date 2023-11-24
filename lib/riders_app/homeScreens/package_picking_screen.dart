@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
-import 'package:my_tiffin/riders_app/homeScreens/package_delivering.dart';
+import 'package:my_tiffin/riders_app/homeScreens/package_delivering_screen.dart';
 import 'package:my_tiffin/riders_app/riderAssistantMethod/get_current_location.dart';
 class PackagePickingScreen extends StatefulWidget {
   String? purchaserId;

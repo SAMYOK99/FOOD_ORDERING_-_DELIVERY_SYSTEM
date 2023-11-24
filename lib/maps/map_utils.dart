@@ -4,7 +4,7 @@ class MapU
 {
   MapU._();
 
-  static void launchMapFromSourceTodestination(sourceLat, sourceLng, destinationLat, destinationLng) async// double datatype
+  static void launchMapFromSourceTodestinatioan(sourceLat, sourceLng, destinationLat, destinationLng) async// double datatype
   {
     String mapOptions =
         [
@@ -12,10 +12,10 @@ class MapU
           'daddr=$destinationLat, $destinationLng',
           'dir_action=navigate'
         ].join('&');
-    final mapUrl = "https://www.google.com/maps?$mapOptions";
-    if(await canLaunch(mapUrl))
+    final mapUrl =Uri.parse('https://www.google.com/maps?$mapOptions');
+    if(await canLaunchUrl(mapUrl))
       {
-        await launch(mapUrl);
+        await launchUrl(mapUrl);
       }
     else
       {

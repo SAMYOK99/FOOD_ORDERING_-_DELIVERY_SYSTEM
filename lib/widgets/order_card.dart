@@ -25,9 +25,22 @@ class OrderCard extends StatelessWidget {
 
       },
       child: Container(
-        margin: const EdgeInsets.fromLTRB(0,0,0,20),
-      width: 380,
-        height: 135,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 3,
+              blurRadius: 10,
+              offset: const Offset(0,3),
+
+            )
+          ],
+        ),
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(10),
+        height: itemCount! * 125,
         child: ListView.builder(
         itemCount: itemCount,
         physics: const NeverScrollableScrollPhysics(),
@@ -44,11 +57,8 @@ class OrderCard extends StatelessWidget {
 
 Widget placeOrderDesignWidget(Items model, BuildContext context, separateQuantitiesList)
 {
-  return Column(
-    children: [
-      Padding(padding: const EdgeInsets.symmetric(vertical: 9),
-        child: Container(
-          width: 370,
+  return Container(
+          width: MediaQuery.of(context).size.width-20,
           height: 120,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -65,19 +75,14 @@ Widget placeOrderDesignWidget(Items model, BuildContext context, separateQuantit
           ),
           child: Row(
             children: [
-              Container(
-                alignment: Alignment.center,
-                child: Image.network(
-                  model.thumbnailUrl!,
-                  height: 80,
-                  width: 150,
-                ),
+              Image.network(
+                model.thumbnailUrl!,
+                height: 80,
+                width: 150,
               ),
-              Container(
-                width: 180,
+              Expanded(
                 child:  Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(model.itemTitle!,
                       style: const TextStyle(
@@ -133,10 +138,8 @@ Widget placeOrderDesignWidget(Items model, BuildContext context, separateQuantit
 
             ],
           ),
-        ),
-      ),
+        );
 
-    ],
-  );
+
 
 }

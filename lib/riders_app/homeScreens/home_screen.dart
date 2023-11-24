@@ -1,13 +1,14 @@
  import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/riders_app/authentication/auth_screen.dart';
+import 'package:my_tiffin/riders_app/homeScreens/delivering_progress_screen.dart';
+import 'package:my_tiffin/riders_app/homeScreens/history_screen.dart';
 import 'package:my_tiffin/riders_app/homeScreens/new_orders_screen.dart';
 import 'package:my_tiffin/riders_app/homeScreens/package_in_progress.dart';
+import 'package:my_tiffin/riders_app/homeScreens/total_amount.dart';
 import 'package:my_tiffin/riders_app/riderAssistantMethod/get_current_location.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RiderHomeScreen extends StatefulWidget {
   const RiderHomeScreen({super.key});
@@ -19,8 +20,35 @@ class RiderHomeScreen extends StatefulWidget {
 class _RiderHomeScreenState extends State<RiderHomeScreen> {
   @override
   void initState() {
+    super.initState();
     UserLocation uLocation= UserLocation();
-    uLocation!.getCurrentLocation();
+    uLocation.getCurrentLocation();
+    getPerPackageDeliveryAmount();
+    getRiderPreviousEarnings();
+
+  }
+  getPerPackageDeliveryAmount()
+  {
+    FirebaseFirestore.instance
+        .collection("perDelivery")
+        .doc("abc123")
+        .get().then((snap)
+    {
+      perPackageDeliveryAmount = snap.data()!["amount"].toString();
+    });
+
+  }
+
+  getRiderPreviousEarnings()
+  {
+    FirebaseFirestore.instance
+        .collection("riders")
+        .doc(sharedPreferences!.getString("uid"))
+        .get().then((snap)
+    {
+     previousRiderEarnings = snap.data()!["earnings"].toString();
+
+    });
 
   }
   @override
@@ -50,8 +78,6 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                   //new available order
                   Navigator.push(context, MaterialPageRoute(builder: (c)=> const NewOrdersScreen()));
 
-
-
                 }
               if(index == 1)
                 {
@@ -63,12 +89,15 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                 } if(index == 2)
                 {
                   // Not yet delivered
+                  Navigator.push(context, MaterialPageRoute(builder: (c)=>  const DeliveringProgressScreen()));
 
 
                 }
               if(index == 3)
                 {
                   //History
+                  Navigator.push(context, MaterialPageRoute(builder: (c)=> const HistoryScreen()));
+
 
 
                 }
@@ -76,6 +105,8 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
               if(index == 4)
               {
                 //Total Earning
+                Navigator.push(context, MaterialPageRoute(builder: (c)=> const TotalAmountScreen()));
+
 
 
               }
@@ -120,9 +151,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
 
         ),
       );
-
-    };
-
+    }
     return Scaffold(
       appBar:AppBar(
     backgroundColor: Colors.white,
@@ -140,11 +169,11 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       ),
 
       body:  Container(
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 1),
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 1),
         child: GridView.count(
           crossAxisCount: 2,
-          padding: EdgeInsets.all(2),
+          padding: const EdgeInsets.all(2),
         children: [
           dashboardItem("Available Orders", Icons.assessment, 0),
           dashboardItem("Package in Progress", Icons.airport_shuttle, 1),

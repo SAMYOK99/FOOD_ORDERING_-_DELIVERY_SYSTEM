@@ -78,7 +78,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Order Id" + widget.orderID!,
+                      "Order Id: " + widget.orderID!,
                       style: const TextStyle(
                         fontSize: 16,
                       ),

@@ -1,25 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:my_tiffin/asistantMethods/cartItemMethods.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
-import 'package:my_tiffin/widgets/order_card.dart';
+import 'package:my_tiffin/riders_app/riderAssistantMethod/cartItemMethods.dart';
+import 'package:my_tiffin/riders_app/widgets/order_card.dart';
 import '/widgets/progress_bar.dart';
 
-class UserOrdersScreen extends StatefulWidget {
-  const UserOrdersScreen({super.key});
+class HistoryScreen extends StatefulWidget {
+  const HistoryScreen({super.key});
 
   @override
-  State<UserOrdersScreen> createState() => _UserOrdersScreenState();
+  State<HistoryScreen> createState() => _HistoryScreenState();
 }
 
-class _UserOrdersScreenState extends State<UserOrdersScreen> {
+class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "My Orders",
+          "History",
           style: TextStyle(
             color: Colors.black,
             fontSize: 22,
@@ -35,10 +35,9 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(sharedPreferences!.getString("uid"))
             .collection('orders')
-            .where("status", isEqualTo: "normal")
+            .where("riderUID", isEqualTo: sharedPreferences!.getString("uid"))
+            .where("status", isEqualTo: "ended")
             .orderBy("orderTime", descending: true)
             .snapshots(),
         builder: (context, snapshot) {
@@ -55,11 +54,13 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
               ),
             );
           }
-          else{
-            return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (c, index) {
-                return FutureBuilder<QuerySnapshot>(
+
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 9.0),
+                child: FutureBuilder<QuerySnapshot>(
                   future: FirebaseFirestore.instance
                       .collection("items")
                       .where(
@@ -69,14 +70,9 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
                       as Map<String, dynamic>)["productId"],
                     ),
                   )
-                      .where(
-                    "orderBy",
-                    whereIn: (snapshot.data!.docs[index].data()!
-                    as Map<String, dynamic>)["uid"],
-                  )
                       .orderBy("publishedDate", descending: true)
                       .get(),
-                  builder: (c, snap) {
+                  builder: (context, snap) {
                     return snap.connectionState == ConnectionState.waiting
                         ? Center(
                       child: circularProgress(),
@@ -91,17 +87,17 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
                         (snapshot.data!.docs[index].data()
                         as Map<String, dynamic>)[
                         "productId"],
+
                       ),
                     )
                         : Center(
                       child: circularProgress(),
                     );
                   },
-                );
-              },
-            );
-          }
-
+                ),
+              );
+            },
+          );
         },
       ),
     );

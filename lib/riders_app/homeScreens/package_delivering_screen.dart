@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/maps/map_utils.dart';
+import 'package:my_tiffin/riders_app/homeScreens/home_screen.dart';
 import 'package:my_tiffin/riders_app/riderAssistantMethod/get_current_location.dart';
 import 'package:my_tiffin/riders_app/splashScreen/splash_screen.dart';
 
@@ -29,6 +30,7 @@ class PackageDeliveringScreen extends StatefulWidget {
 class _PackageDeliveringScreenState extends State<PackageDeliveringScreen> {
   deliveringPackage(getOrderId, purchaserId, purchaserAddress, purchaserLat, purchaserLng)
   {
+    String riderNewTotalEarningAmount=((double.parse(previousRiderEarnings))+(double.parse(perPackageDeliveryAmount))).toString();
     FirebaseFirestore.instance
         .collection("orders")
         .doc(getOrderId)
@@ -37,17 +39,18 @@ class _PackageDeliveringScreenState extends State<PackageDeliveringScreen> {
       "address": widget.purchaserAddress,
       "lat":position!.latitude,
       "lng":position!.longitude,
-      "earnings":"", // payment per delivery
+      "earnings":perPackageDeliveryAmount, // payment per delivery
     }).then((value)  
     {
       FirebaseFirestore.instance
           .collection("riders")
-          .doc(sharedPreferences!.getString("uid")).update({"earnings": "",});// total earnings of riders)
-    }).then((value){
-      FirebaseFirestore.instance
-          .collection("users")
-          .doc(sharedPreferences!.getString("uid")).update({"earnings": "",});// total earnings of sellers)
-    });
+          .doc(sharedPreferences!.getString("uid")).update({"earnings": riderNewTotalEarningAmount,});// total earnings of riders)
+     });
+      // .then((value){
+    //   FirebaseFirestore.instance
+    //       .collection("users")
+    //       .doc(sharedPreferences!.getString("uid")).update({"earnings": ""});// total earnings of sellers)
+    // });
     //     .then((value){
     //   FirebaseFirestore.instance
     //       .collection("users")
@@ -55,8 +58,20 @@ class _PackageDeliveringScreenState extends State<PackageDeliveringScreen> {
     //       .collection("orders").doc(getOrderId).update({"status":"ended",
     //   "riderUID": sharedPreferences!.getString("uid")});
     // });
-    Navigator.push(context, MaterialPageRoute(builder: (c)=>MySplashScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (c)=>RiderHomeScreen()));
 
+  }
+  getOrderTotalAmount()
+  {
+    FirebaseFirestore.instance
+        .collection("orders")
+        .doc(widget.getOrderId)
+        .get()
+        .then((snap) {
+          snap.data()!["totalAmount"].toString();
+
+
+    });
   }
 
   @override
@@ -76,22 +91,24 @@ class _PackageDeliveringScreenState extends State<PackageDeliveringScreen> {
           const SizedBox(height: 50,),
 
           Image.asset(
-            "images/confirm.png",
+            "images/giving.png",
             width: 340,
 
 
           ),
           const SizedBox(height: 70,),
 
-          Row(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+
               GestureDetector(
                 onTap: (){
-                MapU.launchMapFromSourceTodestination(position!.latitude, position!.longitude, widget.purchaserLat, widget.purchaserLng);
+
+                MapU.launchMapFromSourceTodestinatioan(position!.latitude, position!.longitude, widget.purchaserLat, widget.purchaserLng);
 
                 },
-                child: const Column(
+                child: const Row(
                   mainAxisAlignment:MainAxisAlignment.center,
                   children: [
                     Icon(Icons.location_on),
@@ -127,7 +144,7 @@ class _PackageDeliveringScreenState extends State<PackageDeliveringScreen> {
                         shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),)),
                       ),
-                      child: const Text('Order has been delivered, Confirmed', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
+                      child: const Text('Order has been delivered, Confirm', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
                     ),
                   ),
                 ),

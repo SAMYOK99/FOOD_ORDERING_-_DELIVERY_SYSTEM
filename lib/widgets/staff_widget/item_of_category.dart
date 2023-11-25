@@ -37,20 +37,24 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
         width: double.infinity,
         child: Column(
           children: [
-            SingleChildScrollView(
-              child: StreamBuilder<QuerySnapshot>(
+            StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('menus')
-                    .doc(selectedTab) // Use the selectedTab passed as a parameter
+                    .doc(selectedTab)
                     .collection('items')
                     .snapshots(),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: circularProgress());
+                  } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Center(child: Text('No items available.',style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 18,
+                    )));
                   } else {
-                    return  Container(
+                    return Container(
                       width: 350,
-                      height: MediaQuery.of(context).size.height * 0.55, // Adjust the height as needed
+                      height: MediaQuery.of(context).size.height * 0.55,
                       child: ListView(
                         shrinkWrap: true,
                         children: List.generate(snapshot.data!.docs.length, (index) {
@@ -67,10 +71,10 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
                   }
                 },
               ),
-            ),
+
 
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -120,11 +124,11 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text("Confirm Delete"),
-                            content: Text("Are you sure you want to delete this Menu?"),
+                            title: const Text("Confirm Delete"),
+                            content: const Text("Are you sure you want to delete this Menu?"),
                             actions: [
                               TextButton(
-                                child: Text("Cancel",
+                                child: const Text("Cancel",
                                     style: TextStyle(
                                       color: Colors.green,
                                     )),
@@ -133,7 +137,7 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
                                 },
                               ),
                               TextButton(
-                                child: Text("Delete",
+                                child: const Text("Delete",
                                 style: TextStyle(
                                   color: Colors.red,
                                 ),),

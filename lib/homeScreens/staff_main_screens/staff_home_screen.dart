@@ -83,33 +83,33 @@ class StaffHomeScreen extends StatelessWidget {
           StaffCategoryItem(),
         ],
       ),
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 10,
-              offset: const Offset(0,3),
-
-            )
-          ],
-        ),
-        child: FloatingActionButton(
-          onPressed: (){
-            // Navigator.push(context, MaterialPageRoute(builder: (c)=>const MenuUploadScreen()));
-
-          },
-          backgroundColor: Colors.white,
-          child: const Icon( CupertinoIcons.cart,
-            color: Colors.green,
-            size: 30,
-          ),
-        ),
-
-      ),
+      // floatingActionButton: Container(
+      //   decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     borderRadius: BorderRadius.circular(30),
+      //     boxShadow: [
+      //       BoxShadow(
+      //         color: Colors.grey.withOpacity(0.5),
+      //         spreadRadius: 2,
+      //         blurRadius: 10,
+      //         offset: const Offset(0,3),
+      //
+      //       )
+      //     ],
+      //   ),
+      //   child: FloatingActionButton(
+      //     onPressed: (){
+      //       // Navigator.push(context, MaterialPageRoute(builder: (c)=>const MenuUploadScreen()));
+      //
+      //     },
+      //     backgroundColor: Colors.white,
+      //     child: const Icon( CupertinoIcons.cart,
+      //       color: Colors.green,
+      //       size: 30,
+      //     ),
+      //   ),
+      //
+      // ),
     ) ;
 
   }

@@ -1,13 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:my_tiffin/homeScreens/staff_main_screens/staff_item_page.dart';
 import 'package:my_tiffin/models/items.dart';
-import 'package:my_tiffin/models/menu.dart';
-import 'package:provider/provider.dart';
 
 class ItemsDesign extends StatefulWidget {
   Items? model;
@@ -20,22 +16,9 @@ class ItemsDesign extends StatefulWidget {
 }
 
 class _ItemsDesignState extends State<ItemsDesign> {
-
-  // deleteMenu(String itemUID){
-  //   Menu selectedMenu = Provider.of<Menu>(context, listen: false);
-  //   String? selectedTab = selectedMenu.selectedTab;
-  //   FirebaseFirestore.instance
-  //       .collection("menus")
-  //       .doc(selectedTab)
-  //       .collection("items")
-  //       .doc(itemUID)
-  //       .delete();
-  //   Fluttertoast.showToast(msg: "Item Deleted");
-  //
-  // }
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: const EdgeInsets.symmetric(vertical: 10),
+    return Padding(padding: const EdgeInsets.fromLTRB(0,10,3,5),
       child: Container(
         width: MediaQuery
             .of(context)
@@ -62,28 +45,23 @@ class _ItemsDesignState extends State<ItemsDesign> {
                   InkWell(
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (c) => const StaffItemPage()));
+                          builder: (c) => StaffItemPage(model: widget.model,)));
                     },
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                      margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                       alignment: Alignment.bottomCenter,
                       child: Image.network(
                         widget.model!.thumbnailUrl!,
                         height: 120,
                         width: 150,
                       ),
-                      // Image.asset(
-                      //   "images/burger.png",
-                      //   height: 120,
-                      //   width: 150,
-                      // ),
                     ),
                   ),
                   Container(
                     width: 190,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           widget.model!.itemTitle!,
@@ -92,26 +70,12 @@ class _ItemsDesignState extends State<ItemsDesign> {
                             fontWeight: FontWeight.bold,
                           ),),
                         Text(
-                         widget.model!.shortInfo!,
+                          widget.model!.shortInfo!,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),),
-                        RatingBar.builder(
-                          initialRating: 4,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          itemCount: 5,
-                          itemSize: 18,
-                          itemPadding: const EdgeInsets.symmetric(
-                              horizontal: 4),
-                          itemBuilder: (context, _) =>
-                          const Icon(
-                            Icons.star,
-                            color: Colors.green,
-
-                          ),
-                          onRatingUpdate: (index) {},),
+                        const SizedBox( height: 20,),
                         Text(
                           "\$"+widget.model!.itemPrice!,
                           style: TextStyle(
@@ -119,23 +83,7 @@ class _ItemsDesignState extends State<ItemsDesign> {
                             color: Colors.green,
                             fontWeight: FontWeight.bold,
                           ),),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Icon(Icons.favorite_border,
-                                color: Colors.green,
-                                size: 26,
-                              ),
-                              Icon(
-                                CupertinoIcons.cart,
-                                color: Colors.green,
-                                size: 26,
-                              ),
-                            ],
-                          ),
-                        ),
+
                       ],
                     ),
                   ),

@@ -61,7 +61,8 @@ class ShipmentAddressDesign extends StatelessWidget {
                 shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),)),
               ),
-              child: const Text('Go Back', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
+              child: const Text(
+                'Go Back', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
             ),
           ),
         )

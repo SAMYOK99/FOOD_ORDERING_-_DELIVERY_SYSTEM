@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_tiffin/homeScreens/order_details_screen.dart';
+import 'package:my_tiffin/homeScreens/staff_main_screens/staff_order_detail_screen.dart';
 import 'package:my_tiffin/models/items.dart';
-class OrderCard extends StatelessWidget {
+class StaffOrderCard extends StatelessWidget {
   final int? itemCount;
   final List<DocumentSnapshot>? data;
   final String? orderID;
   final List<String>? separateQuantitiesList;
-  const OrderCard({
+  const StaffOrderCard({
     super.key,
     required this.itemCount,
     required this.data,
@@ -21,7 +21,7 @@ class OrderCard extends StatelessWidget {
     return InkWell(
       onTap: ()
       {
-        Navigator.push(context, MaterialPageRoute(builder: (c)=>OrderDetailsScreen(orderID: orderID)));
+        Navigator.push(context, MaterialPageRoute(builder: (c)=>StaffOrderDetailsScreen(orderID: orderID)));
 
       },
       child: Container(

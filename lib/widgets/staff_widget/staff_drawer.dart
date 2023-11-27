@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/authentication/auth_screen.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
+import 'package:my_tiffin/homeScreens/staff_main_screens/history_screen.dart';
+import 'package:my_tiffin/homeScreens/staff_main_screens/staff_new_order_screen.dart';
 
 class StaffDrawer extends StatefulWidget {
   const StaffDrawer({super.key});
@@ -117,6 +119,7 @@ class _StaffDrawerState extends State<StaffDrawer> {
                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 18,),
                   ),
                   onTap: (){
+                    Navigator.push(context,MaterialPageRoute(builder: (c)=>StaffNewOrdersScreen()));
 
                   },
 
@@ -128,6 +131,8 @@ class _StaffDrawerState extends State<StaffDrawer> {
                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 18,),
                   ),
                   onTap: (){
+                    Navigator.push(context,MaterialPageRoute(builder: (c)=>StaffHistoryScreen()));
+
 
                   },
                 ),

@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/homeScreens/staff_main_screens/staff_home_screen.dart';
 import 'package:my_tiffin/models/address.dart';
-import 'package:my_tiffin/riders_app/homeScreens/package_picking_screen.dart';
 
 class StaffShipmentAddressDesign extends StatelessWidget {
   final Address? model;
@@ -13,30 +10,6 @@ class StaffShipmentAddressDesign extends StatelessWidget {
 
   const StaffShipmentAddressDesign({super.key, required this.model, required this.orderStatus, required this.orderID, required this.orderBy});
 
-  confirmParcelShipment(BuildContext context, String getOrderId, String purchaserId)
-  {
-    FirebaseFirestore.instance.collection("orders").doc(getOrderId).update({
-      "riderUID": sharedPreferences!.getString("uid"),
-      "riderName": sharedPreferences!.getString("name"),
-      "status": "picking",
-      "lat": position?.latitude,
-      "lng": position?.longitude,
-      "address": completeAddress,
-
-    });
-    // send rider to shipment address
-    Navigator.push(context, MaterialPageRoute(
-        builder: (c)=> PackagePickingScreen(
-            purchaserId: purchaserId,
-            purchaserAddress: model!.fullAddress,
-            purchaserLat: model!.lat,
-            purchaserLng: model!.lng,
-            getOrderId : getOrderId
-
-
-        )));
-
-  }
 
   @override
   Widget build(BuildContext context) {

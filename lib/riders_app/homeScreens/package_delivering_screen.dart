@@ -46,12 +46,11 @@ class _PackageDeliveringScreenState extends State<PackageDeliveringScreen> {
           .collection("riders")
           .doc(sharedPreferences!.getString("uid")).update({"earnings": riderNewTotalEarningAmount,});// total earnings of riders)
      });
-      // .then((value){
+    //   .then((value){
     //   FirebaseFirestore.instance
     //       .collection("users")
     //       .doc(sharedPreferences!.getString("uid")).update({"earnings": ""});// total earnings of sellers)
-    // });
-    //     .then((value){
+    // }).then((value){
     //   FirebaseFirestore.instance
     //       .collection("users")
     //       .doc(purchaserId)

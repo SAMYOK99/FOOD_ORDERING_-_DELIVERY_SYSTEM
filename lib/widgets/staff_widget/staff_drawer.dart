@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/authentication/auth_screen.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
+import 'package:my_tiffin/homeScreens/staff_main_screens/earning_screen.dart';
 import 'package:my_tiffin/homeScreens/staff_main_screens/history_screen.dart';
 import 'package:my_tiffin/homeScreens/staff_main_screens/staff_new_order_screen.dart';
 
@@ -125,9 +126,9 @@ class _StaffDrawerState extends State<StaffDrawer> {
 
                 ),
                 ListTile(
-                  leading:  const Icon(Icons.local_shipping,color: Colors.green,),
+                  leading:  const Icon(Icons.shopping_cart,color: Colors.green,),
                   title: const Text(
-                    'Order Lists',
+                    'History',
                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 18,),
                   ),
                   onTap: (){
@@ -136,6 +137,19 @@ class _StaffDrawerState extends State<StaffDrawer> {
 
                   },
                 ),
+                ListTile(
+                  leading:  const Icon(Icons.monetization_on,color: Colors.green,),
+                  title: const Text(
+                    'Total Earnings',
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 18,),
+                  ),
+                  onTap: (){
+                    Navigator.push(context,MaterialPageRoute(builder: (c)=>TotalEarningScreen()));
+
+
+                  },
+                ),
+
                 ListTile(
                   leading: const Icon(Icons.exit_to_app,color: Colors.green,),
                   title: const Text(

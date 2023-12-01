@@ -4,7 +4,6 @@ import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/maps/map_utils.dart';
 import 'package:my_tiffin/riders_app/homeScreens/home_screen.dart';
 import 'package:my_tiffin/riders_app/riderAssistantMethod/get_current_location.dart';
-import 'package:my_tiffin/riders_app/splashScreen/splash_screen.dart';
 
 class PackageDeliveringScreen extends StatefulWidget {
   String? purchaserId;
@@ -45,18 +44,19 @@ class _PackageDeliveringScreenState extends State<PackageDeliveringScreen> {
       FirebaseFirestore.instance
           .collection("riders")
           .doc(sharedPreferences!.getString("uid")).update({"earnings": riderNewTotalEarningAmount,});// total earnings of riders)
-     });
+     }).then((value){
+        FirebaseFirestore.instance
+            .collection("users")
+            .doc(purchaserId)
+            .collection("orders").doc(getOrderId).update({"status":"ended",
+        "riderUID": sharedPreferences!.getString("uid")});
+      });
     //   .then((value){
     //   FirebaseFirestore.instance
     //       .collection("users")
     //       .doc(sharedPreferences!.getString("uid")).update({"earnings": ""});// total earnings of sellers)
-    // }).then((value){
-    //   FirebaseFirestore.instance
-    //       .collection("users")
-    //       .doc(purchaserId)
-    //       .collection("orders").doc(getOrderId).update({"status":"ended",
-    //   "riderUID": sharedPreferences!.getString("uid")});
-    // });
+    // })
+    //
     Navigator.push(context, MaterialPageRoute(builder: (c)=>RiderHomeScreen()));
 
   }

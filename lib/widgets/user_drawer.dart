@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/authentication/auth_screen.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
+import 'package:my_tiffin/homeScreens/history_screen.dart';
 import 'package:my_tiffin/homeScreens/home_screen.dart';
 import 'package:my_tiffin/homeScreens/user_orders_screen.dart';
 
@@ -133,6 +134,7 @@ class _UserDrawerState extends State<UserDrawer> {
                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 18,),
                   ),
              onTap: (){
+               Navigator.push(context, MaterialPageRoute(builder: (c)=>const UserHistoryScreen()));
 
              },
 

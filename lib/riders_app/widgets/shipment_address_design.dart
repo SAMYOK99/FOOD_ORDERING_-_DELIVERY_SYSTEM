@@ -89,8 +89,6 @@ orderStatus =="ended"
           UserLocation uLocation= UserLocation();
           uLocation!.getCurrentLocation();
       confirmParcelShipment(context, orderID!, orderBy!);
-
-
         },
         style: ButtonStyle(
           backgroundColor: const MaterialStatePropertyAll(Colors.green),

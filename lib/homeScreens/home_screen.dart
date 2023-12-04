@@ -1,7 +1,8 @@
- import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
 import 'package:my_tiffin/homeScreens/cart_page.dart';
+import 'package:my_tiffin/homeScreens/search_screen.dart';
 import 'package:my_tiffin/widgets/appbar_widget.dart';
 import 'package:my_tiffin/widgets/categories_widget.dart';
 import 'package:my_tiffin/widgets/newest_item_widget.dart';
@@ -9,8 +10,15 @@ import 'package:my_tiffin/widgets/popular_item_widget.dart';
 import 'package:my_tiffin/widgets/user_drawer.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+
+   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                  children: [
                    const Icon(
                        CupertinoIcons.search,
-                     color: Colors.red,
+                     color: Colors.green,
                    ),
                    Container(
                      height: 50,
@@ -58,6 +66,9 @@ class HomeScreen extends StatelessWidget {
                        horizontal: 15,
                      ),
                     child: TextFormField(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (c) => const SearchScreen()));
+                      },
                       decoration: const InputDecoration(
                         hintText: 'What would you like to have?',
                         border: InputBorder.none,
@@ -66,7 +77,8 @@ class HomeScreen extends StatelessWidget {
                     ),
                      ),
                    ),
-                   const Icon(Icons.filter_list),
+                   const Icon(Icons.filter_list,
+                   color: Colors.green,)
                  ],),
              ),
           ),
@@ -155,7 +167,7 @@ class HomeScreen extends StatelessWidget {
                     builder: (context, counter, c) {
                       return Text(
                         counter.count.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       );

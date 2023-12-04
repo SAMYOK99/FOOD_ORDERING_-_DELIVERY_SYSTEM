@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/authentication/auth_screen.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
+import 'package:my_tiffin/homeScreens/address_screen.dart';
 import 'package:my_tiffin/homeScreens/history_screen.dart';
 import 'package:my_tiffin/homeScreens/home_screen.dart';
 import 'package:my_tiffin/homeScreens/user_orders_screen.dart';
@@ -14,6 +15,7 @@ class UserDrawer extends StatefulWidget {
 }
 
 class _UserDrawerState extends State<UserDrawer> {
+  num totalAmount = 0;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -139,17 +141,6 @@ class _UserDrawerState extends State<UserDrawer> {
              },
 
                 ),
-             ListTile(
-                  leading: const Icon(CupertinoIcons.heart_fill,color: Colors.green,),
-                  title: const Text(
-                    'My Wish List',
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 18,),
-                  ),
-                  onTap: (){
-
-                  },
-
-                ),
                 ListTile(
                   leading:  const Icon(Icons.add_location,color: Colors.green,),
                   title: const Text(
@@ -157,6 +148,7 @@ class _UserDrawerState extends State<UserDrawer> {
                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 18,),
                   ),
                   onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (c)=> AddressScreen(totalAmount: totalAmount.toDouble())));
 
                   },
                 ),

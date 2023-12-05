@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/homeScreens/staff_main_screens/staff_search_screen.dart';
 import 'package:my_tiffin/widgets/appbar_widget.dart';
 import 'package:my_tiffin/widgets/staff_widget/staff_category_widget.dart';
 import 'package:my_tiffin/widgets/staff_widget/staff_drawer.dart';
@@ -44,7 +45,7 @@ class StaffHomeScreen extends StatelessWidget {
                   children: [
                     const Icon(
                       CupertinoIcons.search,
-                      color: Colors.red,
+                      color: Colors.green,
                     ),
                     Container(
                       height: 50,
@@ -53,15 +54,19 @@ class StaffHomeScreen extends StatelessWidget {
                         horizontal: 15,
                       ),
                         child: TextFormField(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (c) => const StaffSearchScreen()));
+                          },
                           decoration: const InputDecoration(
-                            hintText: 'What would you like to have?',
+                            hintText: 'Search Item.',
                             border: InputBorder.none,
 
                           ),
                         ),
                       ),
                     ),
-                    const Icon(Icons.filter_list),
+                    const Icon(Icons.filter_list,
+                      color: Colors.green,)
                   ],),
               ),
             ),
@@ -78,7 +83,7 @@ class StaffHomeScreen extends StatelessWidget {
             ),
           ),
           //popular items widget
-          SizedBox(height: 7,),
+          const SizedBox(height: 7,),
 
           StaffCategoryItem(),
         ],

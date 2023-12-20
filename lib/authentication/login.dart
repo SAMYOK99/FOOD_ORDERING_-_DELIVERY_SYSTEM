@@ -160,9 +160,9 @@ class _LoginScreenState extends State<LoginScreen> {
         .then((snapshot) async {
       if (snapshot.exists) {
         await sharedPreferences!.setString('uid', currentUser.uid);
-        await sharedPreferences!.setString('email', snapshot.data()!['staffEmail']);
-        await sharedPreferences!.setString('name', snapshot.data()!['staffName']); // used to access single users
-        await sharedPreferences!.setString('photoUrl', snapshot.data()!['staffAvatarUrl']);
+        await sharedPreferences!.setString('email', snapshot.data()!['userEmail']);
+        await sharedPreferences!.setString('name', snapshot.data()!['userName']); // used to access single users
+        await sharedPreferences!.setString('photoUrl', snapshot.data()!['userImageUrl']);
         await sharedPreferences!.setString('role', snapshot.data()!['role']);
         List<String> userCartList = snapshot.data()!['userCart'].cast<String>();
         await sharedPreferences!.setStringList('userCart', userCartList);

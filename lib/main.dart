@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/asistantMethods/address_changer.dart';
 import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
 import 'package:my_tiffin/asistantMethods/totalAmount.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/splashScreen/splash_screen.dart';
+import 'package:my_tiffin/webAdminPortal/admin_home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,8 +42,16 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const MySplashScreen(),
+        home:  const MySplashScreen(),
       ),
     );
+  }
+  Widget determineHomeScreen(){
+    if(kIsWeb){
+      return const MySplashScreen();
+    }
+    else{
+      return const WebAdminHomeScreen();
+    }
   }
 }

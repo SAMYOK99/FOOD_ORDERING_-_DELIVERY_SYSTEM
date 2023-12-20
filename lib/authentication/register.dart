@@ -34,7 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Position? position;
   String completeAddress ='';
-  String staffImageUrl ='';
+  String userImageUrl ='';
   LocationPermission? permission;
   List<Placemark>? placeMarks;
 
@@ -109,7 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               {
               }); // It provides information and status updates about the ongoing task.
               await taskSnapshot.ref.getDownloadURL().then((url) {
-                staffImageUrl = url;
+                userImageUrl = url;
 
                 //to save info to firestore
                 authenticateAndSignUp();
@@ -180,12 +180,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   //To store data in firestore
   Future saveDataToFirestore (User currentUser) async{
     FirebaseFirestore.instance.collection('users').doc(currentUser.uid).set({
-      'staffId':currentUser.uid,
-      'staffEmail':currentUser.email,
-      'staffName':namecontroller.text.trim(),
-      'staffPhone':phonecontroller.text.trim(), 
-      'staffAvatarUrl':staffImageUrl,
-      'staffAdress':completeAddress,
+      'userId':currentUser.uid,
+      'userEmail':currentUser.email,
+      'userName':namecontroller.text.trim(),
+      'userPhone':phonecontroller.text.trim(),
+      'userImageUrl':userImageUrl,
+      'userAddress':completeAddress,
       'status': "approved",
       'earnings':0.0,
       'lat':position?.latitude,
@@ -199,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   await sharedPreferences!.setString('uid', currentUser.uid);// key value pair
   await sharedPreferences!.setString('name', namecontroller.text.trim());
   await sharedPreferences!.setString('email', emailcontroller.text);
-  await sharedPreferences!.setString('photoUrl',staffImageUrl );
+  await sharedPreferences!.setString('photoUrl',userImageUrl );
   await sharedPreferences!.setString('role','user' );
   await sharedPreferences!.setStringList('userCart',["garbage"] );
 
@@ -247,7 +247,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
           ),
-          SizedBox(height: 5,),
+          const SizedBox(height: 5,),
           Form(
               key: _formkey,
               child: Column(
@@ -333,7 +333,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child:  ElevatedButton(
               style: ElevatedButton.styleFrom(
                 elevation: 5,
-
                 backgroundColor:Colors.white,
                 padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 15),
                 shape: RoundedRectangleBorder(

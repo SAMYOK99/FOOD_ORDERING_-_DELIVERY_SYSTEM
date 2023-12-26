@@ -28,7 +28,7 @@ class _PopularItemsState extends State<PopularItems> {
               } else {
                 return Container(
                   width: 350,
-                  height: MediaQuery.of(context).size.height * 0.3, // Adjust the height as needed
+                  height: MediaQuery.of(context).size.height * 0.4, // Adjust the height as needed
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,

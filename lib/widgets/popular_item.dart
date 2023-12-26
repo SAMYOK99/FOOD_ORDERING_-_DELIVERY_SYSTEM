@@ -38,7 +38,7 @@ class _PopularShownItemsState extends State<PopularShownItems> {
                     )
                   ],
                 ),
-                child: Padding(padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Padding(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -56,27 +56,43 @@ class _PopularShownItemsState extends State<PopularShownItems> {
                         ),
                       ),
                        Text(widget.model!.itemTitle!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),),
-                      const SizedBox(height: 4,),
-                       Text(widget.model!.shortInfo!,
-                        style: TextStyle(
-                          fontSize: 16,
-                          // fontWeight: FontWeight.bold,
-                        ),),
-                      const SizedBox(height: 5,),
+                      const SizedBox(height: 3,),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Text(
+                            widget.model!.shortInfo!,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              // fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Expanded(
+                      //    child: Text("fhaihdfiashdfadshfalkjdfhajkldsh",
+                      //      // widget.model!.shortInfo!,
+                      //     style: TextStyle(
+                      //       fontSize: 16,
+                      //       // fontWeight: FontWeight.bold,
+                      //     ),),
+                      //  ),
+                      // const SizedBox(height:,),
                        Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text( "\$"+widget.model!.itemPrice!,
-                            style: TextStyle(
-                            fontSize: 17,
+                            style: const TextStyle(
+                            fontSize: 15,
                             color: Colors.green,
                             fontWeight:  FontWeight.bold,
                           ),),
-                          Icon(Icons.favorite_border,
+                          const Icon(Icons.favorite_border,
                             color: Colors.green,
                             size: 26,
                           ),

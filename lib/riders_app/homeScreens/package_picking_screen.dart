@@ -83,7 +83,6 @@ class _PackagePickingScreenState extends State<PackagePickingScreen> {
                   width: MediaQuery.of(context).size.width - 40,
                   child: ElevatedButton(
                     onPressed: (){
-
                       UserLocation uLocation = UserLocation();
                       uLocation.getCurrentLocation();
                       // Confirmed that rider has picked the package

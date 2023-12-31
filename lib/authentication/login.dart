@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_tiffin/authentication/auth_screen.dart';
 import 'package:my_tiffin/homeScreens/home_screen.dart';
 import 'package:my_tiffin/homeScreens/staff_main_screens/staff_home_screen.dart';
@@ -159,35 +160,53 @@ class _LoginScreenState extends State<LoginScreen> {
         .get()
         .then((snapshot) async {
       if (snapshot.exists) {
-        await sharedPreferences!.setString('uid', currentUser.uid);
-        await sharedPreferences!.setString('email', snapshot.data()!['userEmail']);
-        await sharedPreferences!.setString('name', snapshot.data()!['userName']); // used to access single users
-        await sharedPreferences!.setString('photoUrl', snapshot.data()!['userImageUrl']);
-        await sharedPreferences!.setString('role', snapshot.data()!['role']);
-        List<String> userCartList = snapshot.data()!['userCart'].cast<String>();
-        await sharedPreferences!.setStringList('userCart', userCartList);
+        if (snapshot.data()!['status'] == 'approved') {
+          await sharedPreferences!.setString('uid', currentUser.uid);
+          await sharedPreferences!.setString(
+              'email', snapshot.data()!['userEmail']);
+          await sharedPreferences!.setString('name',
+              snapshot.data()!['userName']); // used to access single users
+          await sharedPreferences!.setString(
+              'photoUrl', snapshot.data()!['userImageUrl']);
+          await sharedPreferences!.setString('role', snapshot.data()!['role']);
+          List<String> userCartList = snapshot.data()!['userCart'].cast<
+              String>();
+          await sharedPreferences!.setStringList('userCart', userCartList);
 
-        if (snapshot.data()!['role'] == 'user') {
-          Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (c) => const HomeScreen()));
-        } else if (snapshot.data()!['role'] == 'staff') {
-          Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (c) => const StaffHomeScreen()));
+          if (snapshot.data()!['role'] == 'user') {
+            Navigator.pop(context);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (c) => const HomeScreen()));
+          } else if (snapshot.data()!['role'] == 'staff') {
+            Navigator.pop(context);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (c) => const StaffHomeScreen()));
+          }
         }
-      } else {
-        firebaseAuth.signOut();
-        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (c) => const AuthScreen()));
-        Navigator.pop(context);
-        showDialog(
-            context: context,
-            builder: (c) {
-              return ErrorDialog(
-                message: 'Record does not exist. Please sign up first',
-              );
-            });
+        else {
+          firebaseAuth.signOut();
+          Navigator.pop(context);
+          Fluttertoast.showToast(
+              msg: "Your account has been blocked. Contact admin via admin2@gmail.com");
+        }
       }
-    });
+        else {
+          firebaseAuth.signOut();
+          Navigator.pop(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (c) => const AuthScreen()));
+          Navigator.pop(context);
+          showDialog(
+              context: context,
+              builder: (c) {
+                return ErrorDialog(
+                  message: 'Record does not exist. Please sign up first',
+                );
+              });
+        }
+
+
+        });
   }
 
   @override

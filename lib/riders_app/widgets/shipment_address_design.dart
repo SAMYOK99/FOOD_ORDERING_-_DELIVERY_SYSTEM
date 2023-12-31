@@ -32,8 +32,6 @@ class ShipmentAddressDesign extends StatelessWidget {
           purchaserLat: model!.lat,
           purchaserLng: model!.lng,
           getOrderId : getOrderId
-
-
         )));
 
   }

@@ -57,7 +57,7 @@ class _PackageDeliveringScreenState extends State<PackageDeliveringScreen> {
     //       .doc(sharedPreferences!.getString("uid")).update({"earnings": ""});// total earnings of sellers)
     // })
     //
-    Navigator.push(context, MaterialPageRoute(builder: (c)=>RiderHomeScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (c)=>const RiderHomeScreen()));
 
   }
   getOrderTotalAmount()

@@ -20,7 +20,7 @@ class ItemUploadScreen extends StatefulWidget {
   final Items? model;
   // final ValueChanged<bool> onButtonClicked;
 
-  ItemUploadScreen({this.model});
+  const ItemUploadScreen({super.key, this.model});
 
   @override
   _ItemUploadScreenState createState() => _ItemUploadScreenState();
@@ -50,10 +50,10 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
         ),
         automaticallyImplyLeading: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.green,),
+          icon: const Icon(Icons.arrow_back, color: Colors.green,),
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (c) => StaffHomeScreen()));
+                MaterialPageRoute(builder: (c) => const StaffHomeScreen()));
           },
 
         ),
@@ -71,7 +71,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
         elevation: 0.0,
       ),
       body: Center(
-        child: Container(
+        child: SizedBox(
           width: MediaQuery
               .of(context)
               .size
@@ -194,7 +194,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
         ),
         automaticallyImplyLeading: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.green,),
+          icon: const Icon(Icons.arrow_back, color: Colors.green,),
           onPressed: () {
             clearMenuUploadForm();
           },
@@ -226,7 +226,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
           uploading == true ? linearProgress() :
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Container(
+            child: SizedBox(
               height: 250,
               child: Center(
                 child: Container(
@@ -247,7 +247,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
           ListTile(
             leading: const Icon(
               Icons.perm_device_information, color: Colors.green,),
-            title: Container(
+            title: SizedBox(
               width: 300,
               child: TextField(
                 style: const TextStyle(
@@ -267,7 +267,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.title, color: Colors.green,),
-            title: Container(
+            title: SizedBox(
               width: 300,
               child: TextField(
                 style: const TextStyle(
@@ -287,7 +287,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.description, color: Colors.green,),
-            title: Container(
+            title: SizedBox(
               width: 300,
               child: TextField(
                 style: const TextStyle(
@@ -307,7 +307,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.monetization_on, color: Colors.green,),
-            title: Container(
+            title: SizedBox(
               width: 300,
               child: TextField(
                 style: const TextStyle(

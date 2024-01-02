@@ -10,7 +10,7 @@ import '../../models/menu.dart';
 
 class CategoryItemWidget extends StatefulWidget {
   final Items? model;
-  CategoryItemWidget({this.model});
+  const CategoryItemWidget({super.key, this.model});
   @override
   State<CategoryItemWidget> createState() => _CategoryItemWidgetState();
 }
@@ -52,7 +52,7 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
                       fontSize: 18,
                     )));
                   } else {
-                    return Container(
+                    return SizedBox(
                       width: 350,
                       height: MediaQuery.of(context).size.height * 0.55,
                       child: ListView(

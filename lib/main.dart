@@ -6,7 +6,6 @@ import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
 import 'package:my_tiffin/asistantMethods/totalAmount.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/splashScreen/splash_screen.dart';
-import 'package:my_tiffin/webAdminPortal/admin_home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,9 +31,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<Menu>(create: (_) => Menu()),
-        ChangeNotifierProvider(create: (c)=> CartItemCounter()),
-        ChangeNotifierProvider(create: (c)=> TotalAmount()),
-        ChangeNotifierProvider(create: (c)=> AddressChanger()),
+        ChangeNotifierProvider(create: (c) => CartItemCounter()),
+        ChangeNotifierProvider(create: (c) => TotalAmount()),
+        ChangeNotifierProvider(create: (c) => AddressChanger()),
       ],
       child: MaterialApp(
         title: 'Staff App',
@@ -42,16 +41,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home:  const MySplashScreen(),
+        home: const MySplashScreen(),
       ),
     );
-  }
-  Widget determineHomeScreen(){
-    if(kIsWeb){
-      return const MySplashScreen();
-    }
-    else{
-      return const WebAdminHomeScreen();
-    }
   }
 }

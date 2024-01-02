@@ -1,85 +1,183 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:my_tiffin/models/items.dart';
 import 'package:my_tiffin/widgets/when_user_clicks_menu.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
- Future<QuerySnapshot>? itemNameList;
+
+Future<QuerySnapshot>? itemNameList;
 String itemNameText = "";
 
 initItemSearch(String textEntered) {
-  itemNameList = FirebaseFirestore.instance.collection("items").where("itemTitle",isGreaterThanOrEqualTo:textEntered)
+  itemNameList = FirebaseFirestore.instance
+      .collection("items")
+      .where("itemTitle", isGreaterThanOrEqualTo: textEntered)
       .get();
-
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  XFile? imageXFile;
+  final ImagePicker _picker = ImagePicker();
+
+  pickImageFromGallery() async {
+    Navigator.pop(context);
+
+    imageXFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 720,
+      maxWidth: 1280,
+    );
+
+    setState(() {
+      imageXFile;
+    });
+  }
+
+  pickFromGallery() async {
+    Navigator.pop(context);
+    imageXFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 720,
+      maxWidth: 1200,
+    );
+    setState(() {
+      imageXFile;
+    });
+  }
+
+  captureImageWithCamera() async {
+    Navigator.pop(context);
+
+    imageXFile = await _picker.pickImage(
+      source: ImageSource.camera,
+      maxHeight: 720,
+      maxWidth: 1280,
+    );
+
+    setState(() {
+      imageXFile;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-     iconTheme: const IconThemeData(
-       size: 33,
-       color: Colors.green,
-     ),
-        title:
-          TextFormField(
-            onChanged: (textEntered){
-              setState(() {
-                itemNameText = textEntered;// to access the entered item outside the onChanged(){}
-              });
-              // init
-              initItemSearch(textEntered);
-            },
-            decoration: InputDecoration(
-              hintText: 'What would you like to have?',
-              hintStyle: const TextStyle(
-                fontSize: 18,
+        iconTheme: const IconThemeData(
+          size: 33,
+          color: Colors.green,
+        ),
+        title: TextFormField(
+          onChanged: (textEntered) {
+            setState(() {
+              itemNameText = textEntered;
+            });
+            initItemSearch(textEntered);
+          },
+          decoration: InputDecoration(
+            hintText: 'What would you like to have?',
+            hintStyle: const TextStyle(
+              fontSize: 18,
+            ),
+            border: InputBorder.none,
+            prefixIcon: IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: Colors.green,
+                size: 33,
               ),
-              border: InputBorder.none,
-              suffixIcon:  IconButton(onPressed: (){
+              onPressed: () {
                 initItemSearch(itemNameText);
               },
-                icon: const Icon(Icons.search,
-                color: Colors.green,
-                size: 33,)
-                ,),
-
             ),
 
+            suffixIcon: IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SimpleDialog(
+                      title: const Text(
+                        "Item Image",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      children: [
+                        SimpleDialogOption(
+                          onPressed: captureImageWithCamera,
+                          child: const Text(
+                            "Capture with Camera",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ),
+                        SimpleDialogOption(
+                          onPressed: pickImageFromGallery,
+                          child: const Text(
+                            "Select from Gallery",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ),
+                        SimpleDialogOption(
+                          child: const Text(
+                            "Cancel",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              icon: const Icon(
+                Icons.camera_alt_outlined,
+                color: Colors.green,
+                size: 33,
+              ),
+            ),
           ),
+        ),
         backgroundColor: Colors.white,
         elevation: 0.0,
       ),
       body: FutureBuilder<QuerySnapshot>(
         future: itemNameList,
-        builder: (context,snapshot){
-          return  snapshot.hasData? Container(
+        builder: (context, snapshot) {
+          return snapshot.hasData
+              ? Container(
             width: 350,
-            height: MediaQuery.of(context).size.height * 1, // Adjust the height as needed
+            height: MediaQuery.of(context).size.height *
+                1,
             child: ListView(
               shrinkWrap: true,
-              children: List.generate(snapshot.data!.docs.length, (index) {
-                Items model = Items.fromJson(
-                  snapshot.data!.docs[index].data()! as Map<String, dynamic>,
-                );
-                return ClicksMenu(
-                  model: model,
-                  context: context,
-                );
-              }),
+              children: List.generate(snapshot.data!.docs.length,
+                      (index) {
+                    Items model = Items.fromJson(
+                      snapshot.data!.docs[index].data()!
+                      as Map<String, dynamic>,
+                    );
+                    return ClicksMenu(
+                      model: model,
+                      context: context,
+                    );
+                  }),
             ),
-          ): const Center(child: Text("No Item Found"),);
+          )
+              : const Center(child: Text("No Item Found"));
         },
       ),
-
     );
-
   }
 }

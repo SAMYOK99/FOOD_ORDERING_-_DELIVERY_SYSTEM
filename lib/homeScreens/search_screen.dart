@@ -1,13 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_tiffin/models/items.dart';
 import 'package:my_tiffin/widgets/when_user_clicks_menu.dart';
-import 'dart:io';
-import 'package:flutter/services.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
 
@@ -31,7 +26,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final ImagePicker _picker = ImagePicker();
 
   pickImageFromGallery() async {
-    Navigator.pop(context as BuildContext);
+    Navigator.pop(context);
 
     imageXFile = await _picker.pickImage(
       source: ImageSource.gallery,
@@ -45,7 +40,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   pickFromGallery() async {
-    Navigator.pop(context as BuildContext);
+    Navigator.pop(context);
     imageXFile = await _picker.pickImage(
       source: ImageSource.gallery,
       maxHeight: 720,
@@ -57,7 +52,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   captureImageWithCamera() async {
-    Navigator.pop(context as BuildContext);
+    Navigator.pop(context);
 
     imageXFile = await _picker.pickImage(
       source: ImageSource.camera,
@@ -69,32 +64,17 @@ class _SearchScreenState extends State<SearchScreen> {
       imageXFile;
     });
   }
-  createLabeler() async {
-    final modelPath = await getModelPath('assets/ml/1.tflite');
-    final options = LocalLabelerOptions(
-      // confidenceThreshold: confidenceThreshold,
-      modelPath: modelPath,
-    );
-     imageLabeler = ImageLabeler(options: options);
-  }
-
-
-  Future<String> getModelPath(String asset) async {
-    final path = '${(await getApplicationSupportDirectory()).path}/$asset';
-    await Directory(dirname(path)).create(recursive: true);
-    final file = File(path);
-    if (!await file.exists()) {
-      final byteData = await rootBundle.load(asset);
-      await file.writeAsBytes(byteData.buffer
-          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-    }
-    return file.path;
-  }
-  dynamic imageLabeler;
-@override
+  // createLabeler() async {
+  //   final modelPath = await getModelPath('assets/ml/1.tflite');
+  //   final options = LocalLabelerOptions(
+  //     // confidenceThreshold: confidenceThreshold,
+  //     modelPath: modelPath,
+  //   );
+  //    imageLabeler = ImageLabeler(options: options);
+  // }
+  @override
 void initState() {
     super.initState();
-    createLabeler();
   }
   @override
   Widget build(BuildContext context) {
@@ -188,7 +168,7 @@ void initState() {
         future: itemNameList,
         builder: (context, snapshot) {
           return snapshot.hasData
-              ? Container(
+              ? SizedBox(
             width: 350,
             height: MediaQuery.of(context).size.height *
                 1,

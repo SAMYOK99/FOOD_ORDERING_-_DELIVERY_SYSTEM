@@ -86,7 +86,7 @@ class _ClicksMenuState extends State<ClicksMenu> {
                         Text(
                           widget.model!.itemTitle!,
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),),
                         Text(

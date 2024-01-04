@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_tiffin/asistantMethods/cartItemMethods.dart';
 import 'package:my_tiffin/homeScreens/home_screen.dart';
+import 'package:my_tiffin/paymentGateway/esewa.dart';
 
 import '../globalVariables/globleVariable.dart';
 
@@ -97,6 +98,8 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                 width: MediaQuery.of(context).size.width - 40,
                 child: ElevatedButton(
                   onPressed: (){
+                    Esewa esewa = Esewa();
+                    esewa.pay();
                     saveOrderDetails();
 
                   },

@@ -36,7 +36,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),)),
               ),
-              child: const Text('Add New Address', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
+              child: const Text('Add New Address', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,color: Colors.white),),
             )],
         ));
 

@@ -57,7 +57,7 @@ class _PopularShownItemsState extends State<PopularShownItems> {
                       ),
                        Text(widget.model!.itemTitle!,
                         style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),),
                       const SizedBox(height: 3,),
@@ -74,15 +74,6 @@ class _PopularShownItemsState extends State<PopularShownItems> {
                         ),
                       ),
 
-                      // Expanded(
-                      //    child: Text("fhaihdfiashdfadshfalkjdfhajkldsh",
-                      //      // widget.model!.shortInfo!,
-                      //     style: TextStyle(
-                      //       fontSize: 16,
-                      //       // fontWeight: FontWeight.bold,
-                      //     ),),
-                      //  ),
-                      // const SizedBox(height:,),
                        Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

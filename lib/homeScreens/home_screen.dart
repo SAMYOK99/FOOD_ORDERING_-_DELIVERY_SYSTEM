@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       drawer: const UserDrawer(),
       body: ListView(
+        physics: const ClampingScrollPhysics(),
         children: [
           //custom App Bar widget
           const AppBarWidget(),
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           //Category
           const Padding(
-              padding:EdgeInsets.only(top: 20, left: 10),
+              padding:EdgeInsets.only(top: 15, left: 10),
              child: Text(
                'Category',
                style: TextStyle(
@@ -112,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
            PopularItems(),
           //Newest items
           const Padding(
-            padding: EdgeInsets.only(top: 20,left: 10),
+            padding: EdgeInsets.only(top: 15,left: 10),
             child: Text(
               "Newest",
               style: TextStyle(
@@ -122,7 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           //Newest Item widget
-          const NewestItemWidget(),
+
+          Container(
+            height: 300,
+              child: const NewestItemWidget(),
+          ),
 
 
         ],

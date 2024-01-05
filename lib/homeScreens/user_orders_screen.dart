@@ -45,7 +45,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: circularProgress());
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(
+            return const Center(
               child: Text(
                 "No items found. Place item first.",
                 style: TextStyle(

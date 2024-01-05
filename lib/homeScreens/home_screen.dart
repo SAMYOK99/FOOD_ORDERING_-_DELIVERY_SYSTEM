@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                        CupertinoIcons.search,
                      color: Colors.green,
                    ),
-                   Container(
+                   SizedBox(
                      height: 50,
                        width: 280,
                      child: Padding(padding: const EdgeInsets.symmetric(
@@ -124,9 +124,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           //Newest Item widget
 
-          Container(
+          const SizedBox(
             height: 300,
-              child: const NewestItemWidget(),
+              child: NewestItemWidget(),
           ),
 
 
@@ -159,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.green,
                 size: 30,
               ),
+              shape: const CircleBorder(),
             ),
             Positioned(
               top: 0,

@@ -4,6 +4,7 @@ import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
 import 'package:my_tiffin/asistantMethods/totalAmount.dart';
 import 'package:my_tiffin/models/items.dart';
 import 'package:my_tiffin/widgets/cartPageWidget.dart';
+import 'package:my_tiffin/widgets/error_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../asistantMethods/cartItemMethods.dart';
@@ -78,7 +79,7 @@ class _CartPageState extends State<CartPage> {
     }
   }
 
-    cartBottomNavBar() {
+  cartBottomNavBar() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       height: 70,
@@ -97,25 +98,45 @@ class _CartPageState extends State<CartPage> {
               const SizedBox(
                 width: 15,
               ),
-              Consumer<TotalAmount>(builder: (context, amountProvider, c) {
-                return Text(
-                  "\$" + (amountProvider.totalamt.toDouble() + currentProfitPerDelivery+currentPayPerDelivery).toStringAsFixed(2),
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.green,
-                  ),
-                );
-              }),
+              Consumer<TotalAmount>(
+                builder: (context, amountProvider, c) {
+                  double totalWithDelivery = amountProvider.totalamt.toDouble() +
+                      (itemCountList!.isEmpty
+                          ? 0.00
+                          : currentProfitPerDelivery + currentPayPerDelivery);
+
+                  return Text(
+                    "\$" + totalWithDelivery.toStringAsFixed(2),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.green,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
+              if (itemCountList != null && itemCountList!.isNotEmpty) {
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (c) => AddressScreen(
-                            totalAmount: totalAmount.toDouble(),
-                          )));
+                    builder: (c) => AddressScreen(
+                      totalAmount: totalAmount.toDouble(),
+                    ),
+                  ),
+                );
+              }else{
+                showDialog(
+                    context: context,
+                    builder: (c) {
+                      return const ErrorDialog(
+                        message: 'Add item in the cart firt',
+                      );
+                    }
+                );
+              }
             },
             style: ButtonStyle(
               backgroundColor: const MaterialStatePropertyAll(Colors.green),
@@ -289,57 +310,65 @@ class _CartPageState extends State<CartPage> {
                           const Divider(
                             color: Colors.black,
                           ),
-
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  "Delivery Fee:",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  ),
+                          Consumer<CartItemCounter>(
+                            builder: (context, countProvider, c) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Delivery Fee:",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      countProvider.count > 0
+                                          ? (currentPayPerDelivery + currentProfitPerDelivery).toStringAsFixed(2)
+                                          : "0.00",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  (currentPayPerDelivery+currentProfitPerDelivery).toStringAsFixed(2),
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              );
+                            },
                           ),
                           const Divider(
                             color: Colors.black,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  "Total:",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Consumer<TotalAmount>(
-                                    builder: (context, amountProvider, c) {
-                                  return Text(
-                                    (amountProvider.totalamt.toDouble() + currentProfitPerDelivery+currentPayPerDelivery).toStringAsFixed(2),
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.green,
+                          Consumer<TotalAmount>(
+                            builder: (context, amountProvider, c) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Total:",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  );
-
-                                    }),
-
-                              ],
-                            ),
+                                    Text(
+                                      (amountProvider.totalamt.toDouble() +
+                                          (itemCountList!.isEmpty
+                                              ? 0.00
+                                              : currentProfitPerDelivery + currentPayPerDelivery)
+                                      ).toStringAsFixed(2),
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),

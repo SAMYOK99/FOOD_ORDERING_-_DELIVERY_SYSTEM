@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_tiffin/models/items.dart';
 import 'package:my_tiffin/models/menu.dart';
 import 'package:my_tiffin/widgets/inside_category.dart';
 class CategoryItem extends StatefulWidget {

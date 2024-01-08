@@ -3,12 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
+import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/models/items.dart';
-import 'package:provider/provider.dart';
 
 import '../asistantMethods/cartItemMethods.dart';
-import '../globalVariables/globleVariable.dart';
+
 class ItemPage extends StatefulWidget {
   Items? model;
   ItemPage({super.key, this.model});
@@ -34,7 +33,24 @@ class _ItemPageState extends State<ItemPage> {
       });
     }
   }
+  void saveUserInteraction(String action) async {
+    try {
+      CollectionReference<Map<String, dynamic>> userInteractions =
+      FirebaseFirestore.instance.collection('user_interactions');
 
+      await userInteractions
+          .doc(sharedPreferences!.getString("uid"))
+          .collection('interactions')
+          .add({
+        'item_id': widget.model!.itemID,
+        'action': action,
+        'timestamp': FieldValue.serverTimestamp(),
+
+      });
+    } catch (e) {
+      print('Error saving user interaction: $e');
+    }
+  }
   ItemBottomNavBar() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -62,11 +78,12 @@ class _ItemPageState extends State<ItemPage> {
             onPressed: (){
               // if already exist
               List<String> itemIdList =  separateItemIds();
-              itemIdList.contains(widget.model!.itemID!)?
+              itemIdList.contains(widget.model!.itemID)?
               Fluttertoast.showToast(msg: "Item Already In Cart"):
               // add to cart
               addItemToCart(widget.model!.itemID,context,number);
-
+              // user_interaction
+              saveUserInteraction("Added to Cart");
 
             },
             style: ButtonStyle(

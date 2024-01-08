@@ -26,9 +26,7 @@ class PlaceOrderScreen extends StatefulWidget {
 
 class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
   String orderId = DateTime.now().microsecondsSinceEpoch.toString();
-  saveOrderDetails()
-
-  {
+  saveOrderDetails() {
     writeOrderDetailsInOrder({
       "addressID": widget.addressID,
       "totalAmount": widget.totalAmount,
@@ -151,14 +149,14 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
         .doc(orderId)
         .set(data);
   }
-    @override
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
           color: Colors.green,
           size: 33,
-
         ),
         backgroundColor: Colors.white,
         elevation: 0.0,

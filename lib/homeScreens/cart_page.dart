@@ -12,7 +12,7 @@ import '../riders_app/widgets/progress_bar.dart';
 import 'address_screen.dart';
 
 class CartPage extends StatefulWidget {
-  const CartPage({super.key});
+  const CartPage({super.key, });
 
   @override
   State<CartPage> createState() => _CartPageState();

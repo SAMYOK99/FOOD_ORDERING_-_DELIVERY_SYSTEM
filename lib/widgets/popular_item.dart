@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/homeScreens/item_page.dart';
 import 'package:my_tiffin/models/items.dart';
 class PopularShownItems extends StatefulWidget {
@@ -11,6 +13,23 @@ class PopularShownItems extends StatefulWidget {
 }
 
 class _PopularShownItemsState extends State<PopularShownItems> {
+  void saveUserInteraction(String action) async {
+    try {
+      CollectionReference<Map<String, dynamic>> userInteractions =
+      FirebaseFirestore.instance.collection('user_interactions');
+
+      await userInteractions
+          .doc(sharedPreferences!.getString("uid"))
+          .collection('interactions')
+          .add({
+        'item_id': widget.model!.itemID,
+        'action': action,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      print('Error saving user interaction: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -45,6 +64,7 @@ class _PopularShownItemsState extends State<PopularShownItems> {
                       InkWell(
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (c)=>  ItemPage(model: widget.model,)));
+                          saveUserInteraction("Viewed");
                         },
                         child: Container(
                           alignment: Alignment.center,

@@ -19,7 +19,7 @@ class _InsideCategoryState extends State<InsideCategory> {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text("Items of"+" "+widget.model!.menuTitle!),
+          title: Text("Items of "+" "+widget.model!.menuTitle!),
           titleTextStyle: const TextStyle(
             color: Colors.black,
             fontSize: 22,

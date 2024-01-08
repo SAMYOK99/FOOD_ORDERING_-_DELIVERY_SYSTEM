@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/homeScreens/item_page.dart';
 import 'package:my_tiffin/models/items.dart';
-import 'package:my_tiffin/models/menu.dart';
+
 
 class ClicksMenu extends StatefulWidget {
   Items? model;
@@ -31,6 +30,24 @@ class _ClicksMenuState extends State<ClicksMenu> {
   //   Fluttertoast.showToast(msg: "Item Deleted");
   //
   // }
+  void saveUserInteraction(String action) async {
+    try {
+      CollectionReference<Map<String, dynamic>> userInteractions =
+      FirebaseFirestore.instance.collection('user_interactions');
+
+      await userInteractions
+          .doc(sharedPreferences!.getString("uid"))
+          .collection('interactions')
+          .add({
+        'item_id': widget.model!.itemID,
+        'action': action,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      print('Error saving user interaction: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(padding: const EdgeInsets.symmetric(vertical: 10),
@@ -61,9 +78,11 @@ class _ClicksMenuState extends State<ClicksMenu> {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
                           builder: (c) => ItemPage(model: widget.model,)));
+                      saveUserInteraction("Viewed");
+
                     },
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                      margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                       alignment: Alignment.bottomCenter,
                       child: Image.network(
                         widget.model!.thumbnailUrl!,
@@ -85,34 +104,34 @@ class _ClicksMenuState extends State<ClicksMenu> {
                       children: [
                         Text(
                           widget.model!.itemTitle!,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),),
                         Text(
                           widget.model!.shortInfo!,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),),
-                        RatingBar.builder(
-                          initialRating: 4,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          itemCount: 5,
-                          itemSize: 18,
-                          itemPadding: const EdgeInsets.symmetric(
-                              horizontal: 4),
-                          itemBuilder: (context, _) =>
-                          const Icon(
-                            Icons.star,
-                            color: Colors.green,
-
-                          ),
-                          onRatingUpdate: (index) {},),
+                        // RatingBar.builder(
+                        //   initialRating: 4,
+                        //   minRating: 1,
+                        //   direction: Axis.horizontal,
+                        //   itemCount: 5,
+                        //   itemSize: 18,
+                        //   itemPadding: const EdgeInsets.symmetric(
+                        //       horizontal: 4),
+                        //   itemBuilder: (context, _) =>
+                        //   const Icon(
+                        //     Icons.star,
+                        //     color: Colors.green,
+                        //
+                        //   ),
+                        //   onRatingUpdate: (index) {},),
                         Text(
                           "\$"+widget.model!.itemPrice!,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 17,
                             color: Colors.green,
                             fontWeight: FontWeight.bold,

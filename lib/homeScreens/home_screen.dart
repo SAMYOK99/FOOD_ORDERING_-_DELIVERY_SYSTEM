@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
 import 'package:my_tiffin/homeScreens/cart_page.dart';
 import 'package:my_tiffin/homeScreens/search_screen.dart';
+import 'package:my_tiffin/homeScreens/user_recommendation.dart';
 import 'package:my_tiffin/widgets/appbar_widget.dart';
 import 'package:my_tiffin/widgets/categories_widget.dart';
 import 'package:my_tiffin/widgets/newest_item_widget.dart';
@@ -121,6 +122,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontSize: 20,
               ),
             ),
+          ),
+          ElevatedButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (c) => const UserRecommendationScreen()));
+
+            },
+              child: Text('recommend')
           ),
           //Newest Item widget
 

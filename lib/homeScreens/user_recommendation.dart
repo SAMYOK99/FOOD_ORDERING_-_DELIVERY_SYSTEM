@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
+import 'package:my_tiffin/models/items.dart';
+import 'package:my_tiffin/widgets/popular_item.dart';
 
 class UserRecommendationScreen extends StatefulWidget {
   const UserRecommendationScreen({Key? key}) : super(key: key);
@@ -15,37 +17,39 @@ class _UserRecommendationScreenState extends State<UserRecommendationScreen> {
   @override
   void initState() {
     super.initState();
-    generateUserRecommendations();
+    fetchAndSetUserRecommendations();
   }
 
   Future<Map<String, Map<String, double>>> getItemInteractions() async {
-    Map<String, Map<String, double>> itemInteractions = {};
+    Map<String, Map<String, double>> interactions = {};
 
     try {
+      DateTime threeDaysAgo = DateTime.now().subtract(const Duration(days: 3));
       QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
           .collection('user_interactions')
           .doc(sharedPreferences!.getString("uid"))
           .collection('interactions')
+          .where('timestamp', isGreaterThanOrEqualTo: threeDaysAgo)
           .get();
 
       for (var doc in querySnapshot.docs) {
         Map<String, dynamic> interaction = doc.data();
         String itemId = interaction['item_id'];
         String action = interaction['action'];
-        double interactionValue = 1.0; // You might use different values based on actions
+        double interactionValue = 1.0;
 
-        if (!itemInteractions.containsKey(itemId)) {
-          itemInteractions[itemId] = {};
+        if (!interactions.containsKey(itemId)) {
+          interactions[itemId] = {};
         }
 
-        itemInteractions[itemId]![action] = interactionValue;
+        interactions[itemId]![action] = interactionValue;
       }
 
-      print('Fetched itemInteractions: $itemInteractions');
-      return itemInteractions;
+      print('Fetched itemInteractions: $interactions');
+      return interactions;
     } catch (e) {
       print('Error fetching item interactions: $e');
-      return itemInteractions;
+      return interactions;
     }
   }
 
@@ -72,20 +76,19 @@ class _UserRecommendationScreenState extends State<UserRecommendationScreen> {
     return similarity;
   }
 
-
   Map<String, List<String>> generateRecommendations(Map<String, Map<String, double>> itemInteractions) {
     Map<String, List<String>> recommendations = {};
-    String userId = 'replace_with_actual_user_id'; // Replace with the actual user ID
+    String? userId = sharedPreferences!.getString("uid");
 
-    // Get items interacted with by the user
-    List<String> userItems = itemInteractions.entries
-        .where((entry) => entry.value.containsKey(userId))
-        .map((entry) => entry.key)
-        .toList();
+    List<String> userItems = itemInteractions.keys.toList();
 
-    // Find similar items for each item the user interacted with
+    if (userItems.isNotEmpty) {
+      print("User items: ${userItems.join(', ')}");
+    } else {
+      print("No user items found.");
+    }
+
     userItems.forEach((userItem) {
-      // Find items similar to the current user item
       List<String> similarItems = [];
 
       itemInteractions.forEach((itemId, interactions) {
@@ -102,15 +105,17 @@ class _UserRecommendationScreenState extends State<UserRecommendationScreen> {
       });
 
       recommendations[userItem] = similarItems;
+      print('User Item: $userItem, Similar Items: $similarItems');
+
     });
 
     return recommendations;
   }
 
-  Future<void> generateUserRecommendations() async {
+  Future<void> fetchAndSetUserRecommendations() async {
     Map<String, Map<String, double>> itemInteractions = await getItemInteractions();
     Map<String, List<String>> recommendations = generateRecommendations(itemInteractions);
-
+    print('User Recommendations: $recommendations');
     setState(() {
       userRecommendations = recommendations;
     });
@@ -119,22 +124,53 @@ class _UserRecommendationScreenState extends State<UserRecommendationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('User Recommendations'),
-      ),
-      body: userRecommendations.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-        itemCount: userRecommendations.length,
-        itemBuilder: (context, index) {
-          String userItem = userRecommendations.keys.elementAt(index);
-          List<String> recommendedItems = userRecommendations[userItem] ?? [];
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(10, 10, 15, 10),
+          width: double.infinity,
+          child: SingleChildScrollView(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('items')
+                  .orderBy("publishedDate", descending: true)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(child: Text('No data available'));
+                } else {
+                  QuerySnapshot<Map<String, dynamic>> querySnapshot = snapshot.data as QuerySnapshot<Map<String, dynamic>>;
+                  List<QueryDocumentSnapshot<Map<String, dynamic>>> docs = querySnapshot.docs;
 
-          return ListTile(
-            title: Text('Item: $userItem'),
-            subtitle: Text('Recommendations: ${recommendedItems.join(', ')}'),
-          );
-        },
+                  List<String> recommendedItemIds = userRecommendations.values.expand((items) => items).toList();
+                  print('Recommended Item IDs: $recommendedItemIds');
+                  List<Items> recommendedItems = docs
+                      .where((doc) => recommendedItemIds.contains(doc.id)) // Filtering based on recommended item IDs
+                      .map((doc) => Items.fromJson(doc.data()))
+                      .toList();
+                  return Container(
+                    width: 350,
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: recommendedItems.length,
+                      itemBuilder: (context, index) {
+                        return PopularShownItems(
+                          model: recommendedItems[index],
+                          context: context,
+                        );
+                      },
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+        ),
       ),
     );
   }

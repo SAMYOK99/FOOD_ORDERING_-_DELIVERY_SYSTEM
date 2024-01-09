@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
+import 'package:my_tiffin/homeScreens/user_recommendation.dart';
 import 'package:my_tiffin/models/items.dart';
 
 import '../asistantMethods/cartItemMethods.dart';
@@ -203,6 +204,13 @@ class _ItemPageState extends State<ItemPage> {
                   ),
                 ),
               ),
+            ),
+            
+            Text("You also viewed"),
+
+            Container(
+              height: 300,
+                child: UserRecommendationScreen()
             ),
 
           ],

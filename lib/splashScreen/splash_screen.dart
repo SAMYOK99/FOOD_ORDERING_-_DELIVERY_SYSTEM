@@ -18,7 +18,7 @@ String? role= sharedPreferences?.getString('role');
 class _MySplashScreenState extends State<MySplashScreen> {
   startTimer(){
 
-    Timer(const Duration(seconds: 1),() async{
+    Timer(const Duration(seconds: 3),() async{
       // if staff is logged in already
       if(firebaseAuth.currentUser!=null) {
         if (role == 'user') {
@@ -46,30 +46,30 @@ class _MySplashScreenState extends State<MySplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
-        color: Colors.white,
-        child: Center(
-          child: Column(
-            mainAxisAlignment:MainAxisAlignment.center,
-            children: [
-              Image.asset("images/splash.jpg"),
-              const SizedBox(height: 10,),
-              const Padding(
-                  padding: EdgeInsets.all( 18.0),
-                  child:Text('Admin Panel',
-                      textAlign: TextAlign.center,
-                           style: TextStyle(
-                             color: Colors.black54,
-                             fontFamily: 'Signatra',
-                             fontSize: 40,
-                             letterSpacing: 3,
-                  ),
-                  ),
-              )
-            ],
-          ),
+      child: Padding(
+        padding: EdgeInsets.all(18.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset("images/sp.jpg"),
+            SizedBox(height: 8), // Vertical space after the image
+            Image.asset("images/name.png"),
+
+          ],
         ),
       ),
+
+
+
+
+
+
+
+
+
+
+
     );
   }
 }

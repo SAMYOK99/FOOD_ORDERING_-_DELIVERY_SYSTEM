@@ -95,3 +95,6 @@ flutter:
     - family: Train
       fonts:
         - asset: assets/fonts/TrainOne-Regular.ttf
+    - family: Vladimir
+      fonts:
+        - asset: assets/fonts/VLADIMIR.TTF

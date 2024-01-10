@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:my_tiffin/asistantMethods/cartItemCounter.dart';
 import 'package:my_tiffin/homeScreens/cart_page.dart';
 import 'package:my_tiffin/homeScreens/search_screen.dart';
-import 'package:my_tiffin/homeScreens/user_recommendation.dart';
 import 'package:my_tiffin/widgets/appbar_widget.dart';
 import 'package:my_tiffin/widgets/categories_widget.dart';
 import 'package:my_tiffin/widgets/newest_item_widget.dart';
@@ -123,13 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          ElevatedButton(
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (c) => const UserRecommendationScreen()));
-
-            },
-              child: Text('recommend')
-          ),
           //Newest Item widget
 
           const SizedBox(
@@ -162,12 +154,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(context, MaterialPageRoute(builder: (c) => const CartPage()));
               },
               backgroundColor: Colors.white,
+              shape: const CircleBorder(),
               child: const Icon(
                 CupertinoIcons.cart,
                 color: Colors.green,
                 size: 30,
               ),
-              shape: const CircleBorder(),
             ),
             Positioned(
               top: 0,

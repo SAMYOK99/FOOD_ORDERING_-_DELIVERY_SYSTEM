@@ -34,6 +34,24 @@ class _ItemPageState extends State<ItemPage> {
       });
     }
   }
+  // to store time the user viewd
+  void logUserView() async {
+    try {
+      CollectionReference<Map<String, dynamic>> viewsCollection =
+      FirebaseFirestore.instance.collection('views');
+
+      // Log the user view by adding a document to the 'views' collection
+      await viewsCollection.add({
+        'user_id': sharedPreferences!.getString("uid"),
+        'item_id': widget.model!.itemID,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+      print('View logged successfully.');
+    } catch (e) {
+      print('Error logging view: $e');
+    }
+  }
+  //to store user interaction
   void saveUserInteraction(String action) async {
     try {
       CollectionReference<Map<String, dynamic>> userInteractions =
@@ -119,10 +137,6 @@ class _ItemPageState extends State<ItemPage> {
                 widget.model!.thumbnailUrl!,
                 height: 300,
               ),
-              // Image.asset("images/burger.png",
-              // height: 300,
-              // width: double.infinity,
-              // width: 100,
             ),
             Arc(
               edge: Edge.TOP,

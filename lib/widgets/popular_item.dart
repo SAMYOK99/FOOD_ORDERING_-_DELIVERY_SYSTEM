@@ -13,6 +13,25 @@ class PopularShownItems extends StatefulWidget {
 }
 
 class _PopularShownItemsState extends State<PopularShownItems> {
+
+  // to store time the user viewd
+  void logUserView() async {
+    try {
+      CollectionReference<Map<String, dynamic>> viewsCollection =
+      FirebaseFirestore.instance.collection('views');
+
+      // Log the user view by adding a document to the 'views' collection
+      await viewsCollection.add({
+        'user_id': sharedPreferences!.getString("uid"),
+        'item_id': widget.model!.itemID,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+      print('View logged successfully.');
+    } catch (e) {
+      print('Error logging view: $e');
+    }
+  }
+  // to save user interaction
   void saveUserInteraction(String action) async {
     try {
       CollectionReference<Map<String, dynamic>> userInteractions =
@@ -65,6 +84,7 @@ class _PopularShownItemsState extends State<PopularShownItems> {
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (c)=>  ItemPage(model: widget.model,)));
                           saveUserInteraction("Viewed");
+                          logUserView();
                         },
                         child: Container(
                           alignment: Alignment.center,

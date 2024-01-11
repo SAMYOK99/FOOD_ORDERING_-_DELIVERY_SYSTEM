@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_tiffin/authentication/auth_screen.dart';
+import 'package:my_tiffin/authentication/forgot_password.dart';
 import 'package:my_tiffin/homeScreens/home_screen.dart';
 import 'package:my_tiffin/homeScreens/staff_main_screens/staff_home_screen.dart';
 import 'package:my_tiffin/riders_app/authentication/auth_screen.dart';
@@ -26,18 +27,19 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       alignment: Alignment.centerRight,
-      child: ElevatedButton(
-        onPressed: () => print('Forgot password'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (c) => const ForgotPasswordScreen()));
+
+        },
+        child: Container(
           padding: const EdgeInsets.only(right: 0),
-        ),
-        child: const Text(
-          'Forgot Password?',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+          child: const Text(
+            'Forgot Password?',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -71,35 +73,35 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget rememberMe() {
-    return Container(
-      height: 20,
-      child: Row(
-        children: [
-          Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
-            child: Checkbox(
-              value: isRememberMe,
-              checkColor: Colors.green,
-              activeColor: Colors.white,
-              onChanged: (value) {
-                setState(() {
-                  isRememberMe = value!;
-                });
-              },
-            ),
-          ),
-          const Text(
-            'Remember me',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  // Widget rememberMe() {
+  //   return Container(
+  //     height: 20,
+  //     child: Row(
+  //       children: [
+  //         Theme(
+  //           data: ThemeData(unselectedWidgetColor: Colors.white),
+  //           child: Checkbox(
+  //             value: isRememberMe,
+  //             checkColor: Colors.green,
+  //             activeColor: Colors.white,
+  //             onChanged: (value) {
+  //               setState(() {
+  //                 isRememberMe = value!;
+  //               });
+  //             },
+  //           ),
+  //         ),
+  //         const Text(
+  //           'Remember me',
+  //           style: TextStyle(
+  //             color: Colors.white,
+  //             fontWeight: FontWeight.bold,
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController emailcontroller = TextEditingController();
@@ -203,9 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   message: 'Record does not exist. Please sign up first',
                 );
               });
-        }
-
-
+            }
         });
   }
 
@@ -261,8 +261,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
+          const SizedBox(height: 8,),
           forgotPassBtn(),
-          rememberMe(),
+          const SizedBox(height: 25,),
+
           Container(
             margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
             width: double.infinity,

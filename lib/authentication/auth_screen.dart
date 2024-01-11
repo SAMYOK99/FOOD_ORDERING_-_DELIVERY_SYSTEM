@@ -51,11 +51,15 @@ class _AuthScreenState extends State<AuthScreen> {
               tabs: [
                 Tab(
                   icon: Icon(Icons.lock,color: Colors.white,),
-                  text:'Login',
+                    child: Text('Login',style: TextStyle(color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),),
                 ),
                 Tab(
                   icon: Icon(Icons.person,color: Colors.white,),
-                  text:'Sign Up',
+                  child: Text('Sign Up',style: TextStyle(color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),),
                 )
               ],
             indicatorColor: Colors.white38,

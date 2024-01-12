@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_tiffin/authentication/auth_screen.dart';
+import 'package:my_tiffin/authentication/forgot_password.dart';
 import 'package:my_tiffin/riders_app/authentication/auth_screen.dart';
 import 'package:my_tiffin/riders_app/homeScreens/home_screen.dart';
 import 'package:my_tiffin/riders_app/widgets/dialog_loading.dart';
@@ -24,18 +25,23 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       alignment: Alignment.centerRight,
-      child: ElevatedButton(
-        onPressed: () => print('Forgot password'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          padding: const EdgeInsets.only(right: 0),
-        ),
-        child: const Text(
-          'Forgot Password?',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (c) => const ForgotPasswordScreen()));
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(8), // You can adjust the border radius as needed
+          ),
+          padding: const EdgeInsets.all(16), // Adjust the padding as needed
+          child: const Text(
+            'Are you a Rider?',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -277,8 +283,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
+          const SizedBox(height: 8.0,),
+
           forgotPassBtn(),
-          rememberMe(),
+          const SizedBox(height: 25.0,),
+
           Container(
             margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
             width: double.infinity,

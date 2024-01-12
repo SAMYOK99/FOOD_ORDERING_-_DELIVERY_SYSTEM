@@ -38,7 +38,7 @@ class _AuthScreenState extends State<AuthScreen> {
         automaticallyImplyLeading: false,
         title: const Padding(
           padding:  EdgeInsets.fromLTRB(0.0, 20.0, 0.0,30.0),
-          child:  Text('Tiffin',
+          child:  Text('User',
             style: TextStyle(
               fontSize: 50,
               fontFamily: 'Lobster',
@@ -52,13 +52,13 @@ class _AuthScreenState extends State<AuthScreen> {
                 Tab(
                   icon: Icon(Icons.lock,color: Colors.white,),
                     child: Text('Login',style: TextStyle(color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold),),
                 ),
                 Tab(
                   icon: Icon(Icons.person,color: Colors.white,),
                   child: Text('Sign Up',style: TextStyle(color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold),),
                 )
               ],

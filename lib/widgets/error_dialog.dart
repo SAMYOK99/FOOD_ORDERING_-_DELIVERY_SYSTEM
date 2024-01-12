@@ -20,7 +20,10 @@ class ErrorDialog extends StatelessWidget {
               Navigator.pop(context);
           },
             child: const  Center(
-              child: Text('Ok'),
+              child: Text('Ok',
+              style: TextStyle(
+                color: Colors.white
+              ),),
             ),
         )
       ],

@@ -51,16 +51,20 @@ class _RiderAuthScreenState extends State<RiderAuthScreen> {
         ),
          centerTitle: true,
           bottom: const TabBar(
-              tabs: [
-                Tab(
-                  icon: Icon(Icons.lock,color: Colors.white,),
-                  text:'Login',
-                ),
-                Tab(
-                  icon: Icon(Icons.person,color: Colors.white,),
-                  text:'Sign Up',
-                )
-              ],
+            tabs: [
+              Tab(
+                icon: Icon(Icons.lock,color: Colors.white,),
+                child: Text('Login',style: TextStyle(color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),),
+              ),
+              Tab(
+                icon: Icon(Icons.person,color: Colors.white,),
+                child: Text('Sign Up',style: TextStyle(color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),),
+              )
+            ],
             indicatorColor: Colors.white38,
             indicatorWeight:6,
               ),

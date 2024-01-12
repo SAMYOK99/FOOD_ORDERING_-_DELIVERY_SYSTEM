@@ -261,9 +261,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 8,),
+          const SizedBox(height: 8.0,),
           forgotPassBtn(),
-          const SizedBox(height: 25,),
+          const SizedBox(height: 25.0,),
 
           Container(
             margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),

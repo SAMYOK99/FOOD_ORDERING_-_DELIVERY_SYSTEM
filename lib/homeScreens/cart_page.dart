@@ -254,10 +254,13 @@ class _CartPageState extends State<CartPage> {
                                                 totalAmount.toDouble());
                                       });
                                     }
-                                    return CartPageWidget(
-                                      model: model,
-                                      context: context,
-                                      quantityNumber: itemCountList![index],
+                                    return Padding(
+                                      padding: const EdgeInsets.fromLTRB(5.0,0,5,0),
+                                      child: CartPageWidget(
+                                        model: model,
+                                        context: context,
+                                        quantityNumber: itemCountList![index],
+                                      ),
                                     );
                                   }),
                                 ),

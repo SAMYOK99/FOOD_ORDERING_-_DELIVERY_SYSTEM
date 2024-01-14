@@ -52,7 +52,7 @@ class _CartPageWidgetState extends State<CartPageWidget> {
                     ),
                   ),
                   Container(
-                    width: 180,
+                    width: 160,
                     child:  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

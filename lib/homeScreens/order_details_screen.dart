@@ -18,7 +18,6 @@ class OrderDetailsScreen extends StatefulWidget {
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   String orderStatus = "";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +59,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "\$ " + dataMap["totalAmount"].toString(),
+                        "\$ ${dataMap["totalAmount"]}",
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -71,7 +70,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Order Id" + widget.orderID!,
+                      "Order Id: ${widget.orderID!}",
                       style: const TextStyle(
                         fontSize: 16,
                       ),
@@ -79,13 +78,21 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
+                    child: Text("Payment Status: ${dataMap["paymentDetails"]}"
+            ,
+            style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Order At " +
-                          DateFormat("dd MMMM, yyyy - hh:mm aa").format(
+                      "Order At ${DateFormat("dd MMMM, yyyy - hh:mm aa").format(
                             DateTime.fromMicrosecondsSinceEpoch(
                               int.parse(dataMap["orderTime"]),
                             ),
-                          ),
+                          )}",
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.grey,

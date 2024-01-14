@@ -132,7 +132,7 @@ class _CartPageState extends State<CartPage> {
                     context: context,
                     builder: (c) {
                       return const ErrorDialog(
-                        message: 'Add item in the cart firt',
+                        message: 'Add item in the cart first',
                       );
                     }
                 );
@@ -238,11 +238,13 @@ class _CartPageState extends State<CartPage> {
                                       totalAmount = 0;
                                       totalAmount = totalAmount +
                                           (double.parse(model.itemPrice!) *
-                                              itemCountList![index]);
+                                              itemCountList![index])+
+                                          currentProfitPerDelivery + currentPayPerDelivery;
                                     } else {
                                       totalAmount = totalAmount +
                                           (double.parse(model.itemPrice!) *
-                                              itemCountList![index]);
+                                              itemCountList![index])+
+                                      currentProfitPerDelivery + currentPayPerDelivery;
                                     }
                                     if (snapshot.data!.docs.length - 1 ==
                                         index) {

@@ -29,12 +29,15 @@ class PackageDeliveringScreen extends StatefulWidget {
 class _PackageDeliveringScreenState extends State<PackageDeliveringScreen> {
   deliveringPackage(getOrderId, purchaserId, purchaserAddress, purchaserLat, purchaserLng)
   {
-    String riderNewTotalEarningAmount=((double.parse(previousRiderEarnings))+(double.parse(perPackageDeliveryAmount))).toString();
+    double previousEarnings = double.parse(previousRiderEarnings!);
+    double packageDeliveryAmount = double.parse(perPackageDeliveryAmount!);
+    String riderNewTotalEarningAmount = (previousEarnings + packageDeliveryAmount).toString();
     FirebaseFirestore.instance
         .collection("orders")
         .doc(getOrderId)
         .update({
       "status": "ended",
+      "paymentDetails":"paid",
       "address": widget.purchaserAddress,
       "lat":position!.latitude,
       "lng":position!.longitude,

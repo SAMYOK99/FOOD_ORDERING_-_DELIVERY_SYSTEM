@@ -52,23 +52,26 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
                       fontSize: 18,
                     )));
                   } else {
-                    return SizedBox(
-                      width: 350,
-                      height: MediaQuery.of(context).size.height * 0.55,
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: List.generate(snapshot.data!.docs.length, (index) {
-                          Items model = Items.fromJson(
-                            snapshot.data!.docs[index].data()! as Map<String, dynamic>,
-                          );
-                          return Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: ItemsDesign(
-                              model: model,
-                              context: context,
-                            ),
-                          );
-                        }),
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 350,
+                        height: MediaQuery.of(context).size.height * 0.55,
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: List.generate(snapshot.data!.docs.length, (index) {
+                            Items model = Items.fromJson(
+                              snapshot.data!.docs[index].data()! as Map<String, dynamic>,
+                            );
+                            return Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: ItemsDesign(
+                                model: model,
+                                context: context,
+                              ),
+                            );
+                          }),
+                        ),
                       ),
                     );
                   }

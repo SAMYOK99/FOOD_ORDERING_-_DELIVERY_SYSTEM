@@ -39,7 +39,7 @@ class StaffOrderCard extends StatelessWidget {
           ],
         ),
         margin: const EdgeInsets.fromLTRB(5,5,5,5),
-        height: itemCount! * 125,
+        height: itemCount! * 150,
         child: ListView.builder(
           itemCount: itemCount,
           physics: const NeverScrollableScrollPhysics(),

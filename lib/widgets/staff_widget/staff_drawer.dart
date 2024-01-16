@@ -116,7 +116,7 @@ class _StaffDrawerState extends State<StaffDrawer> {
                 ListTile(
                   leading: const Icon(Icons.reorder,color: Colors.green,),
                   title: const Text(
-                    'New Orders',
+                    'Available Orders',
                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 18,),
                   ),
                   onTap: (){

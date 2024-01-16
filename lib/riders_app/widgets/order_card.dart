@@ -38,15 +38,18 @@ class OrderCard extends StatelessWidget {
             )
           ],
         ),
-        margin: EdgeInsets.all(5),
-        height: itemCount! * 125,
+        margin: const EdgeInsets.fromLTRB(5,5,5,5),
+        height: itemCount! * 150,
         child: ListView.builder(
           itemCount: itemCount,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index)
           {
             Items model = Items.fromJson(data![index].data()! as Map<String, dynamic>);
-            return placeOrderDesignWidget(model, context, separateQuantitiesList![index]);
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(5,0,5,5),
+              child: placeOrderDesignWidget(model, context, separateQuantitiesList![index]),
+            );
           },
         ),
       ),

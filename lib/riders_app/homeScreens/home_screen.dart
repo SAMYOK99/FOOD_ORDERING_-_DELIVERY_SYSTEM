@@ -153,24 +153,24 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       );
     }
     return Scaffold(
-      appBar:AppBar(
-    backgroundColor: Colors.white,
-      title:  const Text('haha',
-        style:  TextStyle(
-          fontSize: 22,
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          sharedPreferences!.getString('name') ?? "Default Title",
+          style: const TextStyle(
+            fontSize: 22,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
-    elevation: 0.0,
-    centerTitle: true,
-    automaticallyImplyLeading: false,
-
+        elevation: 0.0,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
 
       body:  Container(
         margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 1),
+        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 2),
         child: GridView.count(
           crossAxisCount: 2,
           padding: const EdgeInsets.all(2),

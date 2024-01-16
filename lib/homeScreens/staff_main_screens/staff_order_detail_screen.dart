@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_tiffin/models/address.dart';
 import 'package:my_tiffin/widgets/progress_bar.dart';
-import 'package:my_tiffin/riders_app/widgets/status_banner.dart';
+import 'package:my_tiffin/widgets/staff_widget/staff_status_banner.dart';
 import 'package:my_tiffin/widgets/staff_widget/staff_shipment_address.dart';
 
 class StaffOrderDetailsScreen extends StatefulWidget {
@@ -54,7 +54,7 @@ class _StaffOrderDetailsScreenState extends State<StaffOrderDetailsScreen> {
               orderStatus = dataMap["status"].toString();
               return Column(
                 children: [
-                  StatusBanner(
+                  StaffStatusBanner(
                     status: dataMap["isSuccess"],
                     orderStatus: orderStatus,
                   ),

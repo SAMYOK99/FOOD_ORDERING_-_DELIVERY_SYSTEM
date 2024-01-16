@@ -45,27 +45,27 @@ class StaffShipmentAddressDesign extends StatelessWidget {
         ),
         const SizedBox(height: 80,),
         Padding(
-           padding: const EdgeInsets.all(8.0),
-           child: Center(
-             child: Container(
-               height: 50,
-               width: MediaQuery.of(context).size.width - 40,
-               child: ElevatedButton(
-                 onPressed: (){
-                   Navigator.push(context, MaterialPageRoute(
-                       builder: (c)=>const StaffHomeScreen()));
-                 },
-                 style: ButtonStyle(
-                   backgroundColor: const MaterialStatePropertyAll(Colors.green),
-                   padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 15,horizontal: 20,),),
-                   shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                     borderRadius: BorderRadius.circular(20),)),
-                 ),
-                 child:  Text(orderStatus=="ended" ? 'Go Back' : "Packing is Completed", style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
-               ),
-             ),
-           ),
-         ),
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Container(
+              height: 50,
+              width: MediaQuery.of(context).size.width - 40,
+              child: ElevatedButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (c)=>const StaffHomeScreen()));
+                },
+                style: ButtonStyle(
+                  backgroundColor: const MaterialStatePropertyAll(Colors.green),
+                  padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 15,horizontal: 20,),),
+                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),)),
+                ),
+                child:  Text(orderStatus=="ended" ? 'Go Back' : "Packing is Completed", style: const TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
+              ),
+            ),
+          ),
+        ),
 
       ],
 

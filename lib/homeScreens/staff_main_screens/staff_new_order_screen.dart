@@ -107,7 +107,7 @@ class _StaffNewOrdersScreenState extends State<StaffNewOrdersScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "My Orders",
+          "New Orders",
           style: TextStyle(
             color: Colors.black,
             fontSize: 22,

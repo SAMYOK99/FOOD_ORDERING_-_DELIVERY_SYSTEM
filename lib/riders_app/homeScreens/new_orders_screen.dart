@@ -168,17 +168,20 @@ class _NewOrdersScreenState extends State<NewOrdersScreen> {
                       child: circularProgress(),
                     )
                         : snap.hasData
-                        ? OrderCard(
-                      itemCount: snap.data!.docs.length,
-                      data: snap.data!.docs,
-                      orderID: snapshot.data!.docs[index].id,
-                      separateQuantitiesList:
-                      separateOrderItemQuantiteis(
-                        (snapshot.data!.docs[index].data()
-                        as Map<String, dynamic>)[
-                        "productId"],
-                      ),
-                    )
+                        ? Padding(
+                          padding: const EdgeInsets.fromLTRB(2,0,2,0),
+                          child: OrderCard(
+                                                itemCount: snap.data!.docs.length,
+                                                data: snap.data!.docs,
+                                                orderID: snapshot.data!.docs[index].id,
+                                                separateQuantitiesList:
+                                                separateOrderItemQuantiteis(
+                          (snapshot.data!.docs[index].data()
+                          as Map<String, dynamic>)[
+                          "productId"],
+                                                ),
+                                              ),
+                        )
                         : Center(
                       child: circularProgress(),
                     );

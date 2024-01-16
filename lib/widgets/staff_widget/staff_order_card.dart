@@ -38,8 +38,7 @@ class StaffOrderCard extends StatelessWidget {
             )
           ],
         ),
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.fromLTRB(5,5,5,5),
         height: itemCount! * 125,
         child: ListView.builder(
           itemCount: itemCount,
@@ -47,7 +46,10 @@ class StaffOrderCard extends StatelessWidget {
           itemBuilder: (context, index)
           {
             Items model = Items.fromJson(data![index].data()! as Map<String, dynamic>);
-            return placeOrderDesignWidget(model, context, separateQuantitiesList![index]);
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(5,0,5,0),
+              child: placeOrderDesignWidget(model, context, separateQuantitiesList![index]),
+            );
           },
         ),
       ),
@@ -57,85 +59,98 @@ class StaffOrderCard extends StatelessWidget {
 
 Widget placeOrderDesignWidget(Items model, BuildContext context, separateQuantitiesList)
 {
-  return Container(
-    width: MediaQuery.of(context).size.width-20,
-    height: 120,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.5),
-          spreadRadius: 3,
-          blurRadius: 10,
-          offset: const Offset(0,3),
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 0,horizontal: 3),
+    child: Column(
 
-        )
-      ],
-    ),
-    child: Row(
       children: [
-        Image.network(
-          model.thumbnailUrl!,
-          height: 80,
-          width: 150,
-        ),
-        Expanded(
-          child:  Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(model.itemTitle!,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),),
-              Text(model.shortInfo!,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),),
-              Text("\$"+model.itemPrice!,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),),
-            ],
-          ),
-        ),
-        Padding(padding: const EdgeInsets.symmetric(vertical: 8),
+
+        Padding(
+    padding: const EdgeInsets.symmetric(vertical: 9),
           child: Container(
-            padding: const EdgeInsets.all((5)),
+            width: 370,
+            height: 120,
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 10,
+                  offset: const Offset(0,3),
 
-            ) ,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Icon(CupertinoIcons.minus,
-                  color: Colors.white,
-
-                ),
-                Text(separateQuantitiesList,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-
-                  ),
-                ),
-
-                const Icon(CupertinoIcons.minus,
-                  color: Colors.white,
-
-                ),
+                )
               ],
             ),
-          ),)
+            child: Row(
+              children: [
+                Image.network(
+                  model.thumbnailUrl!,
+                  height: 80,
+                  width: 150,
+                ),
+                SizedBox(
+                  width: 162,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(model.itemTitle!,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),),
+                      Text(model.shortInfo!,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),),
+                      Text("\$"+model.itemPrice!,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green,
+                        ),),
+                    ],
+                  ),
+                ),
+                Padding(padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Container(
+                    padding: const EdgeInsets.all((5)),
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(10),
+
+                    ) ,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Icon(CupertinoIcons.minus,
+                          color: Colors.white,
+
+                        ),
+                        Text(separateQuantitiesList,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+
+                          ),
+                        ),
+
+                        const Icon(CupertinoIcons.minus,
+                          color: Colors.white,
+
+                        ),
+                      ],
+                    ),
+                  ),)
 
 
+              ],
+            ),
+          ),
+        ),
       ],
     ),
   );

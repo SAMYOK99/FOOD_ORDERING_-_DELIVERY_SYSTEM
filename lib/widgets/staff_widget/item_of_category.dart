@@ -33,7 +33,7 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
     print('Selected Tab: $selectedTab');
     return SingleChildScrollView(
       child: Container(
-        margin: const EdgeInsets.fromLTRB(10, 10, 15, 10),
+        margin: const EdgeInsets.fromLTRB(0, 8, 0, 8),
         width: double.infinity,
         child: Column(
           children: [
@@ -61,9 +61,12 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
                           Items model = Items.fromJson(
                             snapshot.data!.docs[index].data()! as Map<String, dynamic>,
                           );
-                          return ItemsDesign(
-                            model: model,
-                            context: context,
+                          return Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: ItemsDesign(
+                              model: model,
+                              context: context,
+                            ),
                           );
                         }),
                       ),

@@ -50,7 +50,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
         ),
         automaticallyImplyLeading: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.green,),
+          icon: const Icon(Icons.arrow_back, color: Colors.green,size: 33,),
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (c) => const StaffHomeScreen()));
@@ -60,7 +60,7 @@ class _ItemUploadScreenState extends State<ItemUploadScreen> {
 
 
         centerTitle: true,
-        title: const Text("Add New Menu"),
+        title: const Text("Add New Item"),
         titleTextStyle: const TextStyle(
           color: Colors.black,
           fontSize: 22,

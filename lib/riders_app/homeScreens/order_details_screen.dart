@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_tiffin/globalVariables/globleVariable.dart';
 import 'package:my_tiffin/models/address.dart';
 import 'package:my_tiffin/widgets/progress_bar.dart';
 import 'package:my_tiffin/riders_app/widgets/shipment_address_design.dart';
@@ -79,6 +78,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Order Id: " + widget.orderID!,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Payment Status: ${dataMap["paymentDetails"]}"
+                      ,
                       style: const TextStyle(
                         fontSize: 16,
                       ),

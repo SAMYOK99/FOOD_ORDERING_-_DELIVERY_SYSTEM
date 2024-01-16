@@ -85,6 +85,16 @@ class _StaffOrderDetailsScreenState extends State<StaffOrderDetailsScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
+                    child: Text("Payment Status: ${dataMap["paymentDetails"]}"
+                      ,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Order At " +
                           DateFormat("dd MMMM, yyyy - hh:mm aa").format(

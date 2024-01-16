@@ -18,7 +18,7 @@ class ItemsDesign extends StatefulWidget {
 class _ItemsDesignState extends State<ItemsDesign> {
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: const EdgeInsets.fromLTRB(0,10,3,5),
+    return Padding(padding: const EdgeInsets.fromLTRB(0,10,0,5),
       child: Container(
         width: MediaQuery
             .of(context)

@@ -168,17 +168,20 @@ class _StaffNewOrdersScreenState extends State<StaffNewOrdersScreen> {
                       child: circularProgress(),
                     )
                         : snap.hasData
-                        ? StaffOrderCard(
-                      itemCount: snap.data!.docs.length,
-                      data: snap.data!.docs,
-                      orderID: snapshot.data!.docs[index].id,
-                      separateQuantitiesList:
-                      separateOrderItemQuantiteis(
-                        (snapshot.data!.docs[index].data()
-                        as Map<String, dynamic>)[
-                        "productId"],
-                      ),
-                    )
+                        ? Padding(
+                      padding: const EdgeInsets.fromLTRB(2,0,2,0),
+                          child: StaffOrderCard(
+                                                itemCount: snap.data!.docs.length,
+                                                data: snap.data!.docs,
+                                                orderID: snapshot.data!.docs[index].id,
+                                                separateQuantitiesList:
+                                                separateOrderItemQuantiteis(
+                          (snapshot.data!.docs[index].data()
+                          as Map<String, dynamic>)[
+                          "productId"],
+                                                ),
+                                              ),
+                        )
                         : Center(
                       child: circularProgress(),
                     );

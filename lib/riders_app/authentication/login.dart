@@ -219,7 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
           showDialog(
             context: context,
             builder: (c) {
-              return ErrorDialog(
+              return const ErrorDialog(
                 message: 'Record does not exist. Please sign up first',
               );
             },
@@ -303,7 +303,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: const Text(
                 'LOGIN',
                 style: TextStyle(
-                  color: const Color(0xff5ac18e),
+                  color: Color(0xff5ac18e),
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),

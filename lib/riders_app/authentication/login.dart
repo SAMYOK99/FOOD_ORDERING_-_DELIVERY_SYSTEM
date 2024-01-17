@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           padding: const EdgeInsets.all(16), // Adjust the padding as needed
           child: const Text(
-            'Are you a Rider?',
+            'Forgot Password?',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

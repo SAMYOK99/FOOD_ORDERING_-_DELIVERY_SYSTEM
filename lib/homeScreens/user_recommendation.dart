@@ -5,7 +5,11 @@ import 'package:my_tiffin/models/items.dart';
 import 'package:my_tiffin/widgets/popular_item.dart';
 
 class UserRecommendationScreen extends StatefulWidget {
-  const UserRecommendationScreen({Key? key}) : super(key: key);
+  Items? model;
+   UserRecommendationScreen({
+     super.key,
+     this.model
+});
 
   @override
   _UserRecommendationScreenState createState() => _UserRecommendationScreenState();
@@ -76,45 +80,56 @@ class _UserRecommendationScreenState extends State<UserRecommendationScreen> {
     return similarity;
   }
 
-  Map<String, List<String>> generateRecommendations(Map<String, Map<String, double>> itemInteractions) {
+  Map<String, List<String>> generateRecommendations(Map<String, Map<String, double>> itemInteractions, String clickedItemId) {
     Map<String, List<String>> recommendations = {};
     String? userId = sharedPreferences!.getString("uid");
 
-    List<String> userItems = itemInteractions.keys.toList();
+    List<String> interactedItems = itemInteractions.keys.toList();
 
-    if (userItems.isNotEmpty) {
-      print("User items: ${userItems.join(', ')}");
+    if (interactedItems.isNotEmpty) {
+      print("Interacted items: ${interactedItems.join(', ')}");
     } else {
-      print("No user items found.");
+      print("No interacted items found.");
+      return recommendations; // Return an empty map if there are no interacted items
     }
 
-    userItems.forEach((userItem) {
-      List<String> similarItems = [];
+    List<String> similarItems = [];
 
-      itemInteractions.forEach((itemId, interactions) {
-        if (itemId != userItem) {
-          double similarityScore = cosineSimilarity(
-            itemInteractions[userItem] ?? {},
-            interactions,
-          );
+    // Calculate cosine similarity with the clicked item
+    Map<String, double> clickedItemVector = itemInteractions[clickedItemId] ?? {};
 
-          if (similarityScore > 0.5) {
-            similarItems.add(itemId);
-          }
+    interactedItems.forEach((otherItemId) {
+      if (otherItemId != clickedItemId) {
+        // Print statements for debugging
+        print('Clicked Item ID: $clickedItemId, Vector: $clickedItemVector');
+        print('Other Item ID: $otherItemId, Vector: ${itemInteractions[otherItemId]}');
+
+        double similarityScore = cosineSimilarity(
+          clickedItemVector,
+          itemInteractions[otherItemId] ?? {}, // Interaction vector for the other item being compared
+        );
+
+        // Print statement for debugging
+        print('Similarity Score: $similarityScore');
+
+        if (similarityScore > 0.3) {
+          similarItems.add(otherItemId);
         }
-      });
-
-      recommendations[userItem] = similarItems;
-      print('User Item: $userItem, Similar Items: $similarItems');
-
+      }
     });
+
+    recommendations[clickedItemId] = similarItems;
+    print('Clicked Item ID: $clickedItemId, Similar Item IDs: $similarItems');
 
     return recommendations;
   }
 
   Future<void> fetchAndSetUserRecommendations() async {
+    String clickedItemId = widget!.model!.itemID;
     Map<String, Map<String, double>> itemInteractions = await getItemInteractions();
-    Map<String, List<String>> recommendations = generateRecommendations(itemInteractions);
+    Map<String, List<String>> recommendations = generateRecommendations(itemInteractions, clickedItemId);
+    print('Recommendations for $clickedItemId: $recommendations');
+
     print('User Recommendations: $recommendations');
     setState(() {
       userRecommendations = recommendations;
@@ -136,11 +151,11 @@ class _UserRecommendationScreenState extends State<UserRecommendationScreen> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return Center(child: Text('No data available'));
+                  return const Center(child: Text('No data available'));
                 } else {
                   QuerySnapshot<Map<String, dynamic>> querySnapshot = snapshot.data as QuerySnapshot<Map<String, dynamic>>;
                   List<QueryDocumentSnapshot<Map<String, dynamic>>> docs = querySnapshot.docs;

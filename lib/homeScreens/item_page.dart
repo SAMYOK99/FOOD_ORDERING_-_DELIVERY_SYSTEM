@@ -172,9 +172,9 @@ class _ItemPageState extends State<ItemPage> {
                               ),
                             ),
                             Container(
-                              width: 150,
+                              width: 125,
                               height: 50,
-                              margin: const EdgeInsets.fromLTRB(0,0,10,0),
+                              margin: const EdgeInsets.fromLTRB(0,0,5,0),
                               padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                 color: Colors.green,
@@ -224,7 +224,7 @@ class _ItemPageState extends State<ItemPage> {
 
             Container(
               height: 300,
-                child: UserRecommendationScreen()
+                child: UserRecommendationScreen(model: widget.model)
             ),
 
           ],

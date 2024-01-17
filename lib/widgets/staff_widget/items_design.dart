@@ -66,13 +66,13 @@ class _ItemsDesignState extends State<ItemsDesign> {
                         Text(
                           widget.model!.itemTitle!,
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),),
                         Text(
                           widget.model!.shortInfo!,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),),
                         const SizedBox( height: 20,),

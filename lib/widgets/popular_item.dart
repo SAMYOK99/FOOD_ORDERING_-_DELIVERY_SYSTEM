@@ -14,7 +14,7 @@ class PopularShownItems extends StatefulWidget {
 
 class _PopularShownItemsState extends State<PopularShownItems> {
 
-  // to store time the user viewd
+  // to store time the user viewed
   void logUserView() async {
     try {
       CollectionReference<Map<String, dynamic>> viewsCollection =

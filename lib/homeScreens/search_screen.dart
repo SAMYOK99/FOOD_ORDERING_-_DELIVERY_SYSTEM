@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:my_tiffin/models/items.dart';
 import 'package:my_tiffin/widgets/when_user_clicks_menu.dart';
 class SearchScreen extends StatefulWidget {
@@ -22,56 +21,7 @@ initItemSearch(String textEntered) {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  XFile? imageXFile;
-  final ImagePicker _picker = ImagePicker();
 
-  pickImageFromGallery() async {
-    Navigator.pop(context);
-
-    imageXFile = await _picker.pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 720,
-      maxWidth: 1280,
-    );
-
-    setState(() {
-      imageXFile;
-    });
-  }
-
-  pickFromGallery() async {
-    Navigator.pop(context);
-    imageXFile = await _picker.pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 720,
-      maxWidth: 1200,
-    );
-    setState(() {
-      imageXFile;
-    });
-  }
-
-  captureImageWithCamera() async {
-    Navigator.pop(context);
-
-    imageXFile = await _picker.pickImage(
-      source: ImageSource.camera,
-      maxHeight: 720,
-      maxWidth: 1280,
-    );
-
-    setState(() {
-      imageXFile;
-    });
-  }
-  // createLabeler() async {
-  //   final modelPath = await getModelPath('assets/ml/1.tflite');
-  //   final options = LocalLabelerOptions(
-  //     // confidenceThreshold: confidenceThreshold,
-  //     modelPath: modelPath,
-  //   );
-  //    imageLabeler = ImageLabeler(options: options);
-  // }
   @override
 void initState() {
     super.initState();
@@ -99,7 +49,7 @@ void initState() {
               fontSize: 18,
             ),
             border: InputBorder.none,
-            prefixIcon: IconButton(
+                suffixIcon: IconButton(
               icon: const Icon(
                 Icons.search,
                 color: Colors.green,
@@ -108,56 +58,6 @@ void initState() {
               onPressed: () {
                 initItemSearch(itemNameText);
               },
-            ),
-
-            suffixIcon: IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return SimpleDialog(
-                      title: const Text(
-                        "Item Image",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      children: [
-                        SimpleDialogOption(
-                          onPressed: captureImageWithCamera,
-                          child: const Text(
-                            "Capture with Camera",
-                            style: TextStyle(color: Colors.green),
-                          ),
-                        ),
-                        SimpleDialogOption(
-                          onPressed: pickImageFromGallery,
-                          child: const Text(
-                            "Select from Gallery",
-                            style: TextStyle(color: Colors.green),
-                          ),
-                        ),
-                        SimpleDialogOption(
-                          child: const Text(
-                            "Cancel",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              icon: const Icon(
-                Icons.camera_alt_outlined,
-                color: Colors.green,
-                size: 33,
-              ),
             ),
           ),
         ),

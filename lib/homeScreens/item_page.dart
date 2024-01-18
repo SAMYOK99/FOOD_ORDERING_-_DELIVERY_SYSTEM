@@ -220,7 +220,13 @@ class _ItemPageState extends State<ItemPage> {
               ),
             ),
             
-            Text("You also viewed"),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20.0,5,5,5),
+              child: Text("You might also like.",style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey
+              ),),
+            ),
 
             Container(
               height: 300,

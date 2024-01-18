@@ -132,7 +132,6 @@ class _ClicksMenuState extends State<ClicksMenu> {
                           widget.model!.shortInfo!,
                           style: const TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.bold,
                           ),),
                         // RatingBar.builder(
                         //   initialRating: 4,

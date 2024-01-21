@@ -38,7 +38,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen> {
             .collection('users')
             .doc(sharedPreferences!.getString("uid"))
             .collection('orders')
-            .where("status", isEqualTo: "normal")
+            .where("status", whereIn: ["normal", "picking", "delivering"])
             .orderBy("orderTime", descending: true)
             .snapshots(),
         builder: (context, snapshot) {

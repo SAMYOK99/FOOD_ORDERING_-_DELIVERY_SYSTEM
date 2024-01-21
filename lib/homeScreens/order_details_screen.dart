@@ -19,6 +19,29 @@ class OrderDetailsScreen extends StatefulWidget {
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   String orderStatus = "";
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(sharedPreferences!.getString("uid"))
+        .collection('orders')
+        .doc(widget.orderID)
+        .get();
+
+    if (snapshot.exists) {
+      final dataMap = snapshot.data() as Map<String, dynamic>;
+      setState(() {
+        orderStatus = dataMap["status"].toString();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,20 +55,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               .get(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              // Return a loading indicator while data is loading
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              // Handle error case
               return Center(
                 child: Text('Error: ${snapshot.error}'),
               );
             } else if (!snapshot.hasData || snapshot.data == null) {
-              // Handle the case where data is not available
               return const Center(child: Text('Data not available.'));
             } else {
-              // Data is available, build the UI
               final dataMap = snapshot.data!.data() as Map<String, dynamic>;
-              orderStatus = dataMap["status"].toString();
               return Column(
                 children: [
                   StatusBanner(
@@ -79,9 +97,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Payment Status: ${dataMap["paymentDetails"]}"
-            ,
-            style: const TextStyle(
+                    child: Text(
+                      "Payment Status: ${dataMap["paymentDetails"]}",
+                      style: const TextStyle(
                         fontSize: 16,
                       ),
                     ),
@@ -90,10 +108,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Order At ${DateFormat("dd MMMM, yyyy - hh:mm aa").format(
-                            DateTime.fromMicrosecondsSinceEpoch(
-                              int.parse(dataMap["orderTime"]),
-                            ),
-                          )}",
+                        DateTime.fromMicrosecondsSinceEpoch(
+                          int.parse(dataMap["orderTime"]),
+                        ),
+                      )}",
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.grey,
@@ -104,9 +122,14 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     thickness: 4,
                   ),
                   orderStatus == "ended"
-                      ? Image.asset("images/package-delivered.png", width: MediaQuery.of(context).size.width-100,
-                    height: 200,)
-                      : Image.asset("images/state.png",width: MediaQuery.of(context).size.width-20,
+                      ? Image.asset(
+                    "images/package-delivered.png",
+                    width: MediaQuery.of(context).size.width - 100,
+                    height: 200,
+                  )
+                      : Image.asset(
+                    "images/state.png",
+                    width: MediaQuery.of(context).size.width - 20,
                   ),
                   const Divider(
                     thickness: 4,
@@ -119,15 +142,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         .doc(dataMap["addressID"])
                         .get(),
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: circularProgress());
                       } else if (snapshot.hasError) {
                         return Center(
                           child: Text('Error: ${snapshot.error}'),
                         );
                       } else if (!snapshot.hasData || snapshot.data == null) {
-                        return const Center(child: Text('Address data not available.'));
+                        return const Center(
+                            child: Text('Address data not available.'));
                       } else {
                         return ShipmentAddressDesign(
                           model: Address.fromJson(
@@ -136,37 +159,68 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       }
                     },
                   ),
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
-                      child: dataMap["paymentDetails"] == "Cash on Delivery" && orderStatus == "normal"?
-                         SizedBox(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width - 40,
-                          child: ElevatedButton(
-                            onPressed: (){
-                               cancelOrder(widget.orderID);
-
-                            },
-                            style: ButtonStyle(
-                              backgroundColor: const MaterialStatePropertyAll(Colors.green),
-                              padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 15,horizontal: 20,),),
-                              shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),)),
+                      child: () {
+                        print(orderStatus);
+                        if (dataMap["paymentDetails"] == "Cash on Delivery") {
+                          if (orderStatus == "normal") {
+                            return SizedBox(
+                              height: 50,
+                              width: MediaQuery.of(context).size.width - 40,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  cancelOrder(widget.orderID);
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                  const MaterialStatePropertyAll(Colors.green),
+                                  padding:
+                                  const MaterialStatePropertyAll(EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 20)),
+                                  shape: MaterialStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                                child: const Text(
+                                  'Cancel this Order',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 16),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return const Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  "You can't cancel the order, Your order has been picked up by the rider or you already made a payment",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                        } else {
+                          return const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                "You can't cancel the order, Your payment method is not 'Cash on Delivery'",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
+                              ),
                             ),
-                            child: const Text(
-                              'Cancel this Order', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
-                          ),
-                      ) : const Center(child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("You can't cancel the order, Your order has been picked up by the rider or you already made a payment",style: TextStyle(
-                          color: Colors.red,
-                        ),),
-                      ),)
+                          );
+                        }
+                      }(),
                     ),
                   )
-
                 ],
               );
             }
@@ -175,6 +229,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       ),
     );
   }
+
   void cancelOrder(orderUid) {
     showDialog(
       context: context,
@@ -212,11 +267,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     );
                     Fluttertoast.showToast(msg: "Order Canceled");
                   }).catchError((error) {
-                    // Handle Firestore update error
                     print("Error updating order status: $error");
                   });
                 }).catchError((error) {
-                  // Handle Firestore update error
                   print("Error updating order status: $error");
                 });
               },
@@ -234,6 +287,4 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       },
     );
   }
-
-
 }

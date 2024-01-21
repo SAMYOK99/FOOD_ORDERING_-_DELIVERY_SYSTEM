@@ -22,19 +22,27 @@ class ShipmentAddressDesign extends StatelessWidget {
 "lat": position?.latitude,
 "lng": position?.longitude,
 "address": completeAddress,
-
-    });
-    // send rider to shipment address
-    Navigator.push(context, MaterialPageRoute(
-        builder: (c)=> PackagePickingScreen(
-          purchaserId: purchaserId,
-          purchaserAddress: model!.fullAddress,
-          purchaserLat: model!.lat,
-          purchaserLng: model!.lng,
-          getOrderId : getOrderId
-        )));
-
-  }
+    }).then((value) {
+      FirebaseFirestore.instance.collection("users").doc(orderBy).collection(
+          "orders").doc(getOrderId).update({
+        "riderUID": sharedPreferences!.getString("uid"),
+        "riderName": sharedPreferences!.getString("name"),
+        "status": "picking",
+        "lat": position?.latitude,
+        "lng": position?.longitude,
+        "address": completeAddress,
+      });
+      // send rider to shipment address
+      Navigator.push(context, MaterialPageRoute(
+          builder: (c) =>
+              PackagePickingScreen(
+                  purchaserId: purchaserId,
+                  purchaserAddress: model!.fullAddress,
+                  purchaserLat: model!.lat,
+                  purchaserLng: model!.lng,
+                  getOrderId: getOrderId
+              )));
+    });}
 
   @override
   Widget build(BuildContext context) {

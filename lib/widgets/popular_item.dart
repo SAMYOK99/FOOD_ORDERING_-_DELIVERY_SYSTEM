@@ -7,7 +7,7 @@ class PopularShownItems extends StatefulWidget {
   Items? model;
   BuildContext? context;
 
-  PopularShownItems({this.model, this.context});
+  PopularShownItems({super.key, this.model, this.context});
   @override
   State<PopularShownItems> createState() => _PopularShownItemsState();
 }
@@ -117,7 +117,7 @@ class _PopularShownItemsState extends State<PopularShownItems> {
                        Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text( "\$"+widget.model!.itemPrice!,
+                          Text( "Rs. "+widget.model!.itemPrice!,
                             style: const TextStyle(
                             fontSize: 15,
                             color: Colors.green,

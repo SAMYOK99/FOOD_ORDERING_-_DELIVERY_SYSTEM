@@ -103,7 +103,7 @@ Widget placeOrderDesignWidget(Items model, BuildContext context, separateQuantit
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),),
-                      Text("\$"+model.itemPrice!,
+                      Text("Rs."+model.itemPrice!,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

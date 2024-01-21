@@ -76,7 +76,7 @@ class _ItemsDesignState extends State<ItemsDesign> {
                           ),),
                         const SizedBox( height: 20,),
                         Text(
-                          "\$"+widget.model!.itemPrice!,
+                          "Rs."+widget.model!.itemPrice!,
                           style: TextStyle(
                             fontSize: 17,
                             color: Colors.green,

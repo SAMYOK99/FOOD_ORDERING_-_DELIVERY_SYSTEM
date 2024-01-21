@@ -68,7 +68,7 @@ retrieveTotalEarning();
                 ),
                 ),
                 Text(
-                  "\$ $totalEarning",
+                  "Rs. $totalEarning",
                   style: const TextStyle(
                     fontSize: 50,
                   ),

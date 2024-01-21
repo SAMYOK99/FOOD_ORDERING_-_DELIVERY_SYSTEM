@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tiffin/homeScreens/staff_main_screens/staff_canceled_order_details_screen.dart';
 import 'package:my_tiffin/homeScreens/staff_main_screens/staff_order_detail_screen.dart';
 import 'package:my_tiffin/models/items.dart';
 class StaffOrderCard extends StatelessWidget {
@@ -21,8 +22,8 @@ class StaffOrderCard extends StatelessWidget {
     return InkWell(
       onTap: ()
       {
-        Navigator.push(context, MaterialPageRoute(builder: (c)=>StaffOrderDetailsScreen(orderID: orderID)));
-
+        Navigator.push(context, MaterialPageRoute(
+            builder: (c) => StaffOrderDetailsScreen(orderID: orderID)));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -105,7 +106,7 @@ Widget placeOrderDesignWidget(Items model, BuildContext context, separateQuantit
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),),
-                      Text("\$"+model.itemPrice!,
+                      Text("Rs."+model.itemPrice!,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

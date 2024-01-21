@@ -39,7 +39,7 @@ class OrderCard extends StatelessWidget {
           ],
         ),
         margin: const EdgeInsets.fromLTRB(5,5,5,5),
-        height: itemCount! * 125,
+        height: itemCount! * 150,
         child: ListView.builder(
           itemCount: itemCount,
           physics: const NeverScrollableScrollPhysics(),
@@ -66,7 +66,7 @@ Widget placeOrderDesignWidget(Items model, BuildContext context, separateQuantit
         Padding(padding: const EdgeInsets.symmetric(vertical: 9),
           child: Container(
             width: 370,
-            height: 100,
+            height: 130,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -106,7 +106,7 @@ Widget placeOrderDesignWidget(Items model, BuildContext context, separateQuantit
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),),
-                      Text("\$${model.itemPrice!}",
+                      Text("Rs.${model.itemPrice!}",
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -192,7 +192,7 @@ Widget placeOrderDesignWidget(Items model, BuildContext context, separateQuantit
     //                 fontSize: 14,
     //                 fontWeight: FontWeight.bold,
     //               ),),
-    //             Text("\$"+model.itemPrice!,
+    //             Text("Rs."+model.itemPrice!,
     //               style: const TextStyle(
     //                 fontSize: 20,
     //                 fontWeight: FontWeight.bold,

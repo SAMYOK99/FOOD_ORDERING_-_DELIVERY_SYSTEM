@@ -219,7 +219,7 @@ class _StaffItemPageState extends State<StaffItemPage> {
                                   ),
                                 ),
                                 Text(
-                                  "\$${widget.model!.itemPrice!}",
+                                  "Rs. ${widget.model!.itemPrice!}",
                                   style: const TextStyle(
                                     fontSize: 20,
                                     color: Colors.green,

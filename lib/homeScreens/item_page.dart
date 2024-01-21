@@ -86,7 +86,7 @@ class _ItemPageState extends State<ItemPage> {
               const SizedBox(
                 width: 15,
               ),
-              Text("\$${(double.parse(widget.model!.itemPrice!) * number).toStringAsFixed(2)}",style: const TextStyle(
+              Text("Rs. ${(double.parse(widget.model!.itemPrice!) * number).toStringAsFixed(2)}",style: const TextStyle(
                 fontSize: 19,
                 color: Colors.green,
                 fontWeight: FontWeight.bold,
@@ -153,7 +153,7 @@ class _ItemPageState extends State<ItemPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("\$${widget.model!.itemPrice!}",style: const TextStyle(
+                            Text("Rs. ${widget.model!.itemPrice!}",style: const TextStyle(
                               fontSize: 20,
                               color: Colors.green,
                               fontWeight: FontWeight.bold,
@@ -172,7 +172,7 @@ class _ItemPageState extends State<ItemPage> {
                               ),
                             ),
                             Container(
-                              width: 125,
+                              width: 120,
                               height: 50,
                               margin: const EdgeInsets.fromLTRB(0,0,5,0),
                               padding: const EdgeInsets.all(5),
@@ -222,14 +222,14 @@ class _ItemPageState extends State<ItemPage> {
             
             Padding(
               padding: const EdgeInsets.fromLTRB(20.0,5,5,5),
-              child: Text("You might also like.",style: TextStyle(
+              child: Text("You might also like:",style: TextStyle(
                 fontSize: 16,
-                color: Colors.grey
+                color: Colors.green
               ),),
             ),
 
             Container(
-              height: 300,
+              height: 230,
                 child: UserRecommendationScreen(model: widget.model)
             ),
 

@@ -149,7 +149,7 @@ class _ClicksMenuState extends State<ClicksMenu> {
                         //   ),
                         //   onRatingUpdate: (index) {},),
                         Text(
-                          "\$"+widget.model!.itemPrice!,
+                          "Rs."+widget.model!.itemPrice!,
                           style: const TextStyle(
                             fontSize: 17,
                             color: Colors.green,

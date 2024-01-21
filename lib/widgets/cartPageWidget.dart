@@ -27,7 +27,7 @@ class _CartPageWidgetState extends State<CartPageWidget> {
           Padding(padding: const EdgeInsets.symmetric(vertical: 9),
             child: Container(
               width: 370,
-              height: 100,
+              height: 135,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -65,9 +65,8 @@ class _CartPageWidgetState extends State<CartPageWidget> {
                         Text(widget.model!.shortInfo!,
                           style: const TextStyle(
                             fontSize: 14,
-                            fontWeight: FontWeight.bold,
                           ),),
-                        Text("\$"+widget.model!.itemPrice!,
+                        Text("Rs."+widget.model!.itemPrice!,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

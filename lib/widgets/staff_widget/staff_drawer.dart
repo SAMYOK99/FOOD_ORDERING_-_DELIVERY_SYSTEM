@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tiffin/authentication/auth_screen.dart';
 import 'package:my_tiffin/globalVariables/globleVariable.dart';
+import 'package:my_tiffin/homeScreens/staff_main_screens/canceled_order_screen.dart';
 import 'package:my_tiffin/homeScreens/staff_main_screens/earning_screen.dart';
 import 'package:my_tiffin/homeScreens/staff_main_screens/history_screen.dart';
 import 'package:my_tiffin/homeScreens/staff_main_screens/staff_new_order_screen.dart';
@@ -121,6 +122,18 @@ class _StaffDrawerState extends State<StaffDrawer> {
                   ),
                   onTap: (){
                     Navigator.push(context,MaterialPageRoute(builder: (c)=>StaffNewOrdersScreen()));
+
+                  },
+
+                ),
+                ListTile(
+                  leading: const Icon(Icons.reorder,color: Colors.green,),
+                  title: const Text(
+                    'Canceled Orders',
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 18,),
+                  ),
+                  onTap: (){
+                    Navigator.push(context,MaterialPageRoute(builder: (c)=>StaffCancelledOrdersScreen()));
 
                   },
 

@@ -37,7 +37,9 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
       "isSuccess": true,
       "riderUID": "",
       "status": "normal",
-      "orderId": orderId
+      "orderId": orderId,
+      'timestamp': FieldValue.serverTimestamp(),
+
     });
     saveOrderDetailsInFireStore({
       "addressID": widget.addressID,
@@ -49,7 +51,9 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
       "isSuccess": true,
       "riderUID": "",
       "status": "normal",
-      "orderId": orderId
+      "orderId": orderId,
+      'timestamp': FieldValue.serverTimestamp(),
+
     }).whenComplete((){
       clearCart(context);
      setState(() {
@@ -71,7 +75,9 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
         "isSuccess": true,
         "riderUID": "",
         "status": "normal",
-        "orderId": orderId
+        "orderId": orderId,
+        'timestamp': FieldValue.serverTimestamp(),
+
       });
       saveOrderDetailsInFireStore({
         "addressID": widget.addressID,
@@ -83,7 +89,9 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
         "isSuccess": true,
         "riderUID": "",
         "status": "normal",
-        "orderId": orderId
+        "orderId": orderId,
+        'timestamp': FieldValue.serverTimestamp(),
+
       }).whenComplete((){
         clearCart(context);
         setState(() {
@@ -107,7 +115,9 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
         "isSuccess": true,
         "riderUID": "",
         "status": "normal",
-        "orderId": orderId
+        "orderId": orderId,
+        'timestamp': FieldValue.serverTimestamp(),
+
       });
       saveOrderDetailsInFireStore({
         "addressID": widget.addressID,
@@ -119,7 +129,9 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
         "isSuccess": true,
         "riderUID": "",
         "status": "normal",
-        "orderId": orderId
+        "orderId": orderId,
+        'timestamp': FieldValue.serverTimestamp(),
+
       }).whenComplete((){
         clearCart(context);
         setState(() {

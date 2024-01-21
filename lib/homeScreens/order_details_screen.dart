@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:my_tiffin/homeScreens/home_screen.dart';
 import 'package:my_tiffin/models/address.dart';
 import 'package:my_tiffin/widgets/progress_bar.dart';
 import 'package:my_tiffin/widgets/shipment_address_design.dart';
 import 'package:my_tiffin/widgets/status_banner.dart';
-
 import '../globalVariables/globleVariable.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
@@ -59,7 +60,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "\$ ${dataMap["totalAmount"]}",
+                        "Rs. ${dataMap["totalAmount"]}",
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -135,6 +136,37 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       }
                     },
                   ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: dataMap["paymentDetails"] == "Cash on Delivery" && orderStatus == "normal"?
+                         SizedBox(
+                          height: 50,
+                          width: MediaQuery.of(context).size.width - 40,
+                          child: ElevatedButton(
+                            onPressed: (){
+                               cancelOrder(widget.orderID);
+
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: const MaterialStatePropertyAll(Colors.green),
+                              padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 15,horizontal: 20,),),
+                              shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),)),
+                            ),
+                            child: const Text(
+                              'Cancel this Order', style: TextStyle(fontWeight: FontWeight.bold,fontSize:16,),),
+                          ),
+                      ) : const Center(child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text("You can't cancel the order, Your order has been picked up by the rider or you already made a payment",style: TextStyle(
+                          color: Colors.red,
+                        ),),
+                      ),)
+                    ),
+                  )
+
                 ],
               );
             }
@@ -143,4 +175,65 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       ),
     );
   }
+  void cancelOrder(orderUid) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Cancel Order"),
+          content: const Text("Are you sure you want to cancel this order?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'No',
+                style: TextStyle(color: Colors.green),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(sharedPreferences!.getString("uid"))
+                    .collection('orders')
+                    .doc(orderUid)
+                    .update({"status": "canceled"})
+                    .then((value) {
+                  FirebaseFirestore.instance
+                      .collection("orders")
+                      .doc(orderUid)
+                      .update({"status": "canceled"})
+                      .then((_) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (c) => const HomeScreen()),
+                    );
+                    Fluttertoast.showToast(msg: "Order Canceled");
+                  }).catchError((error) {
+                    // Handle Firestore update error
+                    print("Error updating order status: $error");
+                  });
+                }).catchError((error) {
+                  // Handle Firestore update error
+                  print("Error updating order status: $error");
+                });
+              },
+              child: const Text(
+                'Yes',
+                style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
 }

@@ -44,7 +44,7 @@ class _TotalAmountScreenState extends State<TotalAmountScreen> {
                 ),
                 ),
                 Text(
-                 "\$ $previousRiderEarnings",
+                 "Rs. $previousRiderEarnings",
               style: const TextStyle(
                   fontSize: 50,
                 ),

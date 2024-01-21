@@ -106,7 +106,7 @@ class _CartPageState extends State<CartPage> {
                           : currentProfitPerDelivery + currentPayPerDelivery);
 
                   return Text(
-                    "\$" + totalWithDelivery.toStringAsFixed(2),
+                    "Rs." + totalWithDelivery.toStringAsFixed(2),
                     style: const TextStyle(
                       fontSize: 20,
                       color: Colors.green,

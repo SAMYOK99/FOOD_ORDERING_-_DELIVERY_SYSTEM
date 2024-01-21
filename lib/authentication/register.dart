@@ -187,7 +187,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       'userImageUrl':userImageUrl,
       'userAddress':completeAddress,
       'status': "approved",
-      'earnings':0.0,
       'lat':position?.latitude,
       'lng':position?.longitude,
       'userCart':['garbageValue'],

@@ -13,7 +13,7 @@ class ShipmentAddressDesign extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
        const Padding(
-          padding:  EdgeInsets.all(10.0),
+          padding:  EdgeInsets.all(5.0),
           child:  Text("Shipping Details:",style: TextStyle(
             color: Colors.black,fontWeight: FontWeight.bold,
           ),),
@@ -39,7 +39,7 @@ class ShipmentAddressDesign extends StatelessWidget {
              ],
            ),
          ),
-        const SizedBox(height: 20,),
+        const SizedBox(height: 5,),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(model!.fullAddress!,textAlign: TextAlign.justify ,),
@@ -47,7 +47,7 @@ class ShipmentAddressDesign extends StatelessWidget {
         const SizedBox(height: 60,),
 
         Center(
-          child: Container(
+          child: SizedBox(
             height: 50,
             width: MediaQuery.of(context).size.width - 40,
             child: ElevatedButton(
@@ -70,4 +70,5 @@ class ShipmentAddressDesign extends StatelessWidget {
 
     );
   }
+
 }

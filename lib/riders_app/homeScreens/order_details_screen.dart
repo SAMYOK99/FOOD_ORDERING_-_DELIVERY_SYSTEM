@@ -66,7 +66,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "\$ " + dataMap["totalAmount"].toString(),
+                        "Rs. " + dataMap["totalAmount"].toString(),
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,

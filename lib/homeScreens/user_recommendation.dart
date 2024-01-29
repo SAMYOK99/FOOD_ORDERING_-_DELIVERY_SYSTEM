@@ -30,32 +30,40 @@ class _UserRecommendationScreenState extends State<UserRecommendationScreen> {
     Map<String, Map<String, double>> interactions = {};
 
     try {
+      // Get the timestamp for three days ago
       DateTime threeDaysAgo = DateTime.now().subtract(const Duration(days: 3));
-      QuerySnapshot<
-          Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+
+      // Query Firestore for user interactions within the last three days
+      QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
           .collection('user_interactions')
           .doc(sharedPreferences!.getString("uid"))
           .collection('interactions')
           .where('timestamp', isGreaterThanOrEqualTo: threeDaysAgo)
           .get();
 
+      // Process each document in the query result
       for (var doc in querySnapshot.docs) {
+        // Extract data from the Firestore document
         Map<String, dynamic> interaction = doc.data();
         String itemId = interaction['item_id'];
         String action = interaction['action'];
-        double interactionValue = 1.0;
 
-        if (!interactions.containsKey(itemId)) {
-          interactions[itemId] = {};
-        }
-
-        interactions[itemId]![action] = interactionValue;
+        // Increment the interaction value for each action on the same item
+        interactions[itemId] ??= {};
+        interactions[itemId]![action] ??= 0.0;
+        interactions[itemId]![action] = interactions[itemId]![action]! + 1.0;
       }
 
+      // Print the fetched interactions for debugging purposes
       print('Fetched itemInteractions: $interactions');
+
+      // Return the processed interactions
       return interactions;
     } catch (e) {
+      // Handle any errors that occur during the data fetching process
       print('Error fetching item interactions: $e');
+
+      // Return an empty interactions map in case of an error
       return interactions;
     }
   }
@@ -112,7 +120,7 @@ class _UserRecommendationScreenState extends State<UserRecommendationScreen> {
 
         print('Similarity Score: $similarityScore');
 
-        if (similarityScore > 0.3) {
+        if (similarityScore > 0.001) {
           similarItems.add(otherItemId);
         }
       }
